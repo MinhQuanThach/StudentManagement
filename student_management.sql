@@ -2,37 +2,41 @@
 DROP SCHEMA IF EXISTS `student_management`;
 CREATE SCHEMA `student_management`;
 
--- Create tables
+-- lưu thông tin khoa
 CREATE TABLE student_management.faculty (
-    id_faculty VARCHAR(15) NOT NULL PRIMARY KEY,
-    title VARCHAR(100) NOT NULL,
-    number_teacher INT,
-    number_student INT
+    id_faculty VARCHAR(15) NOT NULL PRIMARY KEY, -- mã khoa
+    title VARCHAR(100) NOT NULL,-- tên khoa
+    number_teacher INT,-- số giảng viên
+    number_student INT-- số sinh viên
 );
 
+-- lưu thông tin ngành
 CREATE TABLE student_management.industry (
-    id_industry VARCHAR(15) NOT NULL PRIMARY KEY,
-    id_faculty VARCHAR(15) NOT NULL,
-    year_number DOUBLE NOT NULL,
-    title VARCHAR(50),
-    FOREIGN KEY (id_faculty) REFERENCES student_management.faculty(id_faculty)
+    id_industry VARCHAR(15) NOT NULL PRIMARY KEY, -- mã ngành, khoá chính
+    id_faculty VARCHAR(15) NOT NULL,-- mã khoa
+    year_number DOUBLE NOT NULL,-- số năm đào tạo
+    title VARCHAR(50),-- tên ngành
+    FOREIGN KEY (id_faculty) REFERENCES student_management.faculty(id_faculty) -- khoá ngoại nối đến faculty thông qua mã khoa (id_faculty)
 );
 
+-- Bảng thông tin giảng viên
 CREATE TABLE student_management.teacher (
-    id INT NOT NULL PRIMARY KEY,
-    email VARCHAR(50) NOT NULL,
-    name VARCHAR(50) NOT NULL,
-    birthday DATE,
-    username VARCHAR(50) NOT NULL,
-    password VARCHAR(50) NOT NULL
+    id INT NOT NULL PRIMARY KEY, -- id giảng viên
+    email VARCHAR(50) NOT NULL, -- email
+    name VARCHAR(50) NOT NULL,-- name
+    birthday DATE,-- ngày sinh
+    username VARCHAR(50) NOT NULL, -- tài khoản
+    password VARCHAR(50) NOT NULL -- mật khẩu
 );
 
+-- Bảng thông tin môn học
+-- Bảng thông tin chung về mã học phần, id giảng viên phụ trách, số tín chỉ
 CREATE TABLE student_management.courses (
-    id_course VARCHAR(15) NOT NULL PRIMARY KEY,
-    id_teacher INT NOT NULL,
-    credits INT NOT NULL,
-    title VARCHAR(100) NOT NULL,
-    FOREIGN KEY (id_teacher) REFERENCES student_management.teacher(id)
+    id_course VARCHAR(15) NOT NULL PRIMARY KEY, -- mã hp
+    id_teacher INT NOT NULL, -- id giảng viên dạy
+    credits INT NOT NULL, -- tín chỉ
+    title VARCHAR(100) NOT NULL, -- tên hp
+    FOREIGN KEY (id_teacher) REFERENCES student_management.teacher(id) -- khoá ngoại đến bảng teacher để check id teacher
 );
 
 CREATE TABLE student_management.student (
@@ -47,30 +51,33 @@ CREATE TABLE student_management.student (
     FOREIGN KEY (id_industry) REFERENCES student_management.industry(id_industry)
 );
 
+-- Bảng lưu thời gian và địa điểm cho học phần
 CREATE TABLE student_management.time (
-    id_course VARCHAR(15) NOT NULL PRIMARY KEY,
-    day DATE NOT NULL,
-    start_time TIME NOT NULL,
-    end_time TIME NOT NULL,
-    room_number VARCHAR(50)
+    id_course VARCHAR(15) NOT NULL PRIMARY KEY, -- id học phần
+    day DATE NOT NULL, -- ngày học
+    start_time TIME NOT NULL, -- giờ bắt đầu
+    end_time TIME NOT NULL, -- giờ kết thúc
+    room_number VARCHAR(50) -- phòng học
 );
 
--- Create index for id_class before adding foreign key in instructor
+-- Đánh chỉ mục để nối khoá ngoại 
 ALTER TABLE student_management.student
 ADD INDEX idx_id_class (id_class);
 
+-- Lưu thông tin chung của sinh viên khi tham gia khoá học
 CREATE TABLE student_management.takes (
-    id INT NOT NULL,
-    id_course VARCHAR(15) NOT NULL,
-    status VARCHAR(15),
-    year INT,
-    grade DOUBLE,
-    PRIMARY KEY (id, id_course), -- Combined primary key
-    FOREIGN KEY (id) REFERENCES student_management.student(id),
-    FOREIGN KEY (id_course) REFERENCES student_management.courses(id_course),
-    FOREIGN KEY (id_course) REFERENCES student_management.time(id_course)
+    id INT NOT NULL, -- id sinh viên
+    id_course VARCHAR(15) NOT NULL, -- id khoá học
+    status VARCHAR(15), -- trạng thái (học lần đầu, học lại)
+    year INT, -- năm học
+    grade DOUBLE, -- điểm học phần
+    PRIMARY KEY (id, id_course), -- khoá chính kết hợp 2 cột
+    FOREIGN KEY (id) REFERENCES student_management.student(id), -- khoá ngoại nối thông tin sinh viên bằng id
+    FOREIGN KEY (id_course) REFERENCES student_management.courses(id_course), -- khoá ngoại nối thông tin khoá học
+    FOREIGN KEY (id_course) REFERENCES student_management.time(id_course) -- khoá ngoại nối đến thời gian học
 );
 
+-- Bảng lưu thông tin cố vấn học tập
 CREATE TABLE student_management.instructor (
     id INT NOT NULL PRIMARY KEY,
     id_class VARCHAR(50) NOT NULL,
@@ -79,6 +86,7 @@ CREATE TABLE student_management.instructor (
     FOREIGN KEY (id_class) REFERENCES student_management.student(id_class)
 );
 
+-- phần insert tường minh không comment
 
 INSERT INTO student_management.faculty (id_faculty, title, number_teacher, number_student)
 VALUES
