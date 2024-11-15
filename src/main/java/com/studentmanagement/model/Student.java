@@ -4,24 +4,38 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDate;
+
 @Setter
 @Getter
 @Entity
-@Table(name = "students")
+@Table(name = "student")
 public class Student {
+    // Getters and Setters
     @Id
-    @Column(name = "studentId")
-    private Integer id;  // Primary key
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // Auto-increment
+    private Integer id;
 
-    @Column(name = "studentName")
+    @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "studentClass")
-    private String studentClass;
+    @Column(name = "birthday", nullable = false)
+    private LocalDate birthday;
 
-    @Column(name = "studentPhone")
-    private String phoneNumber;
+    @Column(name = "username", nullable = false, unique = true)
+    private String username;
 
-    @Column(name = "studentEmail")
-    private String email;
+    @Column(name = "password", nullable = false)
+    private String password;
+
+    @Column(name = "credits", nullable = false)
+    private Integer credits;
+
+    @Column(name = "id_class", nullable = false)
+    private String idClass;
+
+    @ManyToOne
+    @JoinColumn(name = "id_industry") // Foreign key to industry table
+    private Industry idIndustry;
+
 }
