@@ -7,8 +7,14 @@ import java.util.Optional;
 
 public interface StudentService {
     List<Student> getAllStudents();
+
     Optional<Student> getStudentById(Integer id);
-    void createStudent(Student student);
-    void updateStudent(Student updatedStudent);
+
+    Optional<Student> getStudentByUsername(String username);
+
+    Student createStudent(Student student);
+
+    Student updateStudent(Integer id, Student updatedStudent);
+
     void deleteStudent(Integer id);
 }

@@ -12,19 +12,23 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
-@RestController // Marks this class as a RESTful controller
-@RequestMapping("/students") // Base URL for this controller's endpoints
+@RestController
+@RequestMapping("/students")
 public class StudentController {
-    @Autowired
-    private StudentService studentService;
+    private final StudentService studentService;
 
-    // Show all students in the database
+    @Autowired
+    public StudentController(StudentService studentService) {
+        this.studentService = studentService;
+    }
+
+    // Retrieve all students
     @GetMapping
     public List<Student> getAllStudents() {
         return studentService.getAllStudents();
     }
 
-    // Show a specific student
+    // Retrieve a specific student by ID
     @GetMapping("/{id}")
     public ResponseEntity<Student> getStudentById(@PathVariable Integer id) {
         return studentService.getStudentById(id)
@@ -32,31 +36,34 @@ public class StudentController {
                 .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
 
-    // Add a new student to the database
+    // Add a new student
     @PostMapping
-    public void createStudent(@RequestBody Student student) {
-        studentService.createStudent(student);
+    public ResponseEntity<Student> createStudent(@RequestBody Student student) {
+        Student createdStudent = studentService.createStudent(student);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdStudent);
     }
 
-    // Update a student provided by the id
+    // Update an existing student
     @PutMapping("/{id}")
-    public ResponseEntity<Student> updateStudent(@PathVariable Integer id, @RequestBody Student student) {
+    public ResponseEntity<Student> updateStudent(@PathVariable Integer id, @RequestBody Student updatedStudent) {
         Optional<Student> existingStudent = studentService.getStudentById(id);
         if (existingStudent.isPresent()) {
-            student.setId(id);
-            studentService.updateStudent(student);
-            return ResponseEntity.ok(student);
+            updatedStudent.setId(id);
+            Student savedStudent = studentService.updateStudent(id, updatedStudent);
+            return ResponseEntity.ok(savedStudent);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
 
-    // Delete a student provided by the id
+    // Delete a student by ID
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteStudent(@PathVariable Integer id) {
         if (studentService.getStudentById(id).isPresent()) {
             studentService.deleteStudent(id);
             return ResponseEntity.noContent().build();
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
 }

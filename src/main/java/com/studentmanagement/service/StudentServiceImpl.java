@@ -10,8 +10,12 @@ import java.util.Optional;
 
 @Service
 public class StudentServiceImpl implements StudentService {
+    private final StudentRepository studentRepository;
+
     @Autowired
-    private StudentRepository studentRepository;
+    public StudentServiceImpl(StudentRepository studentRepository) {
+        this.studentRepository = studentRepository;
+    }
 
     @Override
     public List<Student> getAllStudents() {
@@ -24,13 +28,30 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public void createStudent(Student student) {
-        studentRepository.save(student);
+    public Optional<Student> getStudentByUsername(String username) {
+        return studentRepository.findByUsername(username);
     }
 
     @Override
-    public void updateStudent(Student student) {
-        studentRepository.save(student);
+    public Student createStudent(Student student) {
+        return studentRepository.save(student);
+    }
+
+    @Override
+    public Student updateStudent(Integer id, Student updatedStudent) {
+        Optional<Student> existingStudent = studentRepository.findById(id);
+        if (existingStudent.isPresent()) {
+            Student student = existingStudent.get();
+            student.setName(updatedStudent.getName());
+            student.setBirthday(updatedStudent.getBirthday());
+            student.setUsername(updatedStudent.getUsername());
+            student.setPassword(updatedStudent.getPassword());
+            student.setCredits(updatedStudent.getCredits());
+            student.setIdClass(updatedStudent.getIdClass());
+            return studentRepository.save(student);
+        } else {
+            throw new RuntimeException("Student with id " + id + " not found.");
+        }
     }
 
     @Override
