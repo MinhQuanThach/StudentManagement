@@ -33,6 +33,11 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
+    public List<Student> searchStudents(String query) {
+        return studentRepository.searchStudents(query);
+    }
+
+    @Override
     public Student createStudent(Student student) {
         return studentRepository.save(student);
     }

@@ -12,6 +12,8 @@ public interface StudentService {
 
     Optional<Student> getStudentByUsername(String username);
 
+    public List<Student> searchStudents(String query);
+
     Student createStudent(Student student);
 
     Student updateStudent(Integer id, Student updatedStudent);

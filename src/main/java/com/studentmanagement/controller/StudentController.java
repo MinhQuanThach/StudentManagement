@@ -36,6 +36,15 @@ public class StudentController {
                 .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
 
+    @GetMapping("/search")
+    public ResponseEntity<List<Student>> searchStudents(@RequestParam("query") String query) {
+        List<Student> students = studentService.searchStudents(query);
+        if (students.isEmpty()) {
+            return ResponseEntity.noContent().build(); // 204 No Content nếu không có sinh viên nào
+        }
+        return ResponseEntity.ok(students); // 200 OK kèm danh sách sinh viên
+    }
+
     // Add a new student
     @PostMapping
     public ResponseEntity<Student> createStudent(@RequestBody Student student) {

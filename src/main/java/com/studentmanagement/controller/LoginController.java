@@ -31,12 +31,10 @@ public class LoginController {
         Optional<Student> studentOpt = studentService.getStudentByUsername(username);
 
         if (studentOpt.isPresent() && studentOpt.get().getPassword().equals(password)) {
-            // Nếu login thành công, chuyển hướng đến trang students
             model.addAttribute("students", studentService.getAllStudents());
-            return "students"; // Thymeleaf sẽ tự động tìm students.html trong thư mục templates
+            return "students";
         } else {
-            // Nếu login thất bại, hiển thị lại trang login với thông báo lỗi
-            return "login"; // Trả về trang login
+            return "login";
         }
     }
 }

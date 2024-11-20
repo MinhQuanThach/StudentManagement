@@ -22,8 +22,10 @@ async function handleLogin(event) {
     event.preventDefault(); // Ngăn chặn hành động reload trang mặc định khi bấm nút login
 
     // Lấy giá trị của username và password từ các ô input
-    const username = document.getElementById("username").value;
-    const password = document.getElementById("password").value;
+    let username = ""; // Sử dụng let thay vì const vì giá trị sẽ thay đổi
+    username = document.getElementById("username").value; // Cập nhật giá trị từ input
+    let password = "";
+    password = document.getElementById("password").value;
 
     // Kiểm tra xem cả username và password đã được nhập chưa
     if (username && password) {
@@ -40,8 +42,17 @@ async function handleLogin(event) {
             // Kiểm tra phản hồi từ server
             if (response.ok) {
                 // Nếu phản hồi thành công (HTTP status code 200), đọc nội dung trả về
-                const result = await response.text();
-                window.location.href = '/students.html';
+                const result = await response.text(); // Chuyển phản hồi thành JSON
+
+                // Kiểm tra nếu kết quả trả về có thông tin xác thực (ví dụ token)
+                if (result != "Invalid username or password") {
+                    //Chuyển trang khi login thành công
+                    //localStorage.setItem("authToken", token);
+                    window.location.href = '/students.html';
+                } else {
+                    // Nếu không có token hoặc kết quả không hợp lệ
+                    alert('Failed login attempt with Username:', username, 'and Password:', password);
+                }
             } else {
                 // Nếu phản hồi không thành công (HTTP status code khác 200)
                 alert('Login failed. Please check your credentials.');
