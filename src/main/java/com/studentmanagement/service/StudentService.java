@@ -17,4 +17,6 @@ public interface StudentService {
     Student updateStudent(Integer id, Student updatedStudent);
 
     void deleteStudent(Integer id);
+
+    boolean validateStudent(String username, String password);
 }

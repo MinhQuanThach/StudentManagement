@@ -58,4 +58,10 @@ public class StudentServiceImpl implements StudentService {
     public void deleteStudent(Integer id) {
         studentRepository.deleteById(id);
     }
+
+    @Override
+    public boolean validateStudent(String username, String password) {
+        Optional<Student> student = studentRepository.findByUsername(username);
+        return student.isPresent() && student.get().getPassword().equals(password);
+    }
 }

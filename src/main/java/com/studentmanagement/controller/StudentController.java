@@ -66,4 +66,11 @@ public class StudentController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
+
+    @GetMapping("/students")
+    public String getStudentsPage(Model model) {
+        List<Student> students = studentService.getAllStudents();  // Lấy danh sách sinh viên từ service
+        model.addAttribute("students", students);  // Thêm danh sách vào model
+        return "students";  // Trả về trang students.html
+    }
 }

@@ -20,7 +20,7 @@ public class Student {
     private String name;
 
     @Column(name = "birthday", nullable = false)
-    private LocalDate birthday;
+    private String birthday;
 
     @Column(name = "username", nullable = false, unique = true)
     private String username;
