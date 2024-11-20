@@ -28,11 +28,6 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public Optional<Student> getStudentByUsername(String username) {
-        return studentRepository.findByUsername(username);
-    }
-
-    @Override
     public Student createStudent(Student student) {
         return studentRepository.save(student);
     }
@@ -44,10 +39,9 @@ public class StudentServiceImpl implements StudentService {
             Student student = existingStudent.get();
             student.setName(updatedStudent.getName());
             student.setBirthday(updatedStudent.getBirthday());
-            student.setUsername(updatedStudent.getUsername());
-            student.setPassword(updatedStudent.getPassword());
             student.setCredits(updatedStudent.getCredits());
             student.setIdClass(updatedStudent.getIdClass());
+            student.setIndustry(updatedStudent.getIndustry());
             return studentRepository.save(student);
         } else {
             throw new RuntimeException("Student with id " + id + " not found.");
@@ -56,6 +50,10 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public void deleteStudent(Integer id) {
-        studentRepository.deleteById(id);
+        if (studentRepository.existsById(id)) {
+            studentRepository.deleteById(id);
+        } else {
+            throw new RuntimeException("Student with id " + id + " not found.");
+        }
     }
 }

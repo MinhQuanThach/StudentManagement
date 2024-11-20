@@ -10,8 +10,6 @@ public interface StudentService {
 
     Optional<Student> getStudentById(Integer id);
 
-    Optional<Student> getStudentByUsername(String username);
-
     Student createStudent(Student student);
 
     Student updateStudent(Integer id, Student updatedStudent);

@@ -11,22 +11,15 @@ import java.time.LocalDate;
 @Entity
 @Table(name = "student")
 public class Student {
-    // Getters and Setters
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // Auto-increment
+    @Column(name = "id")
     private Integer id;
 
     @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "birthday", nullable = false)
+    @Column(name = "birthday")
     private LocalDate birthday;
-
-    @Column(name = "username", nullable = false, unique = true)
-    private String username;
-
-    @Column(name = "password", nullable = false)
-    private String password;
 
     @Column(name = "credits", nullable = false)
     private Integer credits;
@@ -36,6 +29,6 @@ public class Student {
 
     @ManyToOne
     @JoinColumn(name = "id_industry") // Foreign key to industry table
-    private Industry idIndustry;
+    private Industry Industry;
 
 }

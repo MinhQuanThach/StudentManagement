@@ -13,9 +13,6 @@ public class Industry {
     @Column(name = "id_industry", length = 15)
     private String idIndustry; // Primary Key
 
-    @Column(name = "id_faculty", nullable = false, length = 15)
-    private String idFaculty;
-
     @Column(name = "year_number", nullable = false)
     private Double yearNumber;
 
@@ -24,5 +21,5 @@ public class Industry {
 
     @ManyToOne
     @JoinColumn(name = "id_faculty", nullable = false, insertable = false, updatable = false) // Foreign key in the 'industry' table
-    private Faculty faculty;
+    private Faculty idFaculty;
 }
