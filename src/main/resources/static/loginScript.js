@@ -45,7 +45,7 @@ async function handleLogin(event) {
                 const result = await response.text(); // Chuyển phản hồi thành JSON
 
                 // Kiểm tra nếu kết quả trả về có thông tin xác thực (ví dụ token)
-                if (result != "Invalid username or password") {
+                if (result !== "Invalid username or password") {
                     //Chuyển trang khi login thành công
                     //localStorage.setItem("authToken", token);
                     window.location.href = '/students.html';

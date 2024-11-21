@@ -28,11 +28,6 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public Optional<Student> getStudentByUsername(String username) {
-        return studentRepository.findByUsername(username);
-    }
-
-    @Override
     public List<Student> searchStudents(String query) {
         return studentRepository.searchStudents(query);
     }
@@ -65,11 +60,5 @@ public class StudentServiceImpl implements StudentService {
         } else {
             throw new RuntimeException("Student with id " + id + " not found.");
         }
-    }
-
-    @Override
-    public boolean validateStudent(String username, String password) {
-        Optional<Student> student = studentRepository.findByUsername(username);
-        return student.isPresent() && student.get().getPassword().equals(password);
     }
 }

@@ -29,6 +29,6 @@ public class Student {
 
     @ManyToOne
     @JoinColumn(name = "id_industry") // Foreign key to industry table
-    private Industry Industry;
+    private Industry industry;
 
 }
