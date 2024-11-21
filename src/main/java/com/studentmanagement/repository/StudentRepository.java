@@ -11,14 +11,12 @@ import java.util.Optional;
 
 @Repository
 public interface StudentRepository extends JpaRepository<Student, Integer> {
-    Optional<Student> findByUsername(String username);
-
     @Query("SELECT s FROM Student s WHERE " +
             "LOWER(s.name) LIKE %:query% OR " +
-            "LOWER(s.username) LIKE %:query% OR " +
+            "CAST(s.birthday AS string) LIKE %:query% OR " +
             "CAST(s.id AS string) LIKE %:query% OR " +
             "CAST(s.idClass AS string) LIKE %:query% OR " +
-            "CAST(s.idIndustry AS string) LIKE %:query%")
+            "CAST(s.industry AS string) LIKE %:query%")
     List<Student> searchStudents(@Param("query") String query);
 }
 

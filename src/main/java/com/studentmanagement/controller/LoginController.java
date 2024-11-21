@@ -14,12 +14,9 @@ import java.util.Optional;
 @RequestMapping("/api/login")
 public class LoginController {
 
-    @Autowired
-    private StudentService studentService;
-
     @PostMapping
     public String login(@RequestParam String username, @RequestParam String password) {
-        if (studentService.validateStudent(username, password)) {
+        if (username.equals("admin") && password.equals("admin")) {
             return "Login successful";
         } else {
             return "Invalid username or password";
@@ -28,11 +25,9 @@ public class LoginController {
 
     @PostMapping("/login")
     public String handleLogin(@RequestParam String username, @RequestParam String password, Model model) {
-        Optional<Student> studentOpt = studentService.getStudentByUsername(username);
-
-        if (studentOpt.isPresent() && studentOpt.get().getPassword().equals(password)) {
-            model.addAttribute("students", studentService.getAllStudents());
-            return "students";
+        if (username.equals("admin") && password.equals("admin")) {
+            model.addAttribute("username", username);
+            return "admin";
         } else {
             return "login";
         }
