@@ -36,6 +36,15 @@ public class StudentController {
                 .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
 
+    @GetMapping("/search")
+    public ResponseEntity<List<Student>> searchStudents(@RequestParam("query") String query) {
+        List<Student> students = studentService.searchStudents(query);
+        if (students.isEmpty()) {
+            return ResponseEntity.noContent().build(); // 204 No Content nếu không có sinh viên nào
+        }
+        return ResponseEntity.ok(students); // 200 OK kèm danh sách sinh viên
+    }
+
     // Add a new student
     @PostMapping
     public ResponseEntity<Student> createStudent(@RequestBody Student student) {
@@ -65,5 +74,12 @@ public class StudentController {
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
+    }
+
+    @GetMapping("/students")
+    public String getStudentsPage(Model model) {
+        List<Student> students = studentService.getAllStudents();  // Lấy danh sách sinh viên từ service
+        model.addAttribute("students", students);  // Thêm danh sách vào model
+        return "students";  // Trả về trang students.html
     }
 }

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Students | Admin Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="students.css">
+    <style>
+        /* Add your custom styles here */
+    </style>
+</head>
+
+<body class="flex h-screen bg-gray-100">
+<!-- Sidebar -->
+<div class="bg-gray-800 text-white w-1/5 flex flex-col items-center">
+    <div class="py-4 text-2xl font-bold">Admin Dashboard</div>
+    <nav class="text-sm w-full">
+        <a href="#" class="block py-2 px-4 hover:bg-gray-700">Teachers</a>
+        <a href="#" class="block py-2 px-4 hover:bg-gray-700">Students</a>
+        <a href="#" class="block py-2 px-4 hover:bg-gray-700">Academic Officers</a>
+        <a href="../html/settings.html" class="block py-2 px-4 hover:bg-gray-700">Faculties</a>
+        <a href="../html/settings.html" class="block py-2 px-4 hover:bg-gray-700">Settings</a>
+        <a href="../html/login.html" class="block py-2 px-4 hover:bg-gray-700">Logout</a>
+    </nav>
+</div>
+
+<!-- Main Content -->
+<div class="flex-1 p-8">
+    <div class="flex flex-row justify-between items-center mb-6">
+        <h2 class="text-2xl font-semibold">Students</h2>
+        <div class="flex items-center justify-center" role="group">
+            <input type="email" id="email" name="email" class="p-2 w-full border outline-none hover:border-slate-400 rounded-md" placeholder="Student name, ID ,Faculties,etc...">
+            <button class="bg-slate-300 hover:bg-slate-400 text-black font-bold py-2 px-3 rounded">Search</button>
+        </div>
+        <div class="flex items-center space-x-4">
+
+            <button class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+                <a href="../html/administrators/create.html">New Student</a>
+            </button>
+        </div>
+    </div>
+    <!-- dropdown start -->
+
+    <button id="dropdownHoverButton" onclick="dropdown();" data-dropdown-toggle="dropdownHover" data-dropdown-trigger="hover" class="text-black bg-slate-200 hover:bg-slate-400 outline-none font-medium rounded-sm text-sm px-3 py-1 text-center inline-flex items-center" type="button">Filter <svg class="w-2.5 h-2.5 ml-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
+    </svg>
+    </button>
+
+    <!-- Dropdown menu -->
+    <div id="dropdownHover" class="manage_students_filter_dropdownmenu_default">
+        <ul class="text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownHoverButton">
+            <li>
+                <a href="#" class="block px-4 py-2 hover:bg-gray-300 text-black">Student ID</a>
+            </li>
+            <li>
+                <a href="#" class="block px-4 py-2 hover:bg-gray-300 text-black">Student Name</a>
+            </li>
+            <li>
+                <a href="#" class="block px-4 py-2 hover:bg-gray-300 text-black">Faculty</a>
+            </li>
+            <li>
+                <a href="#" class="block px-4 py-2 hover:bg-gray-300 text-black">Student Year</a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- dropdown end  -->
+    <table class="min-w-full bg-white border border-gray-200">
+        <thead>
+        <tr>
+            <th class="text-left py-2 px-4">Student ID</th>
+            <th class="text-left py-2 px-4">Name</th>
+            <th class="text-left py-2 px-4">Birthday</th>
+            <th class="text-left py-2 px-4">Credits</th>
+            <th class="text-left py-2 px-4">ID Class</th>
+            <th class="text-left py-2 px-4">Industry</th>
+
+            <th class="text-left py-2 px-4">Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!-- Sample Data - Replace with actual teacher details from your backend -->
+        <tr>
+            <td class="border-t py-2 px-4">1</td>
+            <td class="border-t py-2 px-4">Mai Đức văn</td>
+            <td class="border-t py-2 px-4">20-11-2024</td>
+            <td class="border-t py-2 px-4">20</td>
+            <td class="border-t py-2 px-4">QH2023-I/CQ-I-CS4</td>
+            <td class="border-t py-2 px-4">Khoa học máy tính </td>
+            <td class="border-t py-2 px-4">
+                <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded mr-2">Edit</button>
+                <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded" data-id="1">Delete</button>
+            </td>
+        </tr>
+        <!-- More rows can be added here dynamically -->
+        </tbody>
+    </table>
+</div>
+
+<script src="manage_student.js"></script>
+</body>
+
+</html>
