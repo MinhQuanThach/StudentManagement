@@ -41,6 +41,7 @@ public class IndustryServiceImpl implements IndustryService {
             industry.setIdFaculty(updatedIndustry.getIdFaculty());
             industry.setYearNumber(updatedIndustry.getYearNumber());
             industry.setTitle(updatedIndustry.getTitle());
+            industry.setIdFaculty(updatedIndustry.getIdFaculty());
             return industryRepository.save(industry);
         } else {
             throw new RuntimeException("Industry with ID " + idIndustry + " not found.");
@@ -49,6 +50,10 @@ public class IndustryServiceImpl implements IndustryService {
 
     @Override
     public void deleteIndustry(String idIndustry) {
-        industryRepository.deleteById(idIndustry);
+        if (industryRepository.existsById(idIndustry)) {
+            industryRepository.deleteById(idIndustry);
+        } else {
+            throw new RuntimeException("Industry with ID " + idIndustry + " not found.");
+        }
     }
 }

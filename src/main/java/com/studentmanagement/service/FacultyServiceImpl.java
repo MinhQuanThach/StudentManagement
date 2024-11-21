@@ -48,6 +48,10 @@ public class FacultyServiceImpl implements FacultyService {
 
     @Override
     public void deleteFaculty(String idFaculty) {
-        facultyRepository.deleteById(idFaculty);
+        if (facultyRepository.existsById(idFaculty)) {
+            facultyRepository.deleteById(idFaculty);
+        } else {
+            throw new RuntimeException("Faculty with ID " + idFaculty + " not found.");
+        }
     }
 }
