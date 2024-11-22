@@ -38,10 +38,9 @@ public class IndustryServiceImpl implements IndustryService {
         Optional<Industry> existingIndustry = industryRepository.findById(idIndustry);
         if (existingIndustry.isPresent()) {
             Industry industry = existingIndustry.get();
-            industry.setIdFaculty(updatedIndustry.getIdFaculty());
             industry.setYearNumber(updatedIndustry.getYearNumber());
             industry.setTitle(updatedIndustry.getTitle());
-            industry.setIdFaculty(updatedIndustry.getIdFaculty());
+            industry.setFaculty(updatedIndustry.getFaculty());
             return industryRepository.save(industry);
         } else {
             throw new RuntimeException("Industry with ID " + idIndustry + " not found.");
