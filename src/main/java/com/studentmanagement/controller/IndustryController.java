@@ -27,9 +27,9 @@ public class IndustryController {
     }
 
     // Retrieve a specific industry by ID
-    @GetMapping("/{id}")
-    public ResponseEntity<Industry> getIndustryById(@PathVariable String id) {
-        return industryService.getIndustryById(id)
+    @GetMapping("/{idIndustry}")
+    public ResponseEntity<Industry> getIndustryById(@PathVariable String idIndustry) {
+        return industryService.getIndustryById(idIndustry)
                 .map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
@@ -42,12 +42,12 @@ public class IndustryController {
     }
 
     // Update an existing industry
-    @PutMapping("/{id}")
-    public ResponseEntity<Industry> updateIndustry(@PathVariable String id, @RequestBody Industry updatedIndustry) {
-        Optional<Industry> existingIndustry = industryService.getIndustryById(id);
+    @PutMapping("/{idIndustry}")
+    public ResponseEntity<Industry> updateIndustry(@PathVariable String idIndustry, @RequestBody Industry updatedIndustry) {
+        Optional<Industry> existingIndustry = industryService.getIndustryById(idIndustry);
         if (existingIndustry.isPresent()) {
-            updatedIndustry.setIdIndustry(id);
-            Industry savedIndustry = industryService.updateIndustry(id, updatedIndustry);
+            updatedIndustry.setIdIndustry(idIndustry);
+            Industry savedIndustry = industryService.updateIndustry(idIndustry, updatedIndustry);
             return ResponseEntity.ok(savedIndustry);
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
@@ -55,10 +55,10 @@ public class IndustryController {
     }
 
     // Delete an industry by ID
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteIndustry(@PathVariable String id) {
-        if (industryService.getIndustryById(id).isPresent()) {
-            industryService.deleteIndustry(id);
+    @DeleteMapping("/{idIndustry}")
+    public ResponseEntity<Void> deleteIndustry(@PathVariable String idIndustry) {
+        if (industryService.getIndustryById(idIndustry).isPresent()) {
+            industryService.deleteIndustry(idIndustry);
             return ResponseEntity.noContent().build();
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();

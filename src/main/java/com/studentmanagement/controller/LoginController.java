@@ -1,14 +1,8 @@
 package com.studentmanagement.controller;
 
 
-import org.springframework.ui.Model; // Import Model
-import org.springframework.beans.factory.annotation.Autowired; // Import Autowired
-import com.studentmanagement.model.Student;
-import com.studentmanagement.service.StudentService;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/login")

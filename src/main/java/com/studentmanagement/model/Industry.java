@@ -20,6 +20,6 @@ public class Industry {
     private String title;
 
     @ManyToOne
-    @JoinColumn(name = "id_faculty", nullable = false, insertable = false, updatable = false) // Foreign key in the 'industry' table
-    private Faculty idFaculty;
+    @JoinColumn(name = "id_faculty", nullable = false) // Foreign key in the 'industry' table
+    private Faculty faculty;
 }

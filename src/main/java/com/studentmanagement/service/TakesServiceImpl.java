@@ -2,7 +2,7 @@ package com.studentmanagement.service;
 
 import com.studentmanagement.model.Takes;
 import com.studentmanagement.repository.TakesRepository;
-import com.studentmanagement.service.TakesService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -10,9 +10,9 @@ import java.util.Optional;
 
 @Service
 public class TakesServiceImpl implements TakesService {
-
     private final TakesRepository takesRepository;
 
+    @Autowired
     public TakesServiceImpl(TakesRepository takesRepository) {
         this.takesRepository = takesRepository;
     }
