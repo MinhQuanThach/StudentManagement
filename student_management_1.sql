@@ -50,12 +50,15 @@ CREATE TABLE student_management.student (
 );
 
 CREATE TABLE student_management.time (
-    id_course VARCHAR(15) NOT NULL PRIMARY KEY,
+	id_time INT NOT NULL PRIMARY KEY,
+    id_course VARCHAR(15) NOT NULL,
     day DATE NOT NULL,
     start_time TIME NOT NULL,
     end_time TIME NOT NULL,
-    room_number VARCHAR(50)
-    
+    room_number VARCHAR(50),
+    FOREIGN KEY (id_course) REFERENCES student_management.courses(id_course)
+    ON DELETE CASCADE 
+    ON UPDATE CASCADE
 );
 
 CREATE TABLE student_management.takes (

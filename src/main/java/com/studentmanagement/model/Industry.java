@@ -21,5 +21,5 @@ public class Industry {
 
     @ManyToOne
     @JoinColumn(name = "id_faculty", nullable = false) // Foreign key in the 'industry' table
-    private Faculty idFaculty;
+    private Faculty faculty;
 }

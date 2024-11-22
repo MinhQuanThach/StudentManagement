@@ -27,9 +27,9 @@ public class FacultyController {
     }
 
     // Retrieve a specific faculty by ID
-    @GetMapping("/{id}")
-    public ResponseEntity<Faculty> getFacultyById(@PathVariable String id) {
-        return facultyService.getFacultyById(id)
+    @GetMapping("/{idFaculty}")
+    public ResponseEntity<Faculty> getFacultyById(@PathVariable String idFaculty) {
+        return facultyService.getFacultyById(idFaculty)
                 .map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
@@ -42,12 +42,12 @@ public class FacultyController {
     }
 
     // Update an existing faculty
-    @PutMapping("/{id}")
-    public ResponseEntity<Faculty> updateFaculty(@PathVariable String id, @RequestBody Faculty updatedFaculty) {
-        Optional<Faculty> existingFaculty = facultyService.getFacultyById(id);
+    @PutMapping("/{idFaculty}")
+    public ResponseEntity<Faculty> updateFaculty(@PathVariable String idFaculty, @RequestBody Faculty updatedFaculty) {
+        Optional<Faculty> existingFaculty = facultyService.getFacultyById(idFaculty);
         if (existingFaculty.isPresent()) {
-            updatedFaculty.setIdFaculty(id);
-            Faculty savedFaculty = facultyService.updateFaculty(id, updatedFaculty);
+            updatedFaculty.setIdFaculty(idFaculty);
+            Faculty savedFaculty = facultyService.updateFaculty(idFaculty, updatedFaculty);
             return ResponseEntity.ok(savedFaculty);
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
@@ -55,10 +55,10 @@ public class FacultyController {
     }
 
     // Delete a faculty by ID
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteFaculty(@PathVariable String id) {
-        if (facultyService.getFacultyById(id).isPresent()) {
-            facultyService.deleteFaculty(id);
+    @DeleteMapping("/{idFaculty}")
+    public ResponseEntity<Void> deleteFaculty(@PathVariable String idFaculty) {
+        if (facultyService.getFacultyById(idFaculty).isPresent()) {
+            facultyService.deleteFaculty(idFaculty);
             return ResponseEntity.noContent().build();
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
