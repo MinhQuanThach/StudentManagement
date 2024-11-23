@@ -81,4 +81,6 @@ public class StudentController {
         model.addAttribute("students", students);  // Thêm danh sách vào model
         return "students";  // Trả về trang students.html
     }
+
+
 }
