@@ -10,7 +10,7 @@ import lombok.Setter;
 @Table(name = "courses")
 public class Course {
     @Id
-    @Column(name = "id_course")
+    @Column(name = "id_course", nullable = false)
     private String idCourse;
 
     @ManyToOne

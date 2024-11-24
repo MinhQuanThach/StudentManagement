@@ -9,59 +9,63 @@ const facultyForm = document.getElementById("facultyForm");
 const searchFacultyBtn = document.getElementById("searchFacultyBtn");
 const searchFacultyInput = document.getElementById("searchFacultyInput");
 
-// Fetch and display all faculties
+// Helper function to render a table row
+function createFacultyRow(faculty) {
+    return `
+        <tr>
+            <td class="border-t py-2 px-4">${faculty.idFaculty}</td>
+            <td class="border-t py-2 px-4">${faculty.title}</td>
+            <td class="border-t py-2 px-4">${faculty.numberTeacher || ""}</td>
+            <td class="border-t py-2 px-4">${faculty.numberStudent || ""}</td>
+            <td class="border-t py-2 px-4">
+                <button onclick="editFaculty('${faculty.idFaculty}')" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded mr-2">Edit</button>
+                <button onclick="deleteFaculty('${faculty.idFaculty}')" class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded">Delete</button>
+            </td>
+        </tr>
+    `;
+}
+
+// Fetch and display faculties
 async function fetchFaculties() {
     try {
         const response = await fetch(apiUrl);
+        if (!response.ok) throw new Error("Failed to fetch faculties.");
         const faculties = await response.json();
 
-        facultyTable.innerHTML = faculties.map(faculty => `
-            <tr>
-                <td class="border-t py-2 px-4">${faculty.idFaculty}</td>
-                <td class="border-t py-2 px-4">${faculty.title}</td>
-                <td class="border-t py-2 px-4">${faculty.numberTeacher}</td>
-                <td class="border-t py-2 px-4">${faculty.numberStudent}</td>
-                <td class="border-t py-2 px-4">
-                    <button onclick="editFaculty('${faculty.idFaculty}')" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded mr-2">Edit</button>
-                    <button onclick="deleteFaculty('${faculty.idFaculty}')" class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded">Delete</button>
-                </td>
-            </tr>
-        `).join("");
+        facultyTable.innerHTML = faculties.map(createFacultyRow).join("");
     } catch (error) {
         console.error("Error fetching faculties:", error);
     }
 }
 
-// Reset modal to create mode when opening for a new faculty
-openModalBtn.addEventListener("click", () => {
-    // Clear form
+// Open modal in create mode
+function openModal(mode = "create", faculty = {}) {
     facultyForm.reset();
+    facultyForm.dataset.mode = mode;
+    document.getElementById("idFaculty").readOnly = mode === "edit";
 
-    // Make the faculty ID field editable
-    document.getElementById("idFaculty").removeAttribute("readonly");
+    if (mode === "edit") {
+        // Update modal title and button
+        document.getElementById("modalTitle").innerText = "Edit Faculty";
+        document.getElementById("modalSubmitBtn").innerText = "Save";
+        // Populate form fields
+        document.getElementById("idFaculty").value = faculty.idFaculty || "";
+        document.getElementById("title").value = faculty.title || "";
+        document.getElementById("numberTeacher").value = faculty.numberTeacher || "";
+        document.getElementById("numberStudent").value = faculty.numberStudent || "";
+    }
 
-    // Update modal title and button text
-    document.getElementById("modalTitle").innerText = "Create New Faculty";
-    const modalSubmitBtn = document.getElementById("modalSubmitBtn");
-    modalSubmitBtn.innerText = "Create";
-
-    // Remove previous event handlers and set up create handler
-    modalSubmitBtn.onclick = null; // Remove any previous onclick events
-    facultyForm.onsubmit = createFacultyHandler;
-
-    // Show modal
     facultyModal.classList.remove("hidden");
-});
+}
 
-// Cancel button to close the modal
-closeModalBtn.addEventListener("click", () => {
+// Close modal
+function closeModal() {
     facultyModal.classList.add("hidden");
-});
+}
 
-// Create handler for adding a new faculty
-async function createFacultyHandler(event) {
+// Submit form for creating/updating faculty
+async function handleFormSubmit(event) {
     event.preventDefault();
-
     const formData = new FormData(facultyForm);
     const data = {
         idFaculty: formData.get("idFaculty"),
@@ -70,90 +74,42 @@ async function createFacultyHandler(event) {
         numberStudent: Number(formData.get("numberStudent")),
     };
 
+    const mode = facultyForm.dataset.mode;
+    const method = mode === "edit" ? "PUT" : "POST";
+    const url = method === "PUT" ? `${apiUrl}/${data.idFaculty}` : apiUrl;
+
     try {
-        const response = await fetch(apiUrl, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
+        const response = await fetch(url, {
+            method,
+            headers: { "Content-Type": "application/json" },
             body: JSON.stringify(data),
         });
 
         if (response.ok) {
-            alert("Faculty created successfully!");
-            facultyModal.classList.add("hidden");
+            alert(`Faculty ${mode === "edit" ? "updated" : "created"} successfully!`);
+            closeModal();
             fetchFaculties();
         } else {
-            alert("Failed to create faculty.");
+            throw new Error(`Failed to ${mode === "edit" ? "update" : "create"} faculty.`);
         }
     } catch (error) {
-        console.error("Error creating faculty:", error);
+        console.error("Error submitting form:", error);
+        alert("An error occurred while saving the faculty.");
     }
 }
 
-// Function to open modal for editing faculty
-async function editFaculty(id) {
-    try {
-        // Fetch faculty data by ID
-        const response = await fetch(`${apiUrl}/${id}`);
-        if (!response.ok) {
-            alert(`Failed to fetch faculty with ID: ${id}`);
-            return;
-        }
-        const faculty = await response.json();
-
-        // Pre-fill the modal form with faculty data
-        document.getElementById("idFaculty").value = faculty.idFaculty;
-        document.getElementById("title").value = faculty.title;
-        document.getElementById("numberTeacher").value = faculty.numberTeacher;
-        document.getElementById("numberStudent").value = faculty.numberStudent;
-
-        // Make the faculty ID field readonly
-        document.getElementById("idFaculty").setAttribute("readonly", true);
-
-        // Update modal title and button
-        document.getElementById("modalTitle").innerText = "Edit Faculty";
-        const modalSubmitBtn = document.getElementById("modalSubmitBtn");
-        modalSubmitBtn.innerText = "Save";
-
-        // Remove previous event handlers and set up edit handler
-        modalSubmitBtn.onclick = async (event) => {
-            event.preventDefault(); // Prevent form submission
-
-            const updatedFaculty = {
-                idFaculty: document.getElementById("idFaculty").value,
-                title: document.getElementById("title").value.trim(),
-                numberTeacher: Number(document.getElementById("numberTeacher").value),
-                numberStudent: Number(document.getElementById("numberStudent").value),
-            };
-
-            try {
-                // Send updated data to the backend
-                const response = await fetch(`${apiUrl}/${updatedFaculty.idFaculty}`, {
-                    method: "PUT",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(updatedFaculty),
-                });
-
-                if (response.ok) {
-                    alert("Faculty updated successfully!");
-                    facultyModal.classList.add("hidden"); // Hide modal
-                    fetchFaculties(); // Refresh faculty list
-                } else {
-                    alert("Failed to update faculty. Please try again.");
-                }
-            } catch (error) {
-                console.error("Error updating faculty:", error);
-                alert("An error occurred while updating faculty.");
-            }
-        };
-
-        // Show the modal
-        facultyModal.classList.remove("hidden");
-    } catch (error) {
-        console.error("Error fetching faculty:", error);
-        alert("An error occurred while fetching faculty data.");
-    }
+// Edit a faculty
+function editFaculty(id) {
+    const faculty = Array.from(facultyTable.rows).find(
+        (row) => row.cells[0].textContent === id
+    );
+    if (!faculty) return;
+    openModal("edit", {
+        idFaculty: faculty.cells[0].textContent,
+        title: faculty.cells[1].textContent,
+        numberTeacher: faculty.cells[2].textContent,
+        numberStudent: faculty.cells[3].textContent,
+    });
 }
 
 // Delete a faculty
@@ -166,66 +122,38 @@ async function deleteFaculty(id) {
             alert("Faculty deleted successfully!");
             fetchFaculties();
         } else {
-            alert("Failed to delete faculty.");
+            throw new Error("Failed to delete faculty.");
         }
     } catch (error) {
         console.error("Error deleting faculty:", error);
+        alert("An error occurred while deleting the faculty.");
     }
 }
 
-// Fetch a specific faculty by ID
-searchFacultyBtn.addEventListener("click", async () => {
+// Search for a specific faculty
+async function searchFaculty() {
     const facultyId = searchFacultyInput.value.trim();
-    if (!facultyId) {
-        alert("Please enter a faculty ID to search.");
-        return;
-    }
+    if (!facultyId) return alert("Please enter an faculty ID.");
 
     try {
         const response = await fetch(`${apiUrl}/${facultyId}`);
         if (response.ok) {
             const faculty = await response.json();
-            updateFacultyTable([faculty]);
+            facultyTable.innerHTML = createFacultyRow(faculty);
         } else {
-            clearFacultyTable();
             alert(`Faculty with ID "${facultyId}" not found.`);
         }
     } catch (error) {
-        console.error("Error fetching faculty:", error);
+        console.error("Error searching for faculty:", error);
         alert("An error occurred while searching for the faculty.");
     }
-});
-
-// Function to update the table with faculty data
-function updateFacultyTable(faculties) {
-    clearFacultyTable(); // Clear existing rows
-
-    faculties.forEach(faculty => {
-        const row = document.createElement("tr");
-
-        row.innerHTML = `
-            <td class="border-t py-2 px-4">${faculty.idFaculty}</td>
-            <td class="border-t py-2 px-4">${faculty.title}</td>
-            <td class="border-t py-2 px-4">${faculty.numberTeacher}</td>
-            <td class="border-t py-2 px-4">${faculty.numberStudent}</td>
-            <td class="border-t py-2 px-4">
-                <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded mr-2">Edit</button>
-                <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded" data-id="${faculty.idFaculty}">Delete</button>
-            </td>
-        `;
-
-        facultyTable.appendChild(row);
-    });
 }
 
-// Function to clear the faculty table
-function clearFacultyTable() {
-    facultyTable.innerHTML = ""; // Clear all rows
-}
-
-// Modal logic
-openModalBtn.addEventListener("click", () => facultyModal.classList.remove("hidden"));
-closeModalBtn.addEventListener("click", () => facultyModal.classList.add("hidden"));
+// Event listeners
+openModalBtn.addEventListener("click", () => openModal());
+closeModalBtn.addEventListener("click", closeModal);
+facultyForm.addEventListener("submit", handleFormSubmit);
+searchFacultyBtn.addEventListener("click", searchFaculty);
 
 // Initial fetch
 fetchFaculties();

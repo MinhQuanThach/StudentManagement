@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Manage Students | Admin Dashboard</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="cssFile/students.css">
     <style>
         /* Add your custom styles here */
     </style>
@@ -48,30 +47,6 @@
         </div>
     </div>
 
-    <button id="dropdownHoverButton" onclick="dropdown()" data-dropdown-toggle="dropdownHover" data-dropdown-trigger="hover" class="text-black bg-slate-200 hover:bg-slate-400 outline-none font-medium rounded-sm text-sm px-3 py-1 text-center inline-flex items-center" type="button">Filter <svg class="w-2.5 h-2.5 ml-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
-        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
-    </svg>
-    </button>
-
-    <!-- Dropdown menu -->
-    <div id="dropdownHover" class="manage_students_filter_dropdownmenu_default">
-        <ul class="text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownHoverButton">
-            <li>
-                <a href="#" class="block px-4 py-2 hover:bg-gray-300 text-black">Student ID</a>
-            </li>
-            <li>
-                <a href="#" class="block px-4 py-2 hover:bg-gray-300 text-black">Student Name</a>
-            </li>
-            <li>
-                <a href="#" class="block px-4 py-2 hover:bg-gray-300 text-black">Faculty</a>
-            </li>
-            <li>
-                <a href="#" class="block px-4 py-2 hover:bg-gray-300 text-black">Student Year</a>
-            </li>
-        </ul>
-    </div>
-
-    <!-- dropdown end  -->
     <table class="min-w-full bg-white border border-gray-200">
         <thead>
         <tr>
@@ -86,7 +61,7 @@
         </tr>
         </thead>
         <tbody>
-        <!-- Sample Data - Replace with actual teacher details from your backend -->
+        <!-- Sample Data - Replace with actual student details from your backend -->
         <tr>
             <td class="border-t py-2 px-4">1</td>
             <td class="border-t py-2 px-4">Mai Đức Văn</td>
