@@ -1,3 +1,43 @@
+async function loadIndustries() {
+    try {
+        const response = await fetch('http://localhost:8080/industries', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+
+        if (!response.ok) {
+            throw new Error(`Failed to fetch industries: ${response.status}`);
+        }
+
+        const industries = await response.json();
+
+        console.log('Industries fetched from API:', industries);
+        const industrySelect = document.getElementById('industry');
+
+        while (industrySelect.options.length > 1) {
+            industrySelect.remove(1);
+        }
+
+        // Thêm các option từ API
+        industries.forEach((industry) => {
+            const option = document.createElement('option');
+            option.value = industry.idIndustry;
+            option.textContent = industry.idIndustry;
+            industrySelect.appendChild(option);
+        });
+    } catch (error) {
+        console.error('Error loading industries:', error);
+        alert('Failed to load industries. Please try again later.');
+    }
+}
+
+// Gọi hàm khi trang tải xong
+document.addEventListener('DOMContentLoaded', loadIndustries);
+
+
+
 async function createStudent() {
     // Lấy thông tin từ các ô nhập liệu
     const adminId = document.getElementById('Administrator_ID').value;
@@ -21,11 +61,11 @@ async function createStudent() {
             date: course.querySelector('input[name="date[]"]').value,
         };
     });
-    //
-    // if (!adminId || !fullName || !dob || !mobile || !department || !industry) {
-    //     alert('Vui lòng điền đầy đủ thông tin!');
-    //     return;
-    // }
+
+    if (!adminId || !fullName || !dob || !mobile || !idClass || !industry) {
+        alert('Vui lòng điền đầy đủ thông tin!');
+        return;
+    }
 
     const student = {
         adminId,
@@ -40,7 +80,7 @@ async function createStudent() {
     console.log('Student Added:', student);
 
     try {
-        const response = await fetch('/students', {
+        const response = await fetch('http://localhost:8080/students', {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -49,34 +89,36 @@ async function createStudent() {
                 id: 23021746,
                 name: "John Doe",
                 birthday: "2000-01-01",
-                credits: 20,
+                credits: 25,
                 idClass: "QH2023",
-                industry: "IT"
+                idIndustry: "IT-4"
             })
         })
+
+        if (!response.ok) {
+            const errorData = await response.json();
+            if (errorData.message && errorData.message.includes('industry')) {
+                alert("Lỗi: Không có ngành học (industry)!");
+            } else {
+                alert("Đã xảy ra lỗi khi thêm sinh viên: " + (errorData.message || "Không rõ lỗi."));
+            }
+            return;
+        }
+
+        const responseData = await response.json();
+        console.log('Student Added:', responseData);
+        alert("Thêm sinh viên thành công!");
 
     } catch (error) {
         console.error("Error add students:", error);
         alert("Please try again later.");
     }
-    // // Gửi dữ liệu lên server bằng fetch API (tùy chỉnh endpoint phù hợp)
-    // fetch('/api/students', {
-    //     method: "POST",
-    //     headers: {
-    //         "Content-Type": "application/json"
-    //     },
-    //     body: JSON.stringify(student)
-    // })
-    //     .then(response => {
-    //         if (response.ok) {
-    //             return response.json();
-    //         } else {
-    //             throw new Error("Failed to add student");
-    //         }
-    //     })
-    //     .then(data => console.log(data))
 
 }
+
+
+
+
 
 
 // Lắng nghe sự kiện "Thêm khóa học"
