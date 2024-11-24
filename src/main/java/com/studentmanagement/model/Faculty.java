@@ -9,9 +9,8 @@ import lombok.Setter;
 @Setter
 @Table(name = "faculty")
 public class Faculty {
-
     @Id
-    @Column(name = "id_faculty", length = 15)
+    @Column(name = "id_faculty", length = 15, nullable = false)
     private String idFaculty;
 
     @Column(name = "title", length = 100, nullable = false)
