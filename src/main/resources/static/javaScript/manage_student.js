@@ -23,7 +23,7 @@ async function searchStudents() {
 
     try {
         // Gửi yêu cầu GET tới API
-        const response = await fetch(`/api/students/search?query=${encodeURIComponent(query)}`);
+        const response = await fetch(`/students/search?query=${encodeURIComponent(query)}`);
 
         if (!response.ok) {
             throw new Error("Failed to fetch students");
@@ -123,4 +123,3 @@ document.getElementById("email").addEventListener("keypress", event => {
         searchStudents();
     }
 });
-
