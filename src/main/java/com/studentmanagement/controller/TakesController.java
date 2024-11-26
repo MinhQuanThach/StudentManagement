@@ -42,7 +42,7 @@ public class TakesController {
     public ResponseEntity<Takes> updateTakes(@PathVariable Integer idTakes, @RequestBody Takes updatedTakes) {
         Optional<Takes> existingTakes = takesService.getTakesById(idTakes);
         if (existingTakes.isPresent()) {
-            updatedTakes.setIdTakes(idTakes);
+            updatedTakes.setIdTake(idTakes);
             Takes savedTakes = takesService.updateTakes(idTakes, updatedTakes);
             return ResponseEntity.ok(savedTakes);
         } else {

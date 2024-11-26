@@ -11,7 +11,7 @@ import lombok.Setter;
 public class Takes {
     @Id
     @Column(name = "id_takes")
-    private Integer idTakes;
+    private Integer idTake;
 
     @ManyToOne
     @JoinColumn(name = "id", referencedColumnName = "id", nullable = false)
