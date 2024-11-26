@@ -55,10 +55,7 @@ async function createStudent() {
             title: course.querySelector('input[name="title"]').value,
             credits: course.querySelector('input[name="credits"]').value,
             idTeacher: course.querySelector('input[name="idTeacher"]').value,
-            // idClassroom: course.querySelector('input[name="idClassroom[]"]').value,
-            // startTime: course.querySelector('input[name="startTime[]"]').value,
-            // endTime: course.querySelector('input[name="endTime[]"]').value,
-            // date: course.querySelector('input[name="date[]"]').value,
+
         };
     });
 
@@ -84,10 +81,10 @@ async function createStudent() {
         };
     });
 
-    // if (!adminId || !fullName || !dob || !mobile || !idClass || !industry) {
-    //     alert('Vui lòng điền đầy đủ thông tin!');
-    //     return;
-    // }
+    if (!adminId || !fullName || !dob || !mobile || !idClass || !industry) {
+        alert('Vui lòng điền đầy đủ thông tin!');
+        return;
+    }
 
     const student = {
         adminId,
@@ -135,7 +132,16 @@ async function createStudent() {
         if (courses.length === 0) {
             return; // Dừng hàm nếu không có khóa học nào
         }
-
+        if (document.getElementById("idCourse").value == null||
+                document.getElementById("title").value == null ||
+                document.getElementById("credits").value == null ||
+                document.getElementById("idTeacher").value == null ||
+                document.getElementById("idClassroom").value == null ||
+                document.getElementById("startTime").value == null ||
+                document.getElementById("endTime").value == null ||
+                document.getElementById("date").value == null ) {
+            alert("Vui lòng điền đầy đủ thông tin course!");
+        }
 
 
         let newIdTake = await getMaxIdTake(); // lay id

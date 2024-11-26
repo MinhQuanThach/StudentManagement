@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Industry | Admin Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="flex h-screen bg-gray-100">
+<!-- Sidebar -->
+<div class="bg-gray-800 text-white w-1/5 flex flex-col items-center">
+    <div class="py-4 text-2xl font-bold">Admin Dashboard</div>
+    <nav class="text-sm w-full">
+        <a href="/students.html" class="bg-gray-800 hover:bg-gray-500 block py-2 px-4">Students</a>
+        <a href="/industries.html" class="bg-gray-800 hover:bg-gray-500 block py-2 px-4">Industries</a>
+        <a href="/faculties.html" class="bg-gray-800 hover:bg-gray-500 block py-2 px-4">Faculties</a>
+        <a href="/courses.html" class="bg-gray-800 hover:bg-gray-500 block py-2 px-4">Courses</a>
+        <a href="/takes.html" class="bg-gray-800 hover:bg-gray-500 block py-2 px-4">Takes</a>
+        <a href="/teachers.html" class="bg-gray-800 hover:bg-gray-500 block py-2 px-4">Teachers</a>
+        <a href="/times.html" class="bg-gray-800 hover:bg-gray-500 block py-2 px-4">Times</a>
+        <a href="/setting.html" class="bg-gray-800 hover:bg-gray-500 block py-2 px-4">Settings</a>
+        <a href="/templates/index.html" class="bg-gray-800 hover:bg-gray-500 block py-2 px-4">Logout</a>
+    </nav>
+</div>
+
+<!-- Main Content -->
+<div class="flex-1 p-8">
+    <div class="flex flex-row justify-between items-center mb-6">
+        <h2 class="text-2xl font-semibold">Times</h2>
+        <div class="flex items-center space-x-4">
+            <input type="text" id="searchTimeInput" placeholder="Search by ID..."
+                   class="p-2 border rounded-md w-64" onkeypress="handleEnter(event)">
+            <button id="searchTimeBtn" class="bg-gray-300 hover:bg-gray-400 text-black font-bold py-2 px-4 rounded" onclick="searchTeacher()">Search</button>
+            <button id="openModalBtn" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+                New Teacher
+            </button>
+        </div>
+    </div>
+
+    <div id="searchResult" class="mt-6">
+        <!-- Search results will be displayed here -->
+    </div>
+
+    <table class="min-w-full bg-white border border-gray-200">
+        <thead>
+        <tr>
+            <th class="text-left py-2 px-4">Time ID</th>
+            <th class="text-left py-2 px-4">Course ID</th>
+            <th class="text-left py-2 px-4">Day</th>
+            <th class="text-left py-2 px-4">Start Time</th>
+            <th class="text-left py-2 px-4">End Time</th>
+            <th class="text-left py-2 px-4">Roomnumber</th>
+            <th class="text-left py-2 px-4">Actions</th>
+        </tr>
+        </thead>
+        <tbody id="timeTable">
+        <!-- Industry rows will be dynamically added here -->
+        </tbody>
+    </table>
+</div>
+
+<div id="TimeModal" class="hidden fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center">
+    <div class="bg-white p-6 rounded-lg shadow-lg w-1/3">
+        <h2 id="modalTitle" class="text-xl font-bold mb-4">Create New Time</h2>
+        <form id="timeForm">
+            <div class="mb-4">
+                <label for="idTime" class="block text-gray-700">Time ID</label>
+                <input type="text" id="idTime" name="idTime" class="w-full border p-2 rounded" required readonly>
+            </div>
+            <div class="mb-4">
+                <label for="idCourse" class="block text-gray-700">Course ID</label>
+                <input type="text" id="idCourse" name="idCourse" class="w-full border p-2 rounded" required readonly>
+            </div>
+            <div class="mb-4">
+                <label for="day" class="block text-gray-700">Day</label>
+                <input type="date" id="day" name="day" class="w-full border p-2 rounded" required>
+            </div>
+            <div class="mb-4">
+                <label for="startTime" class="block text-gray-700">Start Time</label>
+                <input type="time" id="startTime" name="startTime" class="w-full border p-2 rounded" required>
+            </div>
+            <div class="mb-4">
+                <label for="endTime" class="block text-gray-700">End Time</label>
+                <input type="time" id="endTime" name="startTime" class="w-full border p-2 rounded" required>
+            </div>
+            <div class="mb-4">
+                <label for="roomNumber" class="block text-gray-700">Roomnumber</label>
+                <input type="time" id="roomNumber" name="roomNumber" class="w-full border p-2 rounded" required>
+            </div>
+            <div class="flex justify-end space-x-4">
+                <button type="button" id="closeModalBtn" class="bg-gray-300 hover:bg-gray-400 text-black py-2 px-4 rounded" onclick="closeModal()">Cancel</button>
+                <button type="submit" id="modalSubmitBtn" class="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded">Update</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<script src="javaScript/teacher.js"></script>
+</body>
+
+</html>
