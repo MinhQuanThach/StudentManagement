@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Manage Industry | Admin Dashboard</title>
+    <title>Manage Time | Admin Dashboard</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
@@ -31,10 +31,10 @@
         <h2 class="text-2xl font-semibold">Times</h2>
         <div class="flex items-center space-x-4">
             <input type="text" id="searchTimeInput" placeholder="Search by ID..."
-                   class="p-2 border rounded-md w-64" onkeypress="handleEnter(event)">
-            <button id="searchTimeBtn" class="bg-gray-300 hover:bg-gray-400 text-black font-bold py-2 px-4 rounded" onclick="searchTeacher()">Search</button>
+                   class="p-2 border rounded-md w-64">
+            <button id="searchTimeBtn" class="bg-gray-300 hover:bg-gray-400 text-black font-bold py-2 px-4 rounded">Search</button>
             <button id="openModalBtn" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
-                New Teacher
+                New Time
             </button>
         </div>
     </div>
@@ -51,17 +51,17 @@
             <th class="text-left py-2 px-4">Day</th>
             <th class="text-left py-2 px-4">Start Time</th>
             <th class="text-left py-2 px-4">End Time</th>
-            <th class="text-left py-2 px-4">Roomnumber</th>
+            <th class="text-left py-2 px-4">Room Number</th>
             <th class="text-left py-2 px-4">Actions</th>
         </tr>
         </thead>
         <tbody id="timeTable">
-        <!-- Industry rows will be dynamically added here -->
+        <!-- Time rows will be dynamically added here -->
         </tbody>
     </table>
 </div>
 
-<div id="TimeModal" class="hidden fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center">
+<div id="timeModal" class="hidden fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center">
     <div class="bg-white p-6 rounded-lg shadow-lg w-1/3">
         <h2 id="modalTitle" class="text-xl font-bold mb-4">Create New Time</h2>
         <form id="timeForm">
@@ -70,8 +70,8 @@
                 <input type="text" id="idTime" name="idTime" class="w-full border p-2 rounded" required readonly>
             </div>
             <div class="mb-4">
-                <label for="idCourse" class="block text-gray-700">Course ID</label>
-                <input type="text" id="idCourse" name="idCourse" class="w-full border p-2 rounded" required readonly>
+                <label for="course" class="block text-gray-700">Course ID</label>
+                <input type="text" id="course" name="course" class="w-full border p-2 rounded" required>
             </div>
             <div class="mb-4">
                 <label for="day" class="block text-gray-700">Day</label>
@@ -83,14 +83,14 @@
             </div>
             <div class="mb-4">
                 <label for="endTime" class="block text-gray-700">End Time</label>
-                <input type="time" id="endTime" name="startTime" class="w-full border p-2 rounded" required>
+                <input type="time" id="endTime" name="endTime" class="w-full border p-2 rounded" required>
             </div>
             <div class="mb-4">
-                <label for="roomNumber" class="block text-gray-700">Roomnumber</label>
-                <input type="time" id="roomNumber" name="roomNumber" class="w-full border p-2 rounded" required>
+                <label for="roomNumber" class="block text-gray-700">Room Number</label>
+                <input type="text" id="roomNumber" name="roomNumber" class="w-full border p-2 rounded" required>
             </div>
             <div class="flex justify-end space-x-4">
-                <button type="button" id="closeModalBtn" class="bg-gray-300 hover:bg-gray-400 text-black py-2 px-4 rounded" onclick="closeModal()">Cancel</button>
+                <button type="button" id="closeModalBtn" class="bg-gray-300 hover:bg-gray-400 text-black py-2 px-4 rounded">Cancel</button>
                 <button type="submit" id="modalSubmitBtn" class="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded">Update</button>
             </div>
         </form>
@@ -98,7 +98,7 @@
 </div>
 
 
-<script src="javaScript/teacher.js"></script>
+<script src="javaScript/time.js"></script>
 </body>
 
 </html>
