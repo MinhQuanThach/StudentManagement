@@ -1,7 +1,7 @@
 package com.studentmanagement.service;
 
-import com.studentmanagement.DTO.StudentTimetableDTO;
-import com.studentmanagement.repository.StudentTimetableRepository;
+import com.studentmanagement.DTO.TeacherTimetableDTO;
+import com.studentmanagement.repository.TeacherTimetableRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,20 +10,20 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class StudentTimetableService {
+public class TeacherTimetableService {
     @Autowired
-    private StudentTimetableRepository studentTimetableRepository;
+    private TeacherTimetableRepository teacherTimetableRepository;
 
-    public List<StudentTimetableDTO> getTimetableByStudentId(Integer studentId) {
-        List<Object[]> results = studentTimetableRepository.findTimetableByStudentId(studentId);
+    public List<TeacherTimetableDTO> getTimetableByTeacherName(String teacherName) {
+        List<Object[]> results = teacherTimetableRepository.findTimetableByTeacherName(teacherName);
 
         return results.stream()
-                .map(row -> new StudentTimetableDTO(
-                        (Integer) row[0],  // studentId
-                        (String) row[1], // studentName
+                .map(row -> new TeacherTimetableDTO(
+                        (Integer) row[0],  // teacherId
+                        (String) row[1], // teacherName
                         (String) row[2],  // courseId
                         (String) row[3], // courseTitle
-                        (String) row[4],
+                        (String) row[4], //day
                         (Time) row[5], // startTime
                         (Time) row[6], // endTime
                         (String) row[7]  // roomNumber
