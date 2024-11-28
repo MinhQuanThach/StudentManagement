@@ -14,7 +14,7 @@ CREATE TABLE student_management.industry (
     id_industry VARCHAR(15) NOT NULL PRIMARY KEY,
     id_faculty VARCHAR(15) NOT NULL,
     year_number DOUBLE NOT NULL,
-    title VARCHAR(50),
+    title VARCHAR(50) NOT NULL,
     FOREIGN KEY (id_faculty) REFERENCES student_management.faculty(id_faculty)
     ON DELETE CASCADE 
     ON UPDATE CASCADE
@@ -42,7 +42,7 @@ CREATE TABLE student_management.student (
     name VARCHAR(50) NOT NULL,
     birthday DATE,
     credits INT NOT NULL DEFAULT 0,
-    id_class VARCHAR(50) NOT NULL,
+    id_class VARCHAR(50),
     id_industry VARCHAR(15),
     FOREIGN KEY (id_industry) REFERENCES student_management.industry(id_industry)
     ON DELETE CASCADE 
@@ -52,7 +52,7 @@ CREATE TABLE student_management.student (
 CREATE TABLE student_management.time (
 	id_time INT NOT NULL PRIMARY KEY,
     id_course VARCHAR(15) NOT NULL,
-    day DATE NOT NULL,
+    day VARCHAR(10) NOT NULL,
     start_time TIME NOT NULL,
     end_time TIME NOT NULL,
     room_number VARCHAR(50),
@@ -65,7 +65,7 @@ CREATE TABLE student_management.takes (
 	id_takes INT PRIMARY KEY,
     id INT NOT NULL,
     id_course VARCHAR(15) NOT NULL,
-    status VARCHAR(15),
+    status VARCHAR(15) NOT NULL,
     year INT,
     grade DOUBLE,
     FOREIGN KEY (id) REFERENCES student_management.student(id)

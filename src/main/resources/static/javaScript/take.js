@@ -74,7 +74,7 @@ async function handleFormSubmit(event) {
     const data = {
         idTake: formData.get("idTake"),
         student: { id: formData.get("student") },
-        course: { id: formData.get("course") },
+        course: { idCourse: formData.get("course") },
         status: formData.get("status"),
         year: Number(formData.get("year")),
         grade: Number(formData.get("grade")),
@@ -141,7 +141,7 @@ async function deleteTake(id) {
 // Search for a specific take
 async function searchTake() {
     const takeId = searchTakeInput.value.trim();
-    if (!takeId) return alert("Please enter an take ID.");
+    if (!takeId) return alert("Please enter a take ID.");
 
     try {
         const response = await fetch(`${apiUrl}/${takeId}`);
