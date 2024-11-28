@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDate;
 import java.time.LocalTime;
 
 @Setter
@@ -22,7 +21,7 @@ public class Time {
     private Course course;
 
     @Column(name = "day", nullable = false)
-    private LocalDate day;
+    private String day;
 
     @Column(name = "start_time", nullable = false)
     private LocalTime startTime;
