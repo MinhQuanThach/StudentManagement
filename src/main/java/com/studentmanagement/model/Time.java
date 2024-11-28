@@ -14,7 +14,7 @@ import java.time.LocalTime;
 public class Time {
     // Getters and Setters
     @Id
-    @Column(name = "id_time")
+    @Column(name = "id_time", nullable = false)
     private Integer idTime;
 
     @ManyToOne
