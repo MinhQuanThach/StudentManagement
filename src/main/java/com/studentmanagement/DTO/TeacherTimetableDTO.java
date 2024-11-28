@@ -11,9 +11,9 @@ import java.sql.Time;
 @Getter
 @Data
 @AllArgsConstructor
-public class StudentTimetableDTO {
-    private Integer studentId;
-    private String studentName;
+public class TeacherTimetableDTO {
+    private Integer teacherId;
+    private String teacherName;
     private String courseId;
     private String courseTitle;
     private String day;
