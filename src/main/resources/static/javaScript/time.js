@@ -40,11 +40,53 @@ async function fetchTimes() {
     }
 }
 
+async function fetchCoursesForSelection() {
+    try {
+        const response = await fetch("http://localhost:8080/courses");
+        if (!response.ok) {
+            throw new Error("Failed to fetch courses");
+        }
+        return await response.json();
+    } catch (error) {
+        console.error("Error fetching courses:", error);
+        return [];
+    }
+}
+
 // Open modal in create mode
-function openModal(mode = "create", time = {}) {
+async function openModal(mode = "create", time = {}) {
     timeForm.reset();
     timeForm.dataset.mode = mode;
     document.getElementById("idTime").readOnly = mode === "edit";
+
+    // Fetch and populate course options
+    const courseSelect = document.getElementById("course");
+    courseSelect.innerHTML = '<option value="" disabled selected>Select a course</option>'; // Reset options
+    const courses = await fetchCoursesForSelection();
+    courses.forEach(course => {
+        const option = document.createElement("option");
+        option.value = course.idCourse;
+        option.textContent = course.idCourse + " (" + course.title + ")";
+        courseSelect.appendChild(option);
+    });
+
+    // List of selection for 'day' label
+    const daySelect = document.getElementById("day");
+    daySelect.innerHTML = '<option value="" disabled selected>Select day</option>'; // Reset options
+    const dayOptions = [
+        { value: "Thứ 2", text: "Thứ 2" },
+        { value: "Thứ 3", text: "Thứ 3" },
+        { value: "Thứ 4", text: "Thứ 4" },
+        { value: "Thứ 5", text: "Thứ 5" },
+        { value: "Thứ 6", text: "Thứ 6" },
+        { value: "Thứ 7", text: "Thứ 7" }
+    ];
+    dayOptions.forEach(option => {
+        const opt = document.createElement("option");
+        opt.value = option.value;
+        opt.text = option.text;
+        daySelect.appendChild(opt);
+    });
 
     if (mode === "edit") {
         // Update modal title and button

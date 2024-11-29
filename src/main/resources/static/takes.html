@@ -74,12 +74,16 @@
                 <input type="number" id="student" name="student" class="w-full border p-2 rounded" required>
             </div>
             <div class="mb-4">
-                <label for="course" class="block text-gray-700">Course ID</label>
-                <input type="text" id="course" name="course" class="w-full border p-2 rounded" required>
+                <label for="course" class="block text-gray-700">Course</label>
+                <select id="course" name="course" class="w-full border p-2 rounded" required>
+                    <option value="" disabled selected>Select a course</option>
+                </select>
             </div>
             <div class="mb-4">
                 <label for="status" class="block text-gray-700">Status</label>
-                <input type="text" id="status" name="status" class="w-full border p-2 rounded" required>
+                <select id="status" name="status" class="w-full border p-2 rounded" required>
+                    <option value="" disabled selected>Select status</option>
+                </select>
             </div>
             <div class="mb-4">
                 <label for="year" class="block text-gray-700">Year</label>
