@@ -70,12 +70,16 @@
                 <input type="text" id="idTime" name="idTime" class="w-full border p-2 rounded" required readonly>
             </div>
             <div class="mb-4">
-                <label for="course" class="block text-gray-700">Course ID</label>
-                <input type="text" id="course" name="course" class="w-full border p-2 rounded" required>
+                <label for="course" class="block text-gray-700">Course</label>
+                <select id="course" name="course" class="w-full border p-2 rounded" required>
+                    <option value="" disabled selected>Select a course</option>
+                </select>
             </div>
             <div class="mb-4">
                 <label for="day" class="block text-gray-700">Day</label>
-                <input type="text" id="day" name="day" class="w-full border p-2 rounded" required>
+                <select id="day" name="day" class="w-full border p-2 rounded" required>
+                    <option value="" disabled selected>Select day</option>
+                </select>
             </div>
             <div class="mb-4">
                 <label for="startTime" class="block text-gray-700">Start Time</label>

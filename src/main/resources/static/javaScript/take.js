@@ -40,11 +40,51 @@ async function fetchTakes() {
     }
 }
 
+async function fetchCoursesForSelection() {
+    try {
+        const response = await fetch("http://localhost:8080/courses");
+        if (!response.ok) {
+            throw new Error("Failed to fetch courses");
+        }
+        return await response.json();
+    } catch (error) {
+        console.error("Error fetching courses:", error);
+        return [];
+    }
+}
+
 // Open modal in create mode
-function openModal(mode = "create", take = {}) {
+async function openModal(mode = "create", take = {}) {
     takeForm.reset();
     takeForm.dataset.mode = mode;
     document.getElementById("idTake").readOnly = mode === "edit";
+
+    // Fetch and populate course options
+    const courseSelect = document.getElementById("course");
+    courseSelect.innerHTML = '<option value="" disabled selected>Select a course</option>'; // Reset options
+    const courses = await fetchCoursesForSelection();
+    courses.forEach(course => {
+        const option = document.createElement("option");
+        option.value = course.idCourse;
+        option.textContent = course.idCourse + " (" + course.title + ")";
+        courseSelect.appendChild(option);
+    });
+
+    // List of selection for 'status' label
+    const statusSelect = document.getElementById("status");
+    statusSelect.innerHTML = '<option value="" disabled selected>Select status</option>'; // Reset options
+    const statusOptions = [
+        { value: "Học lần đầu", text: "Học lần đầu" },
+        { value: "Học cải thiện", text: "Học cải thiện" },
+        { value: "Học lại", text: "Học lại" },
+        { value: "Hoàn thành", text: "Hoàn thành" }
+    ];
+    statusOptions.forEach(option => {
+        const opt = document.createElement("option");
+        opt.value = option.value;
+        opt.text = option.text;
+        statusSelect.appendChild(opt);
+    });
 
     if (mode === "edit") {
         // Update modal title and button

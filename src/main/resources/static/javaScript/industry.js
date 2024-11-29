@@ -38,11 +38,35 @@ async function fetchIndustries() {
     }
 }
 
+async function fetchFacultiesForSelection() {
+    try {
+        const response = await fetch("http://localhost:8080/faculties");
+        if (!response.ok) {
+            throw new Error("Failed to fetch faculties");
+        }
+        return await response.json();
+    } catch (error) {
+        console.error("Error fetching faculties:", error);
+        return [];
+    }
+}
+
 // Open modal in create mode
-function openModal(mode = "create", industry = {}) {
+async function openModal(mode = "create", industry = {}) {
     industryForm.reset();
     industryForm.dataset.mode = mode;
     document.getElementById("idIndustry").readOnly = mode === "edit";
+
+    // Fetch and populate faculty options
+    const facultySelect = document.getElementById("faculty");
+    facultySelect.innerHTML = '<option value="" disabled selected>Select a faculty</option>'; // Reset options
+    const faculties = await fetchFacultiesForSelection();
+    faculties.forEach(faculty => {
+        const option = document.createElement("option");
+        option.value = faculty.idFaculty;
+        option.textContent = faculty.title + " (" + faculty.idFaculty + ")";
+        facultySelect.appendChild(option);
+    });
 
     if (mode === "edit") {
         // Update modal title and button
