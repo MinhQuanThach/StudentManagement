@@ -65,7 +65,7 @@
 
                 <div class="mb-4">
                     <label for="mobile" class="block text-sm font-medium text-gray-600">Credits</label>
-                    <input  type="text" id="mobile" name="mobile" class="mt-1 p-2 w-full border-slate-400 border rounded-md outline-none">
+                    <input  type="number" id="mobile" name="mobile" class="mt-1 p-2 w-full border-slate-400 border rounded-md outline-none">
                 </div>
 
 
@@ -103,27 +103,20 @@
                         </div>
                         <div class="mb-4">
                             <label for="credits" class="block text-sm font-medium text-gray-600">Credits</label>
-                            <input type="text" id="credits" name="credits" class="mt-1 p-2 w-full border-slate-400 border rounded-md outline-none">
+                            <input type="number" id="credits" name="credits" class="mt-1 p-2 w-full border-slate-400 border rounded-md outline-none">
                         </div>
                         <div class="mb-4">
                             <label for="idTeacher" class="block text-sm font-medium text-gray-600">Id Teacher</label>
                             <input type="text" id="idTeacher" name="idTeacher" class="mt-1 p-2 w-full border-slate-400 border rounded-md outline-none">
                         </div>
                         <div class="mb-4">
-                            <label for="idClassroom" class="block text-sm font-medium text-gray-600">ID Classroom</label>
-                            <input type="text" id="idClassroom" name="idClassroom[]" class="mt-1 p-2 w-full border-slate-400 border rounded-md outline-none">
-                        </div>
-                        <div class="mb-4">
-                            <label for="startTime" class="block text-sm font-medium text-gray-600">Start Time</label>
-                            <input type="time" id="startTime" name="startTime[]" class="mt-1 p-2 w-full border-slate-400 border rounded-md outline-none">
-                        </div>
-                        <div class="mb-4">
-                            <label for="endTime" class="block text-sm font-medium text-gray-600">End Time</label>
-                            <input type="time" id="endTime" name="endTime[]" class="mt-1 p-2 w-full border-slate-400 border rounded-md outline-none">
-                        </div>
-                        <div class="mb-4">
-                            <label for="date" class="block text-sm font-medium text-gray-600">Class Date</label>
-                            <input type="date" id="date" name="date[]" class="mt-1 p-2 w-full border-slate-400 border rounded-md outline-none">
+                            <label for="status" class="block text-sm font-medium text-gray-600">Status</label>
+                            <select id="status" name="status" class="mt-1 p-2 w-full border-slate-400 border rounded-md outline-none">
+                                <option value="hoc_lan_dau">Học lần đầu</option>
+                                <option value="hoc_lai">Học lại</option>
+                                <option value="hoc_cai_thien">Học cải thiện</option>
+                                <option value="qua_mon">Qua môn</option>
+                            </select>
                         </div>
                     </div>
                     <button type="button" class="bg-red-300 hover:bg-red-700 text-white font-bold py-0.5 px-1 remove-course-item text-red-300 mt-2">Remove</button>
