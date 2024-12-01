@@ -14,6 +14,7 @@ public class Time {
     // Getters and Setters
     @Id
     @Column(name = "id_time", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idTime;
 
     @ManyToOne
