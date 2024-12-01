@@ -1,5 +1,6 @@
 package com.studentmanagement.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -11,6 +12,7 @@ import lombok.Setter;
 public class Takes {
     @Id
     @Column(name = "id_takes")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idTake;
 
     @ManyToOne
