@@ -75,9 +75,89 @@ async function searchStudents() {
 }
 
 function editStudent(studentId) {
-    alert(`Edit student with ID: ${studentId}`);
+
+    fetch(`/students/${studentId}`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Student not found');
+            }
+            return response.json();
+        })
+        .then(studentData => {
+            document.getElementById("studentId").value = studentData.id;
+            document.getElementById("name").value = studentData.name;
+            if (studentData.birthday) {
+                const dob = studentData.birthday; // Sử dụng đúng tên trường
+                document.getElementById("dob").value = dob;
+            } else {
+                console.error("Date of birth not found.");
+                document.getElementById("dob").value = "";
+            }
+
+
+
+            document.getElementById("credits").value = studentData.credits;
+            document.getElementById("idClass").value = studentData.idClass;
+            document.getElementById("industry").value = studentData.industry.idIndustry;
+
+            // Hiển thị modal
+            document.getElementById("editStudentModal").classList.remove("hidden");
+        })
+        .catch(error => {
+            console.error('Error fetching student data:', error);
+            alert('Failed to load student data.');
+        });
 }
 
+function closeEditModal() {
+    document.getElementById("editStudentModal").classList.add("hidden");
+}
+
+document.getElementById("editStudentForm").addEventListener("submit", function (e) {
+    e.preventDefault();
+
+    const updatedStudent = {
+        id: document.getElementById("studentId").value,
+        name: document.getElementById("name").value,
+        birthday: document.getElementById("dob").value,
+        credits: document.getElementById("credits").value,
+        idClass: document.getElementById("idClass").value,
+        industry: document.getElementById("industry").value,
+    };
+
+    const requestBody = JSON.stringify({
+        id: updatedStudent.id,
+        name: updatedStudent.name,
+        birthday: updatedStudent.birthday,
+        credits : updatedStudent.credits,
+        idClass: updatedStudent.idClass,
+        industry: {
+            idIndustry: updatedStudent.industry,
+        },
+    });
+
+    fetch(`http://localhost:8080/students/${updatedStudent.id}`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: requestBody,
+    })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Failed to update student');
+            }
+            return response.json();
+        })
+        .then(updatedData => {
+            closeEditModal();
+
+            fetchAllStudents();
+        })
+        .catch(error => {
+            console.error('Error updating student:', error);
+        });
+});
 
 
 
@@ -123,3 +203,55 @@ document.getElementById("email").addEventListener("keypress", event => {
         searchStudents();
     }
 });
+
+// Hàm để hiển thị tất cả sinh viên
+async function fetchAllStudents() {
+    try {
+        const response = await fetch('/students');
+
+        if (!response.ok) {
+            throw new Error("Failed to fetch students");
+        }
+
+        const students = await response.json();
+
+        if (!Array.isArray(students) || students.length === 0) {
+            alert("No students found.");
+            return;
+        }
+
+        const tbody = document.querySelector("tbody");
+        tbody.innerHTML = "";
+
+        students.forEach(student => {
+            const row = `
+                <tr>
+                    <td class="border-t py-2 px-4">${student.id}</td>
+                    <td class="border-t py-2 px-4">${student.name}</td>
+                    <td class="border-t py-2 px-4">${student.birthday || "N/A"}</td>
+                    <td class="border-t py-2 px-4">${student.credits || 0}</td>
+                    <td class="border-t py-2 px-4">${student.idClass || "N/A"}</td>
+                    <td class="border-t py-2 px-4">${student.industry.idIndustry || "N/A"}</td>
+                    <td class="border-t py-2 px-4">
+                        <button 
+                            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded mr-2"
+                            onclick="editStudent(${student.id})">
+                            Edit
+                        </button>
+                        <button 
+                            class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded"
+                            onclick="deleteStudent(${student.id})">
+                            Delete
+                        </button>
+                    </td>
+                </tr>
+            `;
+            tbody.insertAdjacentHTML("beforeend", row);
+        });
+    } catch (error) {
+        console.error("Error fetching students:", error);
+        alert("Failed to fetch students. Please try again later.");
+    }
+}
+
+document.addEventListener('DOMContentLoaded', fetchAllStudents);
