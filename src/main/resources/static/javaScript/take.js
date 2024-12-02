@@ -16,7 +16,7 @@ function createTakeRow(take) {
             <td class="take-id-column">${take.idTake}</td>
             <td class="border-t py-2 px-4">${take.student.id}</td>
             <td class="border-t py-2 px-4">${take.course.idCourse}</td>
-            <td class="border-t py-2 px-4">${take.status || ""}</td>
+            <td class="border-t py-2 px-4">${take.status}</td>
             <td class="border-t py-2 px-4">${take.year || ""}</td>
             <td class="border-t py-2 px-4">${take.grade || ""}</td>
             <td class="border-t py-2 px-4">

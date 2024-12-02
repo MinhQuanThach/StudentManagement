@@ -23,7 +23,7 @@ public class Takes {
     @JoinColumn(name = "id_course", referencedColumnName = "id_course", nullable = false)
     private Course course;
 
-    @Column(name = "status")
+    @Column(name = "status", nullable = false)
     private String status;
 
     @Column(name = "year")
