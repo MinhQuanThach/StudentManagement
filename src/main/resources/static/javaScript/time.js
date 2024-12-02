@@ -181,23 +181,57 @@ async function deleteTime(id) {
 }
 
 // Search for a specific time
+// Search for a specific time
 async function searchTime() {
-    const timeId = searchTimeInput.value.trim();
-    if (!timeId) return alert("Please enter an time ID.");
+    const query = document.getElementById("searchTimeInput").value.trim();
+    const selectTime = document.getElementById("filterTime").value;
+
+    if (!query) {
+        return alert("Please enter a search value.");
+    }
 
     try {
-        const response = await fetch(`${apiUrl}/${timeId}`);
+        // Construct the API endpoint for search based on the filter selected
+        const response = await fetch(`http://localhost:8080/times/search?type=${selectTime}&query=${encodeURIComponent(query)}`);
+
         if (response.ok) {
-            const time = await response.json();
-            timeTable.innerHTML = createTimeRow(time);
+            const times = await response.json();
+
+            // Clear the table before rendering search results
+            timeTable.innerHTML = "";
+
+            // If no results found, display a message
+            if (times.length === 0) {
+                timeTable.innerHTML = `<tr><td colspan="7" class="text-center py-4">No times found.</td></tr>`;
+                return;
+            }
+
+            // Render the search results
+            times.forEach(time => {
+                const row = document.createElement("tr");
+                row.innerHTML = `
+                    <td class="py-2 px-4">${time.idTime}</td>
+                    <td class="py-2 px-4">${time.course.idCourse}</td>
+                    <td class="py-2 px-4">${time.day}</td>
+                    <td class="py-2 px-4">${time.startTime}</td>
+                    <td class="py-2 px-4">${time.endTime}</td>
+                    <td class="py-2 px-4">${time.roomNumber || ""}</td>
+                    <td class="py-2 px-4">
+                        <button class="bg-blue-500 hover:bg-blue-700 text-white py-1 px-3 rounded" onclick="editTime('${time.idTime}')">Edit</button>
+                        <button class="bg-red-500 hover:bg-red-700 text-white py-1 px-3 rounded" onclick="deleteTime('${time.idTime}')">Delete</button>
+                    </td>
+                `;
+                timeTable.appendChild(row);
+            });
         } else {
-            alert(`Time with ID "${timeId}" not found.`);
+            alert(`Error: ${response.statusText}`);
         }
     } catch (error) {
         console.error("Error searching for time:", error);
-        alert("An error occurred while searching for the time.");
+        alert("An error occurred while searching for time.");
     }
 }
+
 
 // Event listeners
 openModalBtn.addEventListener("click", () => openModal());
@@ -213,3 +247,9 @@ function handleTimeEnter(event) {
         searchTime();
     }
 }
+
+searchTimeInput.addEventListener("keypress", function(event) {
+    if (event.key === "Enter") {
+        searchTime();
+    }
+});

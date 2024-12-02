@@ -1,5 +1,6 @@
 package com.studentmanagement.controller;
 
+import com.studentmanagement.model.Student;
 import com.studentmanagement.model.Takes;
 import com.studentmanagement.service.TakesService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,45 @@ public class TakesController {
         return takesService.getTakesById(idTakes)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<Takes>> searchTakesByQuery(
+            @RequestParam String filter, @RequestParam String query) {
+        List<Takes> takes;
+
+        if (filter == null || query == null || query.trim().isEmpty()) {
+            return ResponseEntity.badRequest().body(null);
+        }
+
+        switch (filter.toLowerCase()) {
+            case "id":
+                takes = takesService.findTakesByIdTake(query);
+                break;
+            case "idstudent":
+                takes = takesService.findTakesByStudentId(query);
+                break;
+            case "idcourse":
+                takes = takesService.findTakesByCourseId(query);
+                break;
+            case "status":
+                takes = takesService.findTakesByStatus(query);
+                break;
+            case "year":
+                takes = takesService.findTakesByYear(query);
+                break;
+            case "grade":
+                takes = takesService.findTakesByGrade(query);
+                break;
+            default:
+                return ResponseEntity.badRequest().body(null);
+        }
+
+        if (takes.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+
+        return ResponseEntity.ok(takes);
     }
 
     @PostMapping
