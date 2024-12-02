@@ -16,7 +16,7 @@ function createIndustryRow(industry) {
             <td class="border-t py-2 px-4">${industry.idIndustry}</td>
             <td class="border-t py-2 px-4">${industry.faculty.idFaculty}</td>
             <td class="border-t py-2 px-4">${industry.yearNumber}</td>
-            <td class="border-t py-2 px-4">${industry.title || ""}</td>
+            <td class="border-t py-2 px-4">${industry.title}</td>
             <td class="border-t py-2 px-4">
                 <button onclick="editIndustry('${industry.idIndustry}')" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded mr-2">Edit</button>
                 <button onclick="deleteIndustry('${industry.idIndustry}')" class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded">Delete</button>

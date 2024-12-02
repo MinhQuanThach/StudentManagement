@@ -12,7 +12,7 @@ import java.time.LocalDate;
 @Table(name = "student")
 public class Student {
     @Id
-    @Column(name = "id")
+    @Column(name = "id", nullable = false)
     private Integer id;
 
     @Column(name = "name", nullable = false)
@@ -24,7 +24,7 @@ public class Student {
     @Column(name = "credits", nullable = false)
     private Integer credits;
 
-    @Column(name = "id_class", nullable = false)
+    @Column(name = "id_class")
     private String idClass;
 
     @ManyToOne

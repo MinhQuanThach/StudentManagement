@@ -13,10 +13,10 @@ const searchTakeInput = document.getElementById("searchTakeInput");
 function createTakeRow(take) {
     return `
         <tr>
-            <td class="border-t py-2 px-4">${take.idTake}</td>
+            <td class="take-id-column">${take.idTake}</td>
             <td class="border-t py-2 px-4">${take.student.id}</td>
             <td class="border-t py-2 px-4">${take.course.idCourse}</td>
-            <td class="border-t py-2 px-4">${take.status || ""}</td>
+            <td class="border-t py-2 px-4">${take.status}</td>
             <td class="border-t py-2 px-4">${take.year || ""}</td>
             <td class="border-t py-2 px-4">${take.grade || ""}</td>
             <td class="border-t py-2 px-4">
@@ -57,9 +57,8 @@ async function fetchCoursesForSelection() {
 async function openModal(mode = "create", take = {}) {
     takeForm.reset();
     takeForm.dataset.mode = mode;
-    document.getElementById("idTake").readOnly = mode === "edit";
 
-    // Fetch and populate course options
+    // List of selection for 'course' label
     const courseSelect = document.getElementById("course");
     courseSelect.innerHTML = '<option value="" disabled selected>Select a course</option>'; // Reset options
     const courses = await fetchCoursesForSelection();
@@ -87,11 +86,12 @@ async function openModal(mode = "create", take = {}) {
     });
 
     if (mode === "edit") {
+        // Store idTake in form dataset
+        takeForm.dataset.idTake = take.idTake;
         // Update modal title and button
         document.getElementById("modalTitle").innerText = "Edit Take";
         document.getElementById("modalSubmitBtn").innerText = "Save";
         // Populate form fields
-        document.getElementById("idTake").value = take.idTake || "";
         document.getElementById("student").value = take.student?.id || "";
         document.getElementById("course").value = take.course?.idCourse || "";
         document.getElementById("status").value = take.status || "";
@@ -111,8 +111,8 @@ function closeModal() {
 async function handleFormSubmit(event) {
     event.preventDefault();
     const formData = new FormData(takeForm);
+    const mode = takeForm.dataset.mode;
     const data = {
-        idTake: formData.get("idTake"),
         student: { id: formData.get("student") },
         course: { idCourse: formData.get("course") },
         status: formData.get("status"),
@@ -120,7 +120,11 @@ async function handleFormSubmit(event) {
         grade: Number(formData.get("grade")),
     };
 
-    const mode = takeForm.dataset.mode;
+    if (mode === "edit") {
+        // Include idTake only in edit mode
+        data.idTake = Number(takeForm.dataset.idTake);
+    }
+
     const method = mode === "edit" ? "PUT" : "POST";
     const url = method === "PUT" ? `${apiUrl}/${data.idTake}` : apiUrl;
 

@@ -20,7 +20,7 @@ async function loadTeachers() {
         <td class="py-2 px-4">${teacher.idTeacher}</td>
         <td class="py-2 px-4">${teacher.email}</td>
         <td class="py-2 px-4">${teacher.name}</td>
-        <td class="py-2 px-4">${teacher.birthday}</td>
+        <td class="py-2 px-4">${teacher.birthday || ""}</td>
         <td class="py-2 px-4">
                 <button onclick="editTeacher('${teacher.idTeacher}')" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded mr-2">Edit</button>
                 <button onclick="deleteTeacher('${teacher.idTeacher}')" class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded">Delete</button>

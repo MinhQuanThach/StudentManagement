@@ -20,6 +20,6 @@ public class Industry {
     @Column(name = "year_number", nullable = false)
     private Double yearNumber;
 
-    @Column(name = "title", length = 50)
+    @Column(name = "title", length = 50, nullable = false)
     private String title;
 }

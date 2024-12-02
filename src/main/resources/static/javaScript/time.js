@@ -13,7 +13,7 @@ const searchTimeInput = document.getElementById("searchTimeInput");
 function createTimeRow(time) {
     return `
         <tr>
-            <td class="border-t py-2 px-4">${time.idTime}</td>
+            <td class="time-id-column">${time.idTime}</td>
             <td class="border-t py-2 px-4">${time.course.idCourse}</td>
             <td class="border-t py-2 px-4">${time.day}</td>
             <td class="border-t py-2 px-4">${time.startTime}</td>
@@ -57,9 +57,8 @@ async function fetchCoursesForSelection() {
 async function openModal(mode = "create", time = {}) {
     timeForm.reset();
     timeForm.dataset.mode = mode;
-    document.getElementById("idTime").readOnly = mode === "edit";
 
-    // Fetch and populate course options
+    // List of selection for 'course' label
     const courseSelect = document.getElementById("course");
     courseSelect.innerHTML = '<option value="" disabled selected>Select a course</option>'; // Reset options
     const courses = await fetchCoursesForSelection();
@@ -89,11 +88,12 @@ async function openModal(mode = "create", time = {}) {
     });
 
     if (mode === "edit") {
+        // Store idTime in form dataset
+        timeForm.dataset.idTime = time.idTime;
         // Update modal title and button
         document.getElementById("modalTitle").innerText = "Edit Time";
         document.getElementById("modalSubmitBtn").innerText = "Save";
         // Populate form fields
-        document.getElementById("idTime").value = time.idTime || "";
         document.getElementById("course").value = time.course?.idCourse || "";
         document.getElementById("day").value = time.day || "";
         document.getElementById("startTime").value = time.startTime || "";
@@ -113,8 +113,8 @@ function closeModal() {
 async function handleFormSubmit(event) {
     event.preventDefault();
     const formData = new FormData(timeForm);
+    const mode = timeForm.dataset.mode;
     const data = {
-        idTime: formData.get("idTime"),
         course: { idCourse: formData.get("course") },
         day: formData.get("day"),
         startTime: formData.get("startTime"),
@@ -122,7 +122,11 @@ async function handleFormSubmit(event) {
         roomNumber: formData.get("roomNumber"),
     };
 
-    const mode = timeForm.dataset.mode;
+    if (mode === "edit") {
+        // Include idTime only in edit mode
+        data.idTime = timeForm.dataset.idTime;
+    }
+
     const method = mode === "edit" ? "PUT" : "POST";
     const url = method === "PUT" ? `${apiUrl}/${data.idTime}` : apiUrl;
 

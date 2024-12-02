@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Manage Take | Admin Dashboard</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="/cssFile/takes.css">
 </head>
 
 <body class="flex h-screen bg-gray-100">
@@ -55,7 +56,7 @@
     <table class="min-w-full bg-white border border-gray-200">
         <thead>
         <tr>
-            <th class="text-left py-2 px-4">Take ID</th>
+            <th class="take-id-column">Take ID</th>
             <th class="text-left py-2 px-4">Student ID</th>
             <th class="text-left py-2 px-4">Course ID</th>
             <th class="text-left py-2 px-4">Status</th>
@@ -75,10 +76,6 @@
         <h2 id="modalTitle" class="text-xl font-bold mb-4">Create New Take</h2>
         <form id="takeForm">
             <div class="mb-4">
-                <label for="idTake" class="block text-gray-700">Take ID</label>
-                <input type="text" id="idTake" name="idTake" class="w-full border p-2 rounded" required readonly>
-            </div>
-            <div class="mb-4">
                 <label for="student" class="block text-gray-700">Student ID</label>
                 <input type="number" id="student" name="student" class="w-full border p-2 rounded" required>
             </div>
@@ -96,11 +93,11 @@
             </div>
             <div class="mb-4">
                 <label for="year" class="block text-gray-700">Year</label>
-                <input type="number" id="year" name="year" class="w-full border p-2 rounded" required>
+                <input type="number" id="year" name="year" class="w-full border p-2 rounded" >
             </div>
             <div class="mb-4">
                 <label for="grade" class="block text-gray-700">Grade</label>
-                <input type="text" id="grade" name="grade" class="w-full border p-2 rounded" required>
+                <input type="text" id="grade" name="grade" class="w-full border p-2 rounded" >
             </div>
             <div class="flex justify-end space-x-4">
                 <button type="button" id="closeModalBtn" class="bg-gray-300 hover:bg-gray-400 text-black py-2 px-4 rounded">Cancel</button>
