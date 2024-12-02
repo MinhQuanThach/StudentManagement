@@ -10,7 +10,15 @@ public interface StudentService {
 
     Optional<Student> getStudentById(Integer id);
 
-    public List<Student> searchStudents(String query);
+    List<Student> searchStudentsById(String query);
+
+    List<Student> searchStudentsByName(String query);
+
+    List<Student> searchStudentsByIndustry(String query);
+
+    List<Student> searchStudentsByIdClass(String query);
+
+    List<Student> searchStudents(String query);
 
     Student createStudent(Student student);
 

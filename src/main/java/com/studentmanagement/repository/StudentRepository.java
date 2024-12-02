@@ -18,6 +18,20 @@ public interface StudentRepository extends JpaRepository<Student, Integer> {
             "CAST(s.idClass AS string) LIKE %:query% OR " +
             "CAST(s.industry AS string) LIKE %:query%")
     List<Student> searchStudents(@Param("query") String query);
+
+    @Query("SELECT s FROM Student s WHERE CAST(s.id AS string) LIKE %:query%")
+    List<Student> findStudentsByIdContaining(@Param("query") String query);
+
+    @Query("SELECT s FROM Student s WHERE s.name LIKE %:query%")
+    List<Student> findStudentsByNameContaining(@Param("query") String query);
+
+    @Query("SELECT s FROM Student s WHERE s.industry.idIndustry LIKE %:query%")
+    List<Student> findStudentsByIndustryContaining(@Param("query") String query);
+
+    @Query("SELECT s FROM Student s WHERE s.idClass LIKE %:query%")
+    List<Student> findStudentsByIdClassContaining(@Param("query") String query);
+
+
 }
 
 

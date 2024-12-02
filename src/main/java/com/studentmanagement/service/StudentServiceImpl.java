@@ -27,6 +27,23 @@ public class StudentServiceImpl implements StudentService {
         return studentRepository.findById(id);
     }
 
+    public List<Student> searchStudentsById(String query) {
+        return studentRepository.findStudentsByIdContaining(query);
+    }
+
+    public List<Student> searchStudentsByName(String query) {
+        return studentRepository.findStudentsByNameContaining(query);
+    }
+
+    public List<Student> searchStudentsByIndustry(String query) {
+        return studentRepository.findStudentsByIndustryContaining(query);
+    }
+
+    public List<Student> searchStudentsByIdClass(String query) {
+        return studentRepository.findStudentsByIdClassContaining(query);
+    }
+
+
     @Override
     public List<Student> searchStudents(String query) {
         return studentRepository.searchStudents(query);

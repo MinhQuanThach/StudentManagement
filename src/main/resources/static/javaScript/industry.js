@@ -157,8 +157,8 @@ async function deleteIndustry(id) {
 // Search for a specific industry
 async function searchIndustry() {
     const industryId = searchIndustryInput.value.trim();
+    const selectIndustry = document.getElementById("filterIndustry").value;
     if (!industryId) return alert("Please enter an industry ID.");
-
     try {
         const response = await fetch(`${apiUrl}/${industryId}`);
         if (response.ok) {

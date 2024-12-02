@@ -27,13 +27,13 @@ public class StudentController {
         return studentService.getAllStudents();
     }
 
-    // Retrieve a specific student by ID
     @GetMapping("/{id}")
     public ResponseEntity<Student> getStudentById(@PathVariable Integer id) {
         return studentService.getStudentById(id)
                 .map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
+
 
     @GetMapping("/search")
     public ResponseEntity<List<Student>> searchStudents(@RequestParam("query") String query) {
@@ -43,6 +43,41 @@ public class StudentController {
         }
         return ResponseEntity.ok(students); // 200 OK kèm danh sách sinh viên
     }
+
+    @GetMapping("/find")
+    public ResponseEntity<List<Student>> findStudentsByQuery(
+            @RequestParam String filter, @RequestParam String query) {
+        List<Student> students;
+
+        if (filter == null || query == null || query.trim().isEmpty()) {
+            return ResponseEntity.badRequest().body(null);
+        }
+
+        switch (filter.toLowerCase()) {
+            case "id":
+                students = studentService.searchStudentsById(query);
+                break;
+            case "name":
+                students = studentService.searchStudentsByName(query);
+                break;
+            case "industry":
+                students = studentService.searchStudentsByIndustry(query);
+                break;
+            case "idclass":
+                students = studentService.searchStudentsByIdClass(query);
+                break;
+            default:
+                return ResponseEntity.badRequest().body(null);
+        }
+
+        if (students.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+
+        return ResponseEntity.ok(students);
+    }
+
+
 
     // Add a new student
     @PostMapping

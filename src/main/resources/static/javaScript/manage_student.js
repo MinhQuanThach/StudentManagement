@@ -1,48 +1,28 @@
-// Kiểm tra trạng thái đăng nhập một lần khi trang được tải
-// document.addEventListener("DOMContentLoaded", function() {
-//     checkLoginStatus(); // Kiểm tra trạng thái đăng nhập khi trang tải
-// });
-//
-// // Kiểm tra trạng thái đăng nhập (token)
-// function checkLoginStatus() {
-//     const token = localStorage.getItem("authToken"); // Lấy token từ localStorage
-//     if (!token) {
-//         window.location.href = 'index.html'; // Chuyển hướng đến trang đăng nhập nếu không có token
-//     }
-// }
 
-// Gửi yêu cầu tìm kiếm tới backend
 async function searchStudents() {
-    // Lấy giá trị từ ô input
-    const query = document.getElementById("email").value.trim();
+    const query = document.getElementById("email").value.trim(); // Lấy giá trị từ ô tìm kiếm
+    const filter = document.getElementById("filterSelect").value; // Lấy giá trị từ ô chọn filter
 
     if (!query) {
-        alert("Please enter a search term."); // Thông báo nếu người dùng chưa nhập từ khóa
+        alert("Please enter a search term.");
         return;
     }
-
     try {
-        // Gửi yêu cầu GET tới API
-        const response = await fetch(`/students/search?query=${encodeURIComponent(query)}`);
+        const response = await fetch(`/students/find?filter=${encodeURIComponent(filter)}&query=${encodeURIComponent(query)}`);
 
         if (!response.ok) {
             throw new Error("Failed to fetch students");
         }
 
-        // Nhận dữ liệu từ backend
         const students = await response.json();
 
-        // Kiểm tra nếu không có dữ liệu trả về
         if (!Array.isArray(students) || students.length === 0) {
             alert("No students found matching the search criteria.");
             return;
         }
 
-        // Xóa các hàng hiện tại trong bảng
         const tbody = document.querySelector("tbody");
         tbody.innerHTML = "";
-
-        // Thêm dữ liệu mới vào bảng
         students.forEach(student => {
             const row = `
                 <tr>
@@ -73,6 +53,7 @@ async function searchStudents() {
         alert("Failed to fetch students. Please try again later.");
     }
 }
+
 
 function editStudent(studentId) {
 
@@ -207,10 +188,10 @@ document.getElementById("email").addEventListener("keypress", event => {
 // Hàm để hiển thị tất cả sinh viên
 async function fetchAllStudents() {
     try {
-        const response = await fetch('/students');
+        const response = await fetch('http://localhost:8080/students');
 
         if (!response.ok) {
-            throw new Error("Failed to fetch students");
+            throw new Error("Failed to load Student. Please try again!");
         }
 
         const students = await response.json();
