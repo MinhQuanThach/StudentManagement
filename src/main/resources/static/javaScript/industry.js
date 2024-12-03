@@ -172,44 +172,6 @@ async function searchIndustry() {
         alert("An error occurred while searching for the industry.");
     }
 }
-async function searchIndustries() {
-    const filter = document.getElementById("filterSelect").value;
-    const query = document.getElementById("searchQuery").value.trim();
-
-    if (!query) {
-        alert("Please enter a search query.");
-        return;
-    }
-
-    try {
-        const response = await fetch(`/industries/find?filter=${filter}&query=${encodeURIComponent(query)}`);
-        if (!response.ok) {
-            throw new Error("Failed to fetch industries");
-        }
-
-        const industries = await response.json();
-
-        const tableBody = document.getElementById("industryTable");
-        tableBody.innerHTML = "";
-
-        industries.forEach(industry => {
-            const row = `
-                <tr>
-                    <td class="py-2 px-4 border">${industry.id}</td>
-                    <td class="py-2 px-4 border">${industry.name}</td>
-                    <td class="py-2 px-4 border">
-                        <button class="bg-green-500 text-white px-2 py-1 rounded" onclick="editIndustry(${industry.id})">Edit</button>
-                        <button class="bg-red-500 text-white px-2 py-1 rounded" onclick="deleteIndustry(${industry.id})">Delete</button>
-                    </td>
-                </tr>
-            `;
-            tableBody.insertAdjacentHTML("beforeend", row);
-        });
-    } catch (error) {
-        console.error("Error fetching industries:", error);
-    }
-}
-
 
 // Event listeners
 openModalBtn.addEventListener("click", () => openModal());

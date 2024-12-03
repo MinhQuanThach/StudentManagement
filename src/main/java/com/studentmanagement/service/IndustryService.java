@@ -15,7 +15,4 @@ public interface IndustryService {
     Industry updateIndustry(String idIndustry, Industry updatedIndustry);
 
     void deleteIndustry(String idIndustry);
-
-    // Thêm phương thức filter
-    List<Industry> filterIndustries(String filter, String query);
 }
