@@ -147,7 +147,7 @@ async function deleteStudent(studentId) {
     if (confirmDelete) {
         try {
             // Gửi yêu cầu DELETE tới API
-            const response = await fetch(`/api/students/${studentId}`, {
+            const response = await fetch(`http://localhost:8080/students/students/${studentId}`, {
                 method: 'DELETE',
             });
 

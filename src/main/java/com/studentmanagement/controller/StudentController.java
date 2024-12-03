@@ -100,7 +100,7 @@ public class StudentController {
     }
 
     // Delete a student by ID
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/students/{id}")
     public ResponseEntity<Void> deleteStudent(@PathVariable Integer id) {
         if (studentService.getStudentById(id).isPresent()) {
             studentService.deleteStudent(id);
