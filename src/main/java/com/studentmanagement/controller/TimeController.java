@@ -1,5 +1,6 @@
 package com.studentmanagement.controller;
 
+import com.studentmanagement.model.Teacher;
 import com.studentmanagement.model.Time;
 import com.studentmanagement.service.TimeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,18 @@ public class TimeController {
         Optional<Time> time = timeService.getTimeById(idTime);
         return time.map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<Time>> searchTimes(
+            @RequestParam("type") String type,
+            @RequestParam("query") String query) {
+        try {
+            List<Time> times = timeService.searchTimes(type, query);
+            return ResponseEntity.ok(times);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(null); // Return 400 if the search type is invalid
+        }
     }
 
     @PostMapping

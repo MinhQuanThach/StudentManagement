@@ -206,40 +206,48 @@ function closeModal() {
 }
 
 async function searchTeacher() {
-    const teacherID = document.getElementById("searchIndustryInput").value.trim();
-    if (!teacherID) return alert("Please enter a teacher ID.");
+    const query = document.getElementById("searchIndustryInput").value.trim();
+    const selectTeacher = document.getElementById("filterSelectTeacher").value;
+
+    if (!query) return alert("Please enter a search value.");
 
     try {
-        const response = await fetch(`http://localhost:8080/teachers/${teacherID}`);
-        if (response.ok) {
-            const teacher = await response.json();
+        const response = await fetch(`http://localhost:8080/teachers/search?type=${selectTeacher}&query=${encodeURIComponent(query)}`);
 
-            // Lấy bảng teacherTable
+        if (response.ok) {
+            const teachers = await response.json();
+
             const teacherTable = document.getElementById("teacherTable");
 
-            // Xóa các kết quả tìm kiếm cũ (nếu cần)
             teacherTable.innerHTML = "";
 
-            // Tạo một hàng mới cho giáo viên được tìm thấy
-            const row = document.createElement("tr");
-            row.innerHTML = `
-                <td class="py-2 px-4">${teacher.idTeacher}</td>
-                <td class="py-2 px-4">${teacher.email}</td>
-                <td class="py-2 px-4">${teacher.name}</td>
-                <td class="py-2 px-4">${teacher.birthday}</td>
-                <td class="py-2 px-4">
-                    <button class="bg-blue-500 hover:bg-blue-700 text-white py-1 px-3 rounded" onclick="editTeacher('${teacher.idTeacher}')">Edit</button>
-                    <button class="bg-red-500 hover:bg-red-700 text-white py-1 px-3 rounded" onclick="deleteTeacher('${teacher.idTeacher}')">Delete</button>
-                </td>
-            `;
-            teacherTable.appendChild(row);
+            if (teachers.length === 0) {
+                teacherTable.innerHTML = `<tr><td colspan="5" class="text-center py-4">No teachers found.</td></tr>`;
+                return;
+            }
+
+            teachers.forEach(teacher => {
+                const row = document.createElement("tr");
+                row.innerHTML = `
+                    <td class="py-2 px-4">${teacher.idTeacher}</td>
+                    <td class="py-2 px-4">${teacher.email}</td>
+                    <td class="py-2 px-4">${teacher.name}</td>
+                    <td class="py-2 px-4">${teacher.birthday}</td>
+                    <td class="py-2 px-4">
+                        <button class="bg-blue-500 hover:bg-blue-700 text-white py-1 px-3 rounded" onclick="editTeacher('${teacher.idTeacher}')">Edit</button>
+                        <button class="bg-red-500 hover:bg-red-700 text-white py-1 px-3 rounded" onclick="deleteTeacher('${teacher.idTeacher}')">Delete</button>
+                    </td>
+                `;
+                teacherTable.appendChild(row);
+            });
         } else {
-            alert(`Teacher with ID "${teacherID}" not found.`);
+            alert(`Error: ${response.statusText}`);
         }
     } catch (error) {
         console.error("Error searching for teacher:", error);
     }
 }
+
 
 
 document.addEventListener('DOMContentLoaded', loadTeachers);

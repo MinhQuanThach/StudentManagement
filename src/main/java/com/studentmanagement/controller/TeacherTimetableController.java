@@ -26,4 +26,6 @@ public class TeacherTimetableController {
         }
         return ResponseEntity.ok(timetable);
     }
+
+
 }
