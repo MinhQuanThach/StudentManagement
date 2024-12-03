@@ -107,14 +107,6 @@ cho quản lý để đăng nhập.
 - clone code về và mở bằng Intellij
 **Môi trường liên kết cơ sở dự liệu:** MySQL WorkBench hoặc Xampp
 - chạy file .sql trong MySQL WorkBench để tải về cơ sở dữ liệu mẫu
-table               | Mục đích                      | Nơi nhập
-------------------- | ----------------------------- | ---------------------------------
-student             | Lưu trữ danh sách sinh viên   | Quản lý CSDL/Danh sách CVHT
-users_student.csv   | Danh sách tài khoản SV        | Quản lý CSDL/Danh sách sinh viên
-semesters.csv       | Danh sách kỳ học              | Quản lý CSDL/Danh sách kì học
-subjects.csv        | Danh sách môn học             | Quản lý CSDL/Danh sách môn học
-*_score.csv         | Điểm các môn do PĐT cung cấp  | Quản lý CSDL/Cập nhật bảng điểm
-*_classmember.csv   | List email SV add từng lớp    | Thông tin liên hệ/Thêm sinh viên
 
 ### 2. Kiểm thử
 
