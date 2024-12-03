@@ -196,10 +196,12 @@ async function searchTake() {
             const takes = await response.json();
             const takeTable = document.getElementById("takeTable");
             takeTable.innerHTML = "";
+
             if (takes.length === 0) {
                 takeTable.innerHTML = `<tr><td colspan="5" class="text-center py-4">No takes found.</td></tr>`;
                 return;
             }
+
             takes.forEach(take => {
                 const row = document.createElement("tr");
                 row.innerHTML = `

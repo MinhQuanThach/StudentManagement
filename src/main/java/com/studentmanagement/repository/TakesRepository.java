@@ -25,4 +25,5 @@ public interface TakesRepository extends JpaRepository<Takes, Integer> {
 
     @Query("SELECT t FROM Takes t WHERE CAST(t.grade AS string) LIKE %:grade%")
     List<Takes> findTakesByGradeContaining(@Param("grade") String grade);
+
 }

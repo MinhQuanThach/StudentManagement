@@ -185,6 +185,7 @@ async function deleteTime(id) {
 }
 
 // Search for a specific time
+// Search for a specific time
 async function searchTime() {
     const query = document.getElementById("searchTimeInput").value.trim();
     const selectTime = document.getElementById("filterTime").value;
@@ -201,11 +202,13 @@ async function searchTime() {
             const times = await response.json();
             // Clear the table before rendering search results
             timeTable.innerHTML = "";
+
             // If no results found, display a message
             if (times.length === 0) {
                 timeTable.innerHTML = `<tr><td colspan="7" class="text-center py-4">No times found.</td></tr>`;
                 return;
             }
+
             // Render the search results
             times.forEach(time => {
                 const row = document.createElement("tr");
