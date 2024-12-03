@@ -83,7 +83,6 @@ cho quản lý để đăng nhập.
 
 ## Cơ sở dữ liệu
 
-- Bao gồm 7 bảng
 | Table   | Mục đích                                                        |
 |---------|-----------------------------------------------------------------|
 | student | Lưu trữ danh sách sinh viên                                      |
@@ -93,6 +92,7 @@ cho quản lý để đăng nhập.
 | take    | Thao tác liên quan đến sinh viên (học phần, điểm số)            |
 | time    | Thời gian, địa điểm cho một course                              |
 | course  | Lưu trữ thông tin các khoá học                                  |
+
 
 
 
