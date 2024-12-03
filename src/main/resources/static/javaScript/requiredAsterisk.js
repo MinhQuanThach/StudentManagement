@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", () => {
         // Select all required inputs within the form
         const form = document.getElementById(formId);
         if (form) {
-            const requiredInputs = form.querySelectorAll("input[required]");
+            const requiredInputs = form.querySelectorAll("input[required], select[required]");
             requiredInputs.forEach(input => {
                 const label = input.previousElementSibling; // Get the associated label
                 if (label && !label.querySelector(".required-asterisk")) {
