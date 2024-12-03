@@ -31,6 +31,18 @@ public class TeacherController {
                 .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
 
+    @GetMapping("/search")
+    public ResponseEntity<List<Teacher>> searchTeachers(
+            @RequestParam("type") String type,
+            @RequestParam("query") String query) {
+        try {
+            List<Teacher> teachers = teacherService.searchTeachers(type, query);
+            return ResponseEntity.ok(teachers);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(null); // Return 400 if the search type is invalid
+        }
+    }
+
     @PostMapping
     public ResponseEntity<Teacher> createTeacher(@RequestBody Teacher teacher) {
         Teacher createdTeacher = teacherService.createTeacher(teacher);

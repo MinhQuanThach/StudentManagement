@@ -28,6 +28,36 @@ public class TakesServiceImpl implements TakesService {
     }
 
     @Override
+    public List<Takes> findTakesByIdTake(String idTake) {
+        return takesRepository.findTakesByIdTakeContaining(idTake);
+    }
+
+    @Override
+    public List<Takes> findTakesByStudentId(String idStudent) {
+        return takesRepository.findTakesByStudentIdContaining(idStudent);
+    }
+
+    @Override
+    public List<Takes> findTakesByCourseId(String idCourse) {
+        return takesRepository.findTakesByCourseIdContaining(idCourse);
+    }
+
+    @Override
+    public List<Takes> findTakesByStatus(String status) {
+        return takesRepository.findTakesByStatusContaining(status);
+    }
+
+    @Override
+    public List<Takes> findTakesByYear(String year) {
+        return takesRepository.findTakesByYearContaining(year);
+    }
+
+    @Override
+    public List<Takes> findTakesByGrade(String grade) {
+        return takesRepository.findTakesByGradeContaining(grade);
+    }
+
+    @Override
     public Takes createTakes(Takes takes) {
         return takesRepository.save(takes);
     }

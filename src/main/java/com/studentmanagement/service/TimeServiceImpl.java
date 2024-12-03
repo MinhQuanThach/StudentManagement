@@ -1,5 +1,6 @@
 package com.studentmanagement.service;
 
+import com.studentmanagement.model.Teacher;
 import com.studentmanagement.model.Time;
 import com.studentmanagement.repository.TimeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,24 @@ public class TimeServiceImpl implements TimeService {
     @Override
     public Optional<Time> getTimeById(Integer idTime) {
         return timeRepository.findById(idTime);
+    }
+
+    @Override
+    public List<Time> searchTimes(String type, String query) {
+        switch (type.toLowerCase()) {
+            case "course":
+                return timeRepository.findTimesByCourseIdContaining(query);
+            case "day":
+                return timeRepository.findTimesByDayContaining(query);
+            case "starttime":
+                return timeRepository.findTimesByStartTimeContaining(query);
+            case "endtime":
+                return timeRepository.findTimesByEndTimeContaining(query);
+            case "roomnumber":
+                return timeRepository.findTimesByRoomNumberContaining(query);
+            default:
+                throw new IllegalArgumentException("Invalid search type:ooo " + type);
+        }
     }
 
     @Override

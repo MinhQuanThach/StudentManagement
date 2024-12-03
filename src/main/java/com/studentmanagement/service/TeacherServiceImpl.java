@@ -28,6 +28,22 @@ public class TeacherServiceImpl implements TeacherService {
     }
 
     @Override
+    public List<Teacher> searchTeachers(String type, String query) {
+        switch (type.toLowerCase()) {
+            case "id":
+                return teacherRepository.findTeachersByIdContaining(query);
+            case "industry":
+                return teacherRepository.findTeachersByNameContaining(query);
+            case "idclass":
+                return teacherRepository.findTeachersByBirthdayContaining(query);
+            case "name":
+                return teacherRepository.findTeachersByEmailContaining(query);
+            default:
+                throw new IllegalArgumentException("Invalid search type: " + type);
+        }
+    }
+
+    @Override
     public Teacher createTeacher(Teacher teacher) {
         return teacherRepository.save(teacher);
     }

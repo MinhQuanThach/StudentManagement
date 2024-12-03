@@ -184,20 +184,43 @@ async function deleteTake(id) {
 
 // Search for a specific take
 async function searchTake() {
-    const takeId = searchTakeInput.value.trim();
-    if (!takeId) return alert("Please enter a take ID.");
+    const query = searchTakeInput.value.trim();
+    const selectTake = document.getElementById("filterTake").value;
+
+    if (!query) return alert("Please enter a search value.");
 
     try {
-        const response = await fetch(`${apiUrl}/${takeId}`);
+        const response = await fetch(`http://localhost:8080/takes/search?filter=${selectTake}&query=${encodeURIComponent(query)}`);
+
         if (response.ok) {
-            const take = await response.json();
-            takeTable.innerHTML = createTakeRow(take);
+            const takes = await response.json();
+            const takeTable = document.getElementById("takeTable");
+            takeTable.innerHTML = "";
+            if (takes.length === 0) {
+                takeTable.innerHTML = `<tr><td colspan="5" class="text-center py-4">No takes found.</td></tr>`;
+                return;
+            }
+            takes.forEach(take => {
+                const row = document.createElement("tr");
+                row.innerHTML = `
+                    <td class="py-2 px-4">${take.idTake}</td>
+                    <td class="py-2 px-4">${take.student.id}</td>
+                    <td class="py-2 px-4">${take.course.idCourse}</td>
+                    <td class="py-2 px-4">${take.status}</td>
+                    <td class="py-2 px-4">${take.year}</td>
+                    <td class="py-2 px-4">${take.grade}</td>
+                    <td class="py-2 px-4">
+                        <button class="bg-blue-500 hover:bg-blue-700 text-white py-1 px-3 rounded" onclick="editTake('${take.idTake}')">Edit</button>
+                        <button class="bg-red-500 hover:bg-red-700 text-white py-1 px-3 rounded" onclick="deleteTake('${take.idTake}')">Delete</button>
+                    </td>
+                `;
+                takeTable.appendChild(row);
+            });
         } else {
-            alert(`Take with ID "${takeId}" not found.`);
+            alert(`Error: ${response.statusText}`);
         }
     } catch (error) {
         console.error("Error searching for take:", error);
-        alert("An error occurred while searching for the take.");
     }
 }
 
@@ -206,6 +229,12 @@ openModalBtn.addEventListener("click", () => openModal());
 closeModalBtn.addEventListener("click", closeModal);
 takeForm.addEventListener("submit", handleFormSubmit);
 searchTakeBtn.addEventListener("click", searchTake);
+
+searchTakeInput.addEventListener("keypress", function(event) {
+    if (event.key === "Enter") {
+        searchTake();
+    }
+});
 
 // Initial fetch
 fetchTakes();
