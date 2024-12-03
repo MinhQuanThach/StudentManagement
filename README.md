@@ -81,7 +81,7 @@ cho quản lý để đăng nhập.
 
 **Ngôn ngữ**: JavaScript, HTML, CSS
 
-## cơ sở dữ liệu
+## Cơ sở dữ liệu
 
 - Bao gồm 7 bảng
 table               | Mục đích                    
