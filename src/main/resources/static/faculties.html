@@ -30,7 +30,7 @@
     <div class="flex flex-row justify-between items-center mb-6">
         <h2 class="text-2xl font-semibold">Faculties</h2>
         <div class="flex items-center space-x-4">
-            <input type="text" id="searchFacultyInput" placeholder="Search by ID..."
+            <input type="text" id="searchFacultyInput" placeholder="Search by ..."
                    class="p-2 border rounded-md w-64">
             <button id="searchFacultyBtn" class="bg-gray-300 hover:bg-gray-400 text-black font-bold py-2 px-4 rounded">Search</button>
             <button id="openModalBtn" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
@@ -42,6 +42,13 @@
     <div id="searchResult" class="mt-6">
         <!-- Search results will be displayed here -->
     </div>
+
+    <select id="filterFaculty" class="p-1 border outline-none hover:border-slate-400 rounded-md text-sm w-28">
+        <option value="idFaculty">Faculty ID</option>
+        <option value="title">Title</option>
+        <option value="numberTeacher">Number Teacher</option>
+        <option value="numberStudent">Number Student</option>
+    </select>
 
     <table class="min-w-full bg-white border border-gray-200">
         <thead>

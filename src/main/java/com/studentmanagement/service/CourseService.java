@@ -8,6 +8,10 @@ import java.util.Optional;
 public interface CourseService {
     List<Course> getAllCourses();
     Optional<Course> getCourseById(String idCourse);
+    List<Course> searchByIdCourse(String idCourse);
+    List<Course> searchByTeacherId(String idTeacher);
+    List<Course> searchByCredits(String credits);
+    List<Course> searchByTitle(String title);
     Course createCourse(Course course);
     Course updateCourse(String idCourse, Course updatedCourse);
     void deleteCourse(String idCourse);

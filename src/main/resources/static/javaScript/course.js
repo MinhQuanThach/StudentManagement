@@ -28,7 +28,7 @@ function createCourseRow(course) {
 // Fetch and display courses
 async function fetchCourses() {
     try {
-        const response = await fetch(apiUrl);
+        const response = await fetch('http://localhost:8080/courses');
         if (!response.ok) throw new Error("Failed to fetch courses.");
         const courses = await response.json();
 
@@ -132,20 +132,48 @@ async function deleteCourse(id) {
 
 // Search for a specific course
 async function searchCourse() {
-    const courseId = searchCourseInput.value.trim();
-    if (!courseId) return alert("Please enter an course ID.");
+    const query = searchCourseInput.value.trim();
+    const selectCourse = document.getElementById("filterCourse").value;
+
+    if (!query) {
+        fetchCourses();
+        return alert("Please enter a search value.");
+    }
 
     try {
-        const response = await fetch(`${apiUrl}/${courseId}`);
+        const response = await fetch(`http://localhost:8080/courses/search?filter=${selectCourse}&query=${encodeURIComponent(query)}`);
+
         if (response.ok) {
-            const course = await response.json();
-            courseTable.innerHTML = createCourseRow(course);
+            const courses = await response.json();
+
+            const courseTable = document.getElementById("courseTable");
+
+            courseTable.innerHTML = "";
+
+            if (courses.length === 0) {
+                courseTable.innerHTML = `<tr><td colspan="5" class="text-center py-4">No courses found.</td></tr>`;
+                return;
+            }
+
+            courses.forEach(course => {
+                const row = document.createElement("tr");
+                row.innerHTML = `
+                    <td class="py-2 px-4">${course.idCourse}</td>
+                    <td class="py-2 px-4">${course.teacher.idTeacher}</td>
+                    <td class="py-2 px-4">${course.credits}</td>
+                    <td class="py-2 px-4">${course.title}</td>
+                    <td class="py-2 px-4">
+                        <button class="bg-blue-500 hover:bg-blue-700 text-white py-1 px-3 rounded" onclick="editCourse('${course.idCourse}')">Edit</button>
+                        <button class="bg-red-500 hover:bg-red-700 text-white py-1 px-3 rounded" onclick="deleteCourse('${course.idCourse}')">Delete</button>
+                    </td>
+                `;
+                courseTable.appendChild(row);
+            });
         } else {
-            alert(`Course with ID "${courseId}" not found.`);
+            alert(`Error: ${response.statusText}`);
         }
     } catch (error) {
         console.error("Error searching for course:", error);
-        alert("An error occurred while searching for the course.");
     }
 }
 
@@ -154,6 +182,11 @@ openModalBtn.addEventListener("click", () => openModal());
 closeModalBtn.addEventListener("click", closeModal);
 courseForm.addEventListener("submit", handleFormSubmit);
 searchCourseBtn.addEventListener("click", searchCourse);
+searchCourseInput.addEventListener("keypress", function(event) {
+    if (event.key === "Enter") {
+        searchCourse();
+    }
+});
 
 // Initial fetch
 fetchCourses();

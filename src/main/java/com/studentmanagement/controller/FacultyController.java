@@ -1,5 +1,6 @@
 package com.studentmanagement.controller;
 
+import com.studentmanagement.model.Course;
 import com.studentmanagement.model.Faculty;
 import com.studentmanagement.service.FacultyService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,39 @@ public class FacultyController {
         return facultyService.getFacultyById(idFaculty)
                 .map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<Faculty>> searchCourseByQuery(
+            @RequestParam String filter, @RequestParam String query) {
+        List<Faculty> faculty;
+
+        if (filter == null || query == null || query.trim().isEmpty()) {
+            return ResponseEntity.badRequest().body(null);
+        }
+
+        switch (filter.toLowerCase()) {
+            case "idfaculty":
+                faculty = facultyService.searchByIdFaculty(query);
+                break;
+            case "title":
+                faculty = facultyService.searchByTitle(query);
+                break;
+            case "numberteacher":
+                faculty = facultyService.searchByNumberTeacher(query);
+                break;
+            case "numberstudent":
+                faculty = facultyService.searchByNumberStudent(query);
+                break;
+            default:
+                return ResponseEntity.badRequest().body(null);
+        }
+
+        if (faculty.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+
+        return ResponseEntity.ok(faculty);
     }
 
     // Add a new faculty

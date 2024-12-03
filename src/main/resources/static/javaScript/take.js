@@ -207,7 +207,6 @@ async function searchTake() {
             takes.forEach(take => {
                 const row = document.createElement("tr");
                 row.innerHTML = `
-                    <td class="py-2 px-4">${take.idTake}</td>
                     <td class="py-2 px-4">${take.student.id}</td>
                     <td class="py-2 px-4">${take.course.idCourse}</td>
                     <td class="py-2 px-4">${take.status}</td>

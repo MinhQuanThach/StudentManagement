@@ -1,5 +1,6 @@
 package com.studentmanagement.controller;
 
+import com.studentmanagement.model.Course;
 import com.studentmanagement.model.Industry;
 import com.studentmanagement.service.IndustryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,39 @@ public class IndustryController {
         return industryService.getIndustryById(idIndustry)
                 .map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<Industry>> searchIndustryByQuery(
+            @RequestParam String filter, @RequestParam String query) {
+        List<Industry> industries;
+
+        if (filter == null || query == null || query.trim().isEmpty()) {
+            return ResponseEntity.badRequest().body(null);
+        }
+
+        switch (filter.toLowerCase()) {
+            case "idindustry":
+                industries = industryService.searchByIdIndustry(query);
+                break;
+            case "idfaculty":
+                industries = industryService.searchByFacultyId(query);
+                break;
+            case "year":
+                industries = industryService.searchByYearNumber(query);
+                break;
+            case "title":
+                industries = industryService.searchByTitle(query);
+                break;
+            default:
+                return ResponseEntity.badRequest().body(null);
+        }
+
+        if (industries.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+
+        return ResponseEntity.ok(industries);
     }
 
     // Add a new industry

@@ -43,9 +43,6 @@ public class TakesController {
         }
 
         switch (filter.toLowerCase()) {
-            case "id":
-                takes = takesService.findTakesByIdTake(query);
-                break;
             case "idstudent":
                 takes = takesService.findTakesByStudentId(query);
                 break;

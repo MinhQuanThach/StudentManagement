@@ -10,6 +10,14 @@ public interface IndustryService {
 
     Optional<Industry> getIndustryById(String idIndustry);
 
+    List<Industry> searchByIdIndustry(String idIndustry);
+
+    List<Industry> searchByFacultyId(String idFaculty);
+
+    List<Industry> searchByYearNumber(String yearNumber);
+
+    List<Industry> searchByTitle(String title);
+
     Industry createIndustry(Industry industry);
 
     Industry updateIndustry(String idIndustry, Industry updatedIndustry);

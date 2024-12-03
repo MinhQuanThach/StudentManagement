@@ -29,6 +29,26 @@ public class IndustryServiceImpl implements IndustryService {
     }
 
     @Override
+    public List<Industry> searchByIdIndustry(String idIndustry) {
+        return industryRepository.findByIdIndustryContaining(idIndustry);
+    }
+
+    @Override
+    public List<Industry> searchByFacultyId(String idFaculty) {
+        return industryRepository.findByFacultyIdContaining(idFaculty);
+    }
+
+    @Override
+    public List<Industry> searchByYearNumber(String yearNumber) {
+        return industryRepository.findByYearNumber(yearNumber);
+    }
+
+    @Override
+    public List<Industry> searchByTitle(String title) {
+        return industryRepository.findByTitleContaining(title);
+    }
+
+    @Override
     public Industry createIndustry(Industry industry) {
         return industryRepository.save(industry);
     }
