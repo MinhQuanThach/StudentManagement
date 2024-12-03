@@ -86,13 +86,14 @@ cho quản lý để đăng nhập.
 - Bao gồm 7 bảng
 | Table   | Mục đích                                                        |
 |---------|-----------------------------------------------------------------|
-| student | Lưu trữ danh sách sinh viên                                     |
+| student | Lưu trữ danh sách sinh viên                                      |
 | industry| Một trường thông tin liên quan đến sinh viên                    |
 | faculty | Một trường thông tin liên quan đến sinh viên                    |
 | teacher | Lưu trữ danh sách giảng viên                                    |
 | take    | Thao tác liên quan đến sinh viên (học phần, điểm số)            |
 | time    | Thời gian, địa điểm cho một course                              |
 | course  | Lưu trữ thông tin các khoá học                                  |
+
 
 
 ![image](https://github.com/user-attachments/assets/0a284c74-e28f-4063-abad-d8decc2d8980)
