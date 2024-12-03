@@ -6,6 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Manage Faculties | Admin Dashboard</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Thêm dấu * màu đỏ cho các trường bắt buộc */
+        .required::after {
+            content: " *";
+            color: red;
+        }
+    </style>
 </head>
 
 <body class="flex h-screen bg-gray-100">
@@ -59,16 +66,17 @@
     </table>
 </div>
 
+<!-- Modal for Adding New Faculty -->
 <div id="facultyModal" class="hidden fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center">
     <div class="bg-white p-6 rounded-lg shadow-lg w-1/3">
         <h2 id="modalTitle" class="text-xl font-bold mb-4">Create New Faculty</h2>
         <form id="facultyForm">
             <div class="mb-4">
-                <label for="idFaculty" class="block text-gray-700">Faculty ID</label>
+                <label for="idFaculty" class="block text-gray-700 required">Faculty ID</label>
                 <input type="text" id="idFaculty" name="idFaculty" class="w-full border p-2 rounded" required readonly>
             </div>
             <div class="mb-4">
-                <label for="title" class="block text-gray-700">Title</label>
+                <label for="title" class="block text-gray-700 required">Title</label>
                 <input type="text" id="title" name="title" class="w-full border p-2 rounded" required>
             </div>
             <div class="mb-4">
