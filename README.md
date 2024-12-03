@@ -13,11 +13,11 @@
 ### Mục lục 
 
 [1. Giới thiệu](#giới-thiệu)  
-[2. Tính năng](https://github.com/MinhQuanThach/Student-Management#tính-năng)  
-[3. Công nghệ](https://github.com/MinhQuanThach/Student-Management#công-nghệ)  
-[4. Cơ sở dữ liệu](https://github.com/MinhQuanThach/Student-Management#cơ-sở-dữ-liêu)  
-[5. Cách cài đặt](https://github.com/MinhQuanThach/Student-Management#cài-đặt)  
-[6. Nhóm phát triển](https://github.com/MinhQuanThach/Student-Management#nhóm-phát-triển)
+[2. Tính năng](#tính-năng)  
+[3. Công nghệ](#công-nghệ)  
+[4. Cơ sở dữ liệu](#cơ-sở-dữ-liêu)  
+[5. Cách cài đặt](#cài-đặt)  
+[6. Thành viên nhóm](#thành-viên-nhóm)
 
 ## Giới thiệu
 
@@ -122,7 +122,7 @@ subjects.csv        | Danh sách môn học             | Quản lý CSDL/Danh s
 - **mật khẩu:** admin
 
 
-## Nhóm phát triển
+## Thành viên nhóm
 
 
 
