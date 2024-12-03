@@ -28,6 +28,26 @@ public class FacultyServiceImpl implements FacultyService {
     }
 
     @Override
+    public List<Faculty> searchByIdFaculty(String idFaculty) {
+        return facultyRepository.findByIdFacultyContaining(idFaculty);
+    }
+
+    @Override
+    public List<Faculty> searchByTitle(String title) {
+        return facultyRepository.findByTitleContaining(title);
+    }
+
+    @Override
+    public List<Faculty> searchByNumberTeacher(String numberTeacher) {
+        return facultyRepository.findByNumberTeacher(numberTeacher);
+    }
+
+    @Override
+    public List<Faculty> searchByNumberStudent(String numberStudent) {
+        return facultyRepository.findByNumberStudent(numberStudent);
+    }
+
+    @Override
     public Faculty createFaculty(Faculty faculty) {
         return facultyRepository.save(faculty);
     }

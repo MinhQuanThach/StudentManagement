@@ -28,6 +28,25 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
+    public List<Course> searchByIdCourse(String idCourse) {
+        return courseRepository.findByIdCourseContaining(idCourse);
+    }
+
+    @Override
+    public List<Course> searchByTeacherId(String idTeacher) {
+        return courseRepository.findByTeacherIdContaining(idTeacher);
+    }
+
+    @Override
+    public List<Course> searchByCredits(String credits) {
+        return courseRepository.findByCredits(credits);
+    }
+
+    @Override
+    public List<Course> searchByTitle(String title) {
+        return courseRepository.findByTitleContaining(title);
+    }
+    @Override
     public Course createCourse(Course course) {
         return courseRepository.save(course);
     }

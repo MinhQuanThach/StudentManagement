@@ -132,20 +132,48 @@ async function deleteFaculty(id) {
 
 // Search for a specific faculty
 async function searchFaculty() {
-    const facultyId = searchFacultyInput.value.trim();
-    if (!facultyId) return alert("Please enter an faculty ID.");
+    const query = searchFacultyInput.value.trim();
+    const selectFaculty = document.getElementById("filterFaculty").value;
+
+    if (!query) {
+        fetchFaculties();
+        return alert("Please enter a search value.");
+    }
 
     try {
-        const response = await fetch(`${apiUrl}/${facultyId}`);
+        const response = await fetch(`http://localhost:8080/faculties/search?filter=${selectFaculty}&query=${encodeURIComponent(query)}`);
+
         if (response.ok) {
-            const faculty = await response.json();
-            facultyTable.innerHTML = createFacultyRow(faculty);
+            const facultys = await response.json();
+
+            const facultyTable = document.getElementById("facultyTable");
+
+            facultyTable.innerHTML = "";
+
+            if (facultys.length === 0) {
+                facultyTable.innerHTML = `<tr><td colspan="5" class="text-center py-4">No Facultys found.</td></tr>`;
+                return;
+            }
+
+            facultys.forEach(faculty => {
+                const row = document.createElement("tr");
+                row.innerHTML = `
+                    <td class="py-2 px-4">${faculty.idFaculty}</td>
+                    <td class="py-2 px-4">${faculty.title}</td>
+                    <td class="py-2 px-4">${faculty.numberTeacher}</td>
+                    <td class="py-2 px-4">${faculty.numberStudent}</td>
+                    <td class="py-2 px-4">
+                        <button class="bg-blue-500 hover:bg-blue-700 text-white py-1 px-3 rounded" onclick="editFaculty('${faculty.idFaculty}')">Edit</button>
+                        <button class="bg-red-500 hover:bg-red-700 text-white py-1 px-3 rounded" onclick="deleteFaculty('${faculty.idFaculty}')">Delete</button>
+                    </td>
+                `;
+                facultyTable.appendChild(row);
+            });
         } else {
-            alert(`Faculty with ID "${facultyId}" not found.`);
+            alert(`Error: ${response.statusText}`);
         }
     } catch (error) {
         console.error("Error searching for faculty:", error);
-        alert("An error occurred while searching for the faculty.");
     }
 }
 
@@ -154,6 +182,12 @@ openModalBtn.addEventListener("click", () => openModal());
 closeModalBtn.addEventListener("click", closeModal);
 facultyForm.addEventListener("submit", handleFormSubmit);
 searchFacultyBtn.addEventListener("click", searchFaculty);
+
+searchFacultyInput.addEventListener("keypress", function(event) {
+    if (event.key === "Enter") {
+        searchFaculty();
+    }
+});
 
 // Initial fetch
 fetchFaculties();

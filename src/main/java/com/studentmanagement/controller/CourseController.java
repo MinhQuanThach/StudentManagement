@@ -1,6 +1,7 @@
 package com.studentmanagement.controller;
 
 import com.studentmanagement.model.Course;
+import com.studentmanagement.model.Takes;
 import com.studentmanagement.service.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -8,7 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
+////////////////////////
 @RestController
 @RequestMapping("/courses")
 public class CourseController {
@@ -29,6 +30,39 @@ public class CourseController {
         return courseService.getCourseById(idCourse)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<Course>> searchCourseByQuery(
+            @RequestParam String filter, @RequestParam String query) {
+        List<Course> course;
+
+        if (filter == null || query == null || query.trim().isEmpty()) {
+            return ResponseEntity.badRequest().body(null);
+        }
+
+        switch (filter.toLowerCase()) {
+            case "idcourse":
+                course = courseService.searchByIdCourse(query);
+                break;
+            case "idteacher":
+                course = courseService.searchByTeacherId(query);
+                break;
+            case "credits":
+                course = courseService.searchByCredits(query);
+                break;
+            case "title":
+                course = courseService.searchByTitle(query);
+                break;
+            default:
+                return ResponseEntity.badRequest().body(null);
+        }
+
+        if (course.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+
+        return ResponseEntity.ok(course);
     }
 
     @PostMapping

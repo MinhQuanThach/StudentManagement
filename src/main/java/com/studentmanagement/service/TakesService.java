@@ -7,10 +7,7 @@ import java.util.Optional;
 
 public interface TakesService {
     List<Takes> getAllTakes();
-
     Optional<Takes> getTakesById(Integer idTakes);
-
-    List<Takes> findTakesByIdTake(String idTake);
 
     List<Takes> findTakesByStudentId(String idStudent);
 

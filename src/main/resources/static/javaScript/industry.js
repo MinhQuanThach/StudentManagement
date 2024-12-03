@@ -28,7 +28,7 @@ function createIndustryRow(industry) {
 // Fetch and display industries
 async function fetchIndustries() {
     try {
-        const response = await fetch(apiUrl);
+        const response = await fetch('http://localhost:8080/industries');
         if (!response.ok) throw new Error("Failed to fetch industries.");
         const industries = await response.json();
 
@@ -156,20 +156,48 @@ async function deleteIndustry(id) {
 
 // Search for a specific industry
 async function searchIndustry() {
-    const industryId = searchIndustryInput.value.trim();
-    //const selectIndustry = document.getElementById("filterIndustry").value;
-    if (!industryId) return alert("Please enter an industry ID.");
+    const query = searchIndustryInput.value.trim();
+    const selectIndustry = document.getElementById("filterIndustry").value;
+
+    if (!query) {
+        fetchIndustries();
+        return alert("Please enter a search value.");
+    }
+
     try {
-        const response = await fetch(`${apiUrl}/${industryId}`);
+        const response = await fetch(`http://localhost:8080/industries/search?filter=${selectIndustry}&query=${encodeURIComponent(query)}`);
+
         if (response.ok) {
-            const industry = await response.json();
-            industryTable.innerHTML = createIndustryRow(industry);
+            const industrys = await response.json();
+
+            const courseIndustry = document.getElementById("industryTable");
+
+            industryTable.innerHTML = "";
+
+            if (industrys.length === 0) {
+                industryTable.innerHTML = `<tr><td colspan="5" class="text-center py-4">No industries found.</td></tr>`;
+                return;
+            }
+
+            industrys.forEach(industry => {
+                const row = document.createElement("tr");
+                row.innerHTML = `
+                    <td class="py-2 px-4">${industry.idIndustry}</td>
+                    <td class="py-2 px-4">${industry.faculty.idFaculty}</td>
+                    <td class="py-2 px-4">${industry.yearNumber}</td>
+                    <td class="py-2 px-4">${industry.title}</td>
+                    <td class="py-2 px-4">
+                        <button class="bg-blue-500 hover:bg-blue-700 text-white py-1 px-3 rounded" onclick="editIndustry('${industry.idIndustry}')">Edit</button>
+                        <button class="bg-red-500 hover:bg-red-700 text-white py-1 px-3 rounded" onclick="deleteIndustry('${industry.idIndustry}')">Delete</button>
+                    </td>
+                `;
+                industryTable.appendChild(row);
+            });
         } else {
-            alert(`Industry with ID "${industryId}" not found.`);
+            alert(`Error: ${response.statusText}`);
         }
     } catch (error) {
         console.error("Error searching for industry:", error);
-        alert("An error occurred while searching for the industry.");
     }
 }
 
@@ -178,6 +206,11 @@ openModalBtn.addEventListener("click", () => openModal());
 closeModalBtn.addEventListener("click", closeModal);
 industryForm.addEventListener("submit", handleFormSubmit);
 searchIndustryBtn.addEventListener("click", searchIndustry);
+searchIndustryInput.addEventListener("keypress", function(event) {
+    if (event.key === "Enter") {
+        searchIndustry();
+    }
+});
 
 // Initial fetch
 fetchIndustries();

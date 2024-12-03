@@ -8,9 +8,6 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface TakesRepository extends JpaRepository<Takes, Integer> {
-    @Query("SELECT t FROM Takes t WHERE CAST(t.idTake AS string) LIKE %:idTake%")
-    List<Takes> findTakesByIdTakeContaining(@Param("idTake") String idTake);
-
     @Query("SELECT t FROM Takes t WHERE CAST(t.student.id AS string) LIKE %:idStudent%")
     List<Takes> findTakesByStudentIdContaining(@Param("idStudent") String idStudent);
 

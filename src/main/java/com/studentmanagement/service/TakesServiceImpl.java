@@ -28,11 +28,6 @@ public class TakesServiceImpl implements TakesService {
     }
 
     @Override
-    public List<Takes> findTakesByIdTake(String idTake) {
-        return takesRepository.findTakesByIdTakeContaining(idTake);
-    }
-
-    @Override
     public List<Takes> findTakesByStudentId(String idStudent) {
         return takesRepository.findTakesByStudentIdContaining(idStudent);
     }
