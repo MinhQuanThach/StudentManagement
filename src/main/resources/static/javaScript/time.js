@@ -200,7 +200,6 @@ async function searchTime() {
 
         if (response.ok) {
             const times = await response.json();
-
             // Clear the table before rendering search results
             timeTable.innerHTML = "";
 

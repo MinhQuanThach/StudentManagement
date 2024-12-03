@@ -186,7 +186,7 @@ async function deleteTake(id) {
 async function searchTake() {
     const query = searchTakeInput.value.trim();
     const selectTake = document.getElementById("filterTake").value;
-    
+
     if (!query) return alert("Please enter a search value.");
 
     try {
@@ -194,9 +194,7 @@ async function searchTake() {
 
         if (response.ok) {
             const takes = await response.json();
-
             const takeTable = document.getElementById("takeTable");
-
             takeTable.innerHTML = "";
 
             if (takes.length === 0) {
@@ -239,5 +237,6 @@ searchTakeInput.addEventListener("keypress", function(event) {
         searchTake();
     }
 });
+
 // Initial fetch
 fetchTakes();
