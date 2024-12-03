@@ -1,23 +1,13 @@
-<h1>Website quản lý sinh viên</h1>
-<p>Mô tả tính năng</p>
-<h2>🚀 Languages and Tools I Use</h2>
-<p><a target="_blank" href="https://raw.githubusercontent.com/devicons/devicon/master/icons/javascript/javascript-original.svg" style="display: inline-block;"><img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/javascript/javascript-original.svg" alt="javascript" width="42" height="42" /></a>
-<a target="_blank" href="https://raw.githubusercontent.com/devicons/devicon/master/icons/java/java-original.svg" style="display: inline-block;"><img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/java/java-original.svg" alt="java" width="42" height="42" /></a>
-<a target="_blank" href="https://raw.githubusercontent.com/devicons/devicon/master/icons/html5/html5-original-wordmark.svg" style="display: inline-block;"><img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/html5/html5-original-wordmark.svg" alt="html5" width="42" height="42" /></a>
-<a target="_blank" href="https://www.vectorlogo.zone/logos/springio/springio-icon.svg" style="display: inline-block;"><img src="https://www.vectorlogo.zone/logos/springio/springio-icon.svg" alt="spring" width="42" height="42" /></a>
-<a target="_blank" href="https://raw.githubusercontent.com/devicons/devicon/master/icons/mysql/mysql-original-wordmark.svg" style="display: inline-block;"><img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/mysql/mysql-original-wordmark.svg" alt="mysql" width="42" height="42" /></a>
-<a target="_blank" href="https://raw.githubusercontent.com/devicons/devicon/master/icons/css3/css3-original-wordmark.svg" style="display: inline-block;"><img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/css3/css3-original-wordmark.svg" alt="css3" width="42" height="42" /></a>
-<a target="_blank" href="https://www.vectorlogo.zone/logos/tailwindcss/tailwindcss-icon.svg" style="display: inline-block;"><img src="https://www.vectorlogo.zone/logos/tailwindcss/tailwindcss-icon.svg" alt="tailwind" width="42" height="42" /></a>
-<a target="_blank" href="https://raw.githubusercontent.com/devicons/devicon/master/icons/typescript/typescript-original.svg" style="display: inline-block;"><img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/typescript/typescript-original.svg" alt="typescript" width="42" height="42" /></a></p>
+# STUDENT MANAGEMENT - Website Quản lý Sinh viên & Cố vấn học tập
 
 ### Mục lục 
 
-[1. Giới thiệu](#giới-thiệu)  
-[2. Tính năng](#tính-năng)  
-[3. Công nghệ](#công-nghệ)  
-[4. Cơ sở dữ liệu](#cơ-sở-dữ-liêu)  
-[5. Cách cài đặt](#cài-đặt)  
-[6. Thành viên nhóm](#thành-viên-nhóm)
+[1. Giới thiệu](https://github.com/MinhQuanThach/Student-Management#giới-thiệu)  
+[2. Tính năng](https://github.com/MinhQuanThach/Student-Management#tính-năng)  
+[3. Công nghệ](https://github.com/MinhQuanThach/Student-Management#công-nghệ)  
+[4. Cơ sở dữ liệu](https://github.com/MinhQuanThach/Student-Management#cơ-sở-dữ-liêu)
+[5. Cách cài đặt](https://github.com/MinhQuanThach/Student-Management#cài-đặt)  
+[6. Nhóm phát triển](https://github.com/MinhQuanThach/Student-Management#nhóm-phát-triển) 
 
 ## Giới thiệu
 
@@ -81,20 +71,18 @@ cho quản lý để đăng nhập.
 
 **Ngôn ngữ**: JavaScript, HTML, CSS
 
-## Cơ sở dữ liệu
+## cơ sở dữ liệu
 
-| Table   | Mục đích                                                        |
-|---------|-----------------------------------------------------------------|
-| student | Lưu trữ danh sách sinh viên                                      |
-| industry| Một trường thông tin liên quan đến sinh viên                    |
-| faculty | Một trường thông tin liên quan đến sinh viên                    |
-| teacher | Lưu trữ danh sách giảng viên                                    |
-| take    | Thao tác liên quan đến sinh viên (học phần, điểm số)            |
-| time    | Thời gian, địa điểm cho một course                              |
-| course  | Lưu trữ thông tin các khoá học                                  |
-
-
-
+- Bao gồm 7 bảng
+table               | Mục đích                    
+------------------- | ----------------------------- 
+student             | Lưu trữ danh sách sinh viên   
+industry            | Một trường thông tin liên quan đến inh viên       
+faculty             | Một trường thông tin liên quan đến inh viên            
+teacher             | Lưu trữ danh sách giảng viên            
+take                | Thao tác liên quan đến sinh viên(học phần, điểm số)
+time                | Thời gian, địa điểm cho một course
+course              | Lưu trữ thông tin các khoá học
 
 ![image](https://github.com/user-attachments/assets/0a284c74-e28f-4063-abad-d8decc2d8980)
 
@@ -107,6 +95,14 @@ cho quản lý để đăng nhập.
 - clone code về và mở bằng Intellij
 **Môi trường liên kết cơ sở dự liệu:** MySQL WorkBench hoặc Xampp
 - chạy file .sql trong MySQL WorkBench để tải về cơ sở dữ liệu mẫu
+table               | Mục đích                      | Nơi nhập
+------------------- | ----------------------------- | ---------------------------------
+student             | Lưu trữ danh sách sinh viên   | Quản lý CSDL/Danh sách CVHT
+users_student.csv   | Danh sách tài khoản SV        | Quản lý CSDL/Danh sách sinh viên
+semesters.csv       | Danh sách kỳ học              | Quản lý CSDL/Danh sách kì học
+subjects.csv        | Danh sách môn học             | Quản lý CSDL/Danh sách môn học
+*_score.csv         | Điểm các môn do PĐT cung cấp  | Quản lý CSDL/Cập nhật bảng điểm
+*_classmember.csv   | List email SV add từng lớp    | Thông tin liên hệ/Thêm sinh viên
 
 ### 2. Kiểm thử
 
@@ -116,7 +112,5 @@ cho quản lý để đăng nhập.
 - **mật khẩu:** admin
 
 
-## Thành viên nhóm
-
-
+## Nhóm phát triển
 
