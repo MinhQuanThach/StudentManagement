@@ -6,6 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Manage Course | Admin Dashboard</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Thêm dấu * màu đỏ cho các trường bắt buộc */
+        .required::after {
+            content: " *";
+            color: red;
+        }
+    </style>
 </head>
 
 <body class="flex h-screen bg-gray-100">
@@ -59,24 +66,25 @@
     </table>
 </div>
 
+<!-- Modal for Adding New Course -->
 <div id="courseModal" class="hidden fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center">
     <div class="bg-white p-6 rounded-lg shadow-lg w-1/3">
         <h2 id="modalTitle" class="text-xl font-bold mb-4">Create New Course</h2>
         <form id="courseForm">
             <div class="mb-4">
-                <label for="idCourse" class="block text-gray-700">Course ID</label>
+                <label for="idCourse" class="block text-gray-700 required">Course ID</label>
                 <input type="text" id="idCourse" name="idCourse" class="w-full border p-2 rounded" required readonly>
             </div>
             <div class="mb-4">
-                <label for="teacher" class="block text-gray-700">Teacher ID</label>
+                <label for="teacher" class="block text-gray-700 required">Teacher ID</label>
                 <input type="text" id="teacher" name="teacher" class="w-full border p-2 rounded" required>
             </div>
             <div class="mb-4">
-                <label for="credits" class="block text-gray-700">Credits</label>
+                <label for="credits" class="block text-gray-700 required">Credits</label>
                 <input type="number" id="credits" name="credits" class="w-full border p-2 rounded" required>
             </div>
             <div class="mb-4">
-                <label for="title" class="block text-gray-700">Title</label>
+                <label for="title" class="block text-gray-700 required">Title</label>
                 <input type="text" id="title" name="title" class="w-full border p-2 rounded" required>
             </div>
             <div class="flex justify-end space-x-4">

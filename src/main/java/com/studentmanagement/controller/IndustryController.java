@@ -3,16 +3,15 @@ package com.studentmanagement.controller;
 import com.studentmanagement.model.Industry;
 import com.studentmanagement.service.IndustryService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/industries")
 public class IndustryController {
+
     private final IndustryService industryService;
 
     @Autowired
@@ -20,49 +19,34 @@ public class IndustryController {
         this.industryService = industryService;
     }
 
-    // Retrieve all industries
-    @GetMapping
-    public List<Industry> getAllIndustries() {
-        return industryService.getAllIndustries();
-    }
+    // Endpoint lọc ngành theo tiêu chí
+    @GetMapping("/find")
+    public ResponseEntity<?> filterIndustries(
+            @RequestParam String filter,
+            @RequestParam String query) {
 
-    // Retrieve a specific industry by ID
-    @GetMapping("/{idIndustry}")
-    public ResponseEntity<Industry> getIndustryById(@PathVariable String idIndustry) {
-        return industryService.getIndustryById(idIndustry)
-                .map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
-    }
-
-    // Add a new industry
-    @PostMapping
-    public ResponseEntity<Industry> createIndustry(@RequestBody Industry industry) {
-        Industry createdIndustry = industryService.createIndustry(industry);
-        return ResponseEntity.status(HttpStatus.CREATED).body(createdIndustry);
-    }
-
-    // Update an existing industry
-    @PutMapping("/{idIndustry}")
-    public ResponseEntity<Industry> updateIndustry(@PathVariable String idIndustry, @RequestBody Industry updatedIndustry) {
-        Optional<Industry> existingIndustry = industryService.getIndustryById(idIndustry);
-        if (existingIndustry.isPresent()) {
-            updatedIndustry.setIdIndustry(idIndustry);
-            Industry savedIndustry = industryService.updateIndustry(idIndustry, updatedIndustry);
-            return ResponseEntity.ok(savedIndustry);
-        } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        // Kiểm tra tham số filter và query có rỗng không
+        if (filter == null || filter.isEmpty() || query == null || query.isEmpty()) {
+            return ResponseEntity.badRequest().body("Filter and query parameters are required.");
         }
-    }
 
-    // Delete an industry by ID
-    @DeleteMapping("/{idIndustry}")
-    public ResponseEntity<Void> deleteIndustry(@PathVariable String idIndustry) {
-        if (industryService.getIndustryById(idIndustry).isPresent()) {
-            industryService.deleteIndustry(idIndustry);
-            return ResponseEntity.noContent().build();
-        } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        // Xử lý và tìm các ngành theo tiêu chí
+        try {
+            List<Industry> industries = industryService.filterIndustries(filter, query);
+
+            // Nếu không tìm thấy kết quả, trả về 204 No Content
+            if (industries.isEmpty()) {
+                return ResponseEntity.noContent().build();
+            }
+
+            // Trả về danh sách các ngành tìm được
+            return ResponseEntity.ok(industries);
+        } catch (IllegalArgumentException e) {
+            // Nếu filter không hợp lệ, trả về lỗi 400 Bad Request
+            return ResponseEntity.badRequest().body("Invalid filter criteria: " + filter);
+        } catch (Exception e) {
+            // Nếu có lỗi khác, trả về lỗi 500 Internal Server Error
+            return ResponseEntity.status(500).body("An error occurred while processing the request.");
         }
     }
 }
-

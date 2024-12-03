@@ -6,6 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Manage Industry | Admin Dashboard</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Thêm dấu * màu đỏ cho các trường bắt buộc */
+        .required::after {
+            content: " *";
+            color: red;
+        }
+    </style>
 </head>
 
 <body class="flex h-screen bg-gray-100">
@@ -66,26 +73,27 @@
     </table>
 </div>
 
+<!-- Modal for Adding New Industry -->
 <div id="industryModal" class="hidden fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center">
     <div class="bg-white p-6 rounded-lg shadow-lg w-1/3">
         <h2 id="modalTitle" class="text-xl font-bold mb-4">Create New Industry</h2>
         <form id="industryForm">
             <div class="mb-4">
-                <label for="idIndustry" class="block text-gray-700">Industry ID</label>
+                <label for="idIndustry" class="block text-gray-700 required">Industry ID</label>
                 <input type="text" id="idIndustry" name="idIndustry" class="w-full border p-2 rounded" required readonly>
             </div>
             <div class="mb-4">
-                <label for="faculty" class="block text-gray-700">Faculty</label>
+                <label for="faculty" class="block text-gray-700 required">Faculty</label>
                 <select id="faculty" name="faculty" class="w-full border p-2 rounded" required>
                     <option value="" disabled selected>Select a faculty</option>
                 </select>
             </div>
             <div class="mb-4">
-                <label for="yearNumber" class="block text-gray-700">Year Number</label>
+                <label for="yearNumber" class="block text-gray-700 required">Year Number</label>
                 <input type="text" id="yearNumber" name="yearNumber" class="w-full border p-2 rounded" required>
             </div>
             <div class="mb-4">
-                <label for="title" class="block text-gray-700">Title</label>
+                <label for="title" class="block text-gray-700 required">Title</label>
                 <input type="text" id="title" name="title" class="w-full border p-2 rounded" required>
             </div>
             <div class="flex justify-end space-x-4">
