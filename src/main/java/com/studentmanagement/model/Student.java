@@ -24,7 +24,7 @@ public class Student {
     @Column(name = "credits", nullable = false)
     private Integer credits;
 
-    @Column(name = "id_class")
+    @Column(name = "id_class", nullable = false)
     private String idClass;
 
     @ManyToOne

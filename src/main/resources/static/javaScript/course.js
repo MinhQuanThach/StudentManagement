@@ -14,7 +14,7 @@ function createCourseRow(course) {
     return `
         <tr>
             <td class="border-t py-2 px-4">${course.idCourse}</td>
-            <td class="border-t py-2 px-4">${course.teacher.idTeacher}</td>
+            <td class="border-t py-2 px-4">${course.teacher.name}</td>
             <td class="border-t py-2 px-4">${course.credits}</td>
             <td class="border-t py-2 px-4">${course.title}</td>
             <td class="border-t py-2 px-4">
@@ -38,11 +38,35 @@ async function fetchCourses() {
     }
 }
 
+async function fetchTeachersForSelection() {
+    try {
+        const response = await fetch("http://localhost:8080/teachers");
+        if (!response.ok) {
+            throw new Error("Failed to fetch teachers");
+        }
+        return await response.json();
+    } catch (error) {
+        console.error("Error fetching teachers:", error);
+        return [];
+    }
+}
+
 // Open modal in create mode
-function openModal(mode = "create", course = {}) {
+async function openModal(mode = "create", course = {}) {
     courseForm.reset();
     courseForm.dataset.mode = mode;
     document.getElementById("idCourse").readOnly = mode === "edit";
+
+    // List of selection for 'course' label
+    const teacherSelect = document.getElementById("teacher");
+    teacherSelect.innerHTML = '<option value="" disabled selected>Select a teacher</option>'; // Reset options
+    const teachers = await fetchTeachersForSelection();
+    teachers.forEach(teacher => {
+        const option = document.createElement("option");
+        option.value = teacher.idTeacher;
+        option.textContent = teacher.name;
+        teacherSelect.appendChild(option);
+    });
 
     if (mode === "edit") {
         // Update modal title and button
@@ -106,7 +130,7 @@ function editCourse(id) {
     if (!course) return;
     openModal("edit", {
         idCourse: course.cells[0].textContent,
-        teacher: { idTeacher: course.cells[1].textContent },
+        teacher: { idTeacher: course.cells[1].dataset.idTeacher },
         credits: course.cells[2].textContent,
         title: course.cells[3].textContent,
     });
