@@ -165,30 +165,21 @@ function editTake(id) {
 }
 
 // Delete a take
-async function deleteTake(takeId) {
-    const confirmDelete = confirm(`Are you sure you want to delete take with ID: ${takeId}?`);
-    if (!confirmDelete) return;
+async function deleteTake(id) {
+    if (!confirm("Are you sure you want to delete this take?")) return;
 
     try {
-        const response = await fetch(`/api/takes/${takeId}`, {
-            method: 'DELETE',
-        });
+        const response = await fetch(`${apiUrl}/${id}`, { method: "DELETE" });
 
         if (response.ok) {
-            alert(`Take with ID: ${takeId} has been deleted.`);
-
-            const row = document.querySelector(`#student-row-${takeId}`);
-            if (row) {
-                row.remove();
-            }
-        } else if (response.status === 404) {
-            alert('Take not found. Please check the ID and try again.');
+            alert("Take deleted successfully!");
+            fetchTakes();
         } else {
-            alert(`Failed to delete the take. Server responded with status: ${response.status}`);
+            throw new Error("Failed to delete take.");
         }
     } catch (error) {
-        console.error('Error during take deletion:', error);
-        alert('An error occurred while deleting the take. Please try again.');
+        console.error("Error deleting take:", error);
+        alert("An error occurred while deleting the take.");
     }
 }
 
