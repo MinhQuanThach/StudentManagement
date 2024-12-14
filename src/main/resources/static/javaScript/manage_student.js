@@ -31,7 +31,7 @@ async function searchStudents() {
                     <td class="border-t py-2 px-4">${student.birthday || "N/A"}</td>
                     <td class="border-t py-2 px-4">${student.credits || 0}</td>
                     <td class="border-t py-2 px-4">${student.idClass || "N/A"}</td>
-                    <td class="border-t py-2 px-4">${student.industry || "N/A"}</td>
+                    <td class="border-t py-2 px-4">${student.industry.idIndustry || "N/A"}</td>
                     <td class="border-t py-2 px-4">
                         <button 
                             class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded mr-2"
@@ -92,6 +92,7 @@ function editStudent(studentId) {
 
 function closeEditModal() {
     document.getElementById("editStudentModal").classList.add("hidden");
+    fetchAllStudents();
 }
 
 document.getElementById("editStudentForm").addEventListener("submit", function (e) {

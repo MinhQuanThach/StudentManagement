@@ -85,9 +85,9 @@ function openModal(mode, teacher) {
         document.getElementById("email").value = teacher.email;
         document.getElementById("name").value = teacher.name;
         const teacherBirthday = new Date(teacher.birthday);
-        const formattedBirthday = teacherBirthday.toISOString().split('T')[0];
+        //const formattedBirthday = teacherBirthday.toISOString().split('T')[0];
 
-        document.getElementById("title").value = formattedBirthday;
+        //document.getElementById("title").value = formattedBirthday;
     } else {
         document.getElementById("teacherForm").reset();
     }
@@ -170,6 +170,7 @@ async function createTeacher() {
         .catch(error => {
             console.error('Error:', error);
         });
+    loadTeachers();
 }
 
 async function getMaxTeacherId() {
@@ -201,6 +202,7 @@ async function getMaxTeacherId() {
 
 // Đóng modal
 function closeModal() {
+    loadTeachers();
     const modal = document.getElementById("TeacherModal");
     modal.classList.add("hidden");
 }

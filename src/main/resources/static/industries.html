@@ -6,11 +6,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Manage Industry | Admin Dashboard</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Fix the sidebar and allow main content to scroll */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 20%; /* Adjust width as needed */
+        }
+
+        .main-content {
+            margin-left: 20%; /* Matches sidebar width */
+        }
+    </style>
 </head>
 
 <body class="flex h-screen bg-gray-100">
 <!-- Sidebar -->
-<div class="bg-gray-800 text-white w-1/5 flex flex-col items-center">
+<div class="sidebar bg-gray-800 text-white w-1/5 flex flex-col items-center">
     <div class="py-4 text-2xl font-bold">Admin Dashboard</div>
     <nav class="text-sm w-full">
         <a href="/students.html" class="bg-gray-800 hover:bg-gray-500 block py-2 px-4">Students</a>
@@ -27,7 +41,7 @@
 </div>
 
 <!-- Main Content -->
-<div class="flex-1 p-8">
+<div class="flex-1 main-content p-8">
     <div class="flex flex-row justify-between items-center mb-6">
         <h2 class="text-2xl font-semibold">Industries</h2>
         <div class="flex items-center space-x-4">
