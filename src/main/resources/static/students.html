@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Manage Students | Admin Dashboard</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="/cssFile/students.css">
     <style>
         /* Fix the sidebar and allow main content to scroll */
         .sidebar {
@@ -24,7 +25,7 @@
 
 <body class="flex h-screen bg-gray-100">
 <!-- Sidebar -->
-<div class="sidebar bg-gray-800 text-white w-1/5 flex flex-col items-center">
+<div class="bg-gray-800 text-white w-1/5 flex flex-col items-center" id = "sidebar">
     <div class="py-4 text-2xl font-bold">Admin Dashboard</div>
     <nav class="text-sm w-full">
         <a href="/students.html" class="bg-gray-800 hover:bg-gray-500 block py-2 px-4">Students</a>
@@ -32,12 +33,14 @@
         <a href="/faculties.html" class="bg-gray-800 hover:bg-gray-500 block py-2 px-4">Faculties</a>
         <a href="/courses.html" class="bg-gray-800 hover:bg-gray-500 block py-2 px-4">Courses</a>
         <a href="/takes.html" class="bg-gray-800 hover:bg-gray-500 block py-2 px-4">Takes</a>
+        <a href="/sections.html" class="bg-gray-800 hover:bg-gray-500 block py-2 px-4">Sections</a>
         <a href="/teachers.html" class="bg-gray-800 hover:bg-gray-500 block py-2 px-4">Teachers</a>
         <a href="/times.html" class="bg-gray-800 hover:bg-gray-500 block py-2 px-4">Times</a>
         <a href="/setting.html" class="bg-gray-800 hover:bg-gray-500 block py-2 px-4">Settings</a>
         <a href="/templates/index.html" class="bg-gray-800 hover:bg-gray-500 block py-2 px-4">Logout</a>
     </nav>
 </div>
+
 
 <!-- Main Content -->
 <div class="flex-1 main-content p-8">
