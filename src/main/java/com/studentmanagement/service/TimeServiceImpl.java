@@ -1,6 +1,5 @@
 package com.studentmanagement.service;
 
-import com.studentmanagement.model.Teacher;
 import com.studentmanagement.model.Time;
 import com.studentmanagement.repository.TimeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +31,7 @@ public class TimeServiceImpl implements TimeService {
     public List<Time> searchTimes(String type, String query) {
         switch (type.toLowerCase()) {
             case "course":
-                return timeRepository.findTimesByCourseIdContaining(query);
+                return timeRepository.findTimesBySectionIdContaining(query);
             case "day":
                 return timeRepository.findTimesByDayContaining(query);
             case "starttime":
@@ -56,7 +55,7 @@ public class TimeServiceImpl implements TimeService {
         Optional<Time> existingTime = timeRepository.findById(idTime);
         if (existingTime.isPresent()) {
             Time time = existingTime.get();
-            time.setCourse(updatedTime.getCourse());
+            time.setSection(updatedTime.getSection());
             time.setDay(updatedTime.getDay());
             time.setStartTime(updatedTime.getStartTime());
             time.setEndTime(updatedTime.getEndTime());

@@ -1,6 +1,5 @@
 package com.studentmanagement.controller;
 
-import com.studentmanagement.model.Teacher;
 import com.studentmanagement.model.Time;
 import com.studentmanagement.service.TimeService;
 import org.springframework.beans.factory.annotation.Autowired;

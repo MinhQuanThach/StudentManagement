@@ -1,5 +1,6 @@
 package com.studentmanagement.service;
 
+import com.studentmanagement.ID.TakesId;
 import com.studentmanagement.model.Takes;
 import com.studentmanagement.repository.TakesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +24,7 @@ public class TakesServiceImpl implements TakesService {
     }
 
     @Override
-    public Optional<Takes> getTakesById(Integer idTakes) {
+    public Optional<Takes> getTakesById(TakesId idTakes) {
         return takesRepository.findById(idTakes);
     }
 
@@ -33,8 +34,8 @@ public class TakesServiceImpl implements TakesService {
     }
 
     @Override
-    public List<Takes> findTakesByCourseId(String idCourse) {
-        return takesRepository.findTakesByCourseIdContaining(idCourse);
+    public List<Takes> findTakesBySectionId(String idCourse) {
+        return takesRepository.findTakesBySectionIdContaining(idCourse);
     }
 
     @Override
@@ -58,12 +59,10 @@ public class TakesServiceImpl implements TakesService {
     }
 
     @Override
-    public Takes updateTakes(Integer idTakes, Takes updatedTakes) {
+    public Takes updateTakes(TakesId idTakes, Takes updatedTakes) {
         Optional<Takes> existingTakes = takesRepository.findById(idTakes);
         if (existingTakes.isPresent()) {
             Takes takes = existingTakes.get();
-            takes.setStudent(updatedTakes.getStudent());
-            takes.setCourse(updatedTakes.getCourse());
             takes.setStatus(updatedTakes.getStatus());
             takes.setYear(updatedTakes.getYear());
             takes.setGrade(updatedTakes.getGrade());
@@ -74,11 +73,7 @@ public class TakesServiceImpl implements TakesService {
     }
 
     @Override
-    public void deleteTakes(Integer idTakes) {
-        if (takesRepository.existsById(idTakes)) {
-            takesRepository.deleteById(idTakes);
-        } else {
-            throw new RuntimeException("Takes record not found with ID: " + idTakes);
-        }
+    public void deleteTakes(TakesId idTakes) {
+        takesRepository.deleteById(idTakes);
     }
 }

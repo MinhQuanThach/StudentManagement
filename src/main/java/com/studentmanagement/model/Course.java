@@ -13,10 +13,6 @@ public class Course {
     @Column(name = "id_course", nullable = false)
     private String idCourse;
 
-    @ManyToOne
-    @JoinColumn(name = "id_teacher", nullable = false)
-    private Teacher teacher;
-
     @Column(name = "credits", nullable = false)
     private Integer credits;
 

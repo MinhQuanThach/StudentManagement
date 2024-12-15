@@ -1,5 +1,6 @@
 package com.studentmanagement.service;
 
+import com.studentmanagement.ID.TakesId;
 import com.studentmanagement.model.Takes;
 
 import java.util.List;
@@ -7,11 +8,11 @@ import java.util.Optional;
 
 public interface TakesService {
     List<Takes> getAllTakes();
-    Optional<Takes> getTakesById(Integer idTakes);
+    Optional<Takes> getTakesById(TakesId idTakes);
 
     List<Takes> findTakesByStudentId(String idStudent);
 
-    List<Takes> findTakesByCourseId(String idCourse);
+    List<Takes> findTakesBySectionId(String idSection);
 
     List<Takes> findTakesByStatus(String status);
 
@@ -21,7 +22,7 @@ public interface TakesService {
 
     Takes createTakes(Takes takes);
 
-    Takes updateTakes(Integer idTakes, Takes updatedTakes);
+    Takes updateTakes(TakesId idTakes, Takes updatedTakes);
 
-    void deleteTakes(Integer idTakes);
+    void deleteTakes(TakesId idTakes);
 }

@@ -14,7 +14,7 @@ function createTimeRow(time) {
     return `
         <tr>
             <td class="time-id-column">${time.idTime}</td>
-            <td class="border-t py-2 px-4">${time.course.idCourse}</td>
+            <td class="border-t py-2 px-4">${time.section.idSection}</td>
             <td class="border-t py-2 px-4">${time.day}</td>
             <td class="border-t py-2 px-4">${time.startTime}</td>
             <td class="border-t py-2 px-4">${time.endTime}</td>
@@ -40,15 +40,15 @@ async function fetchTimes() {
     }
 }
 
-async function fetchCoursesForSelection() {
+async function fetchSectionsForSelection() {
     try {
-        const response = await fetch("http://localhost:8080/courses");
+        const response = await fetch("http://localhost:8080/sections");
         if (!response.ok) {
-            throw new Error("Failed to fetch courses");
+            throw new Error("Failed to fetch sections");
         }
         return await response.json();
     } catch (error) {
-        console.error("Error fetching courses:", error);
+        console.error("Error fetching sections:", error);
         return [];
     }
 }
@@ -58,15 +58,15 @@ async function openModal(mode = "create", time = {}) {
     timeForm.reset();
     timeForm.dataset.mode = mode;
 
-    // List of selection for 'course' label
-    const courseSelect = document.getElementById("course");
-    courseSelect.innerHTML = '<option value="" disabled selected>Select a course</option>'; // Reset options
-    const courses = await fetchCoursesForSelection();
-    courses.forEach(course => {
+    // List of selection for 'section' label
+    const sectionSelect = document.getElementById("section");
+    sectionSelect.innerHTML = '<option value="" disabled selected>Select a section</option>'; // Reset options
+    const sections = await fetchSectionsForSelection();
+    sections.forEach(section => {
         const option = document.createElement("option");
-        option.value = course.idCourse;
-        option.textContent = course.idCourse + " (" + course.title + ")";
-        courseSelect.appendChild(option);
+        option.value = section.idSection;
+        option.textContent = section.idSection + " (" + section.title + ")";
+        sectionSelect.appendChild(option);
     });
 
     // List of selection for 'day' label
@@ -94,7 +94,7 @@ async function openModal(mode = "create", time = {}) {
         document.getElementById("modalTitle").innerText = "Edit Time";
         document.getElementById("modalSubmitBtn").innerText = "Save";
         // Populate form fields
-        document.getElementById("course").value = time.course?.idCourse || "";
+        document.getElementById("section").value = time.section?.idSection || "";
         document.getElementById("day").value = time.day || "";
         document.getElementById("startTime").value = time.startTime || "";
         document.getElementById("endTime").value = time.endTime || "";
@@ -115,7 +115,7 @@ async function handleFormSubmit(event) {
     const formData = new FormData(timeForm);
     const mode = timeForm.dataset.mode;
     const data = {
-        course: { idCourse: formData.get("course") },
+        section: { idSection: formData.get("section") },
         day: formData.get("day"),
         startTime: formData.get("startTime"),
         endTime: formData.get("endTime"),
@@ -158,7 +158,7 @@ function editTime(id) {
     if (!time) return;
     openModal("edit", {
         idTime: time.cells[0].textContent,
-        course: { idCourse: time.cells[1].textContent },
+        section: { idSection: time.cells[1].textContent },
         day: time.cells[2].textContent,
         startTime: time.cells[3].textContent,
         endTime: time.cells[4].textContent,
@@ -211,7 +211,7 @@ async function searchTime() {
                 const row = document.createElement("tr");
                 row.innerHTML = `
                     <td class="py-2 px-4">${time.idTime}</td>
-                    <td class="py-2 px-4">${time.course.idCourse}</td>
+                    <td class="py-2 px-4">${time.section.idSection}</td>
                     <td class="py-2 px-4">${time.day}</td>
                     <td class="py-2 px-4">${time.startTime}</td>
                     <td class="py-2 px-4">${time.endTime}</td>

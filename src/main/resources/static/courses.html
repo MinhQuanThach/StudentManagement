@@ -34,6 +34,7 @@
         <a href="/takes.html" class="bg-gray-800 hover:bg-gray-500 block py-2 px-4">Takes</a>
         <a href="/sections.html" class="bg-gray-800 hover:bg-gray-500 block py-2 px-4">Sections</a>
         <a href="/teachers.html" class="bg-gray-800 hover:bg-gray-500 block py-2 px-4">Teachers</a>
+        <a href="/teaches.html" class="bg-gray-800 hover:bg-gray-500 block py-2 px-4">Teaches</a>
         <a href="/times.html" class="bg-gray-800 hover:bg-gray-500 block py-2 px-4">Times</a>
         <a href="/setting.html" class="bg-gray-800 hover:bg-gray-500 block py-2 px-4">Settings</a>
         <a href="/templates/index.html" class="bg-gray-800 hover:bg-gray-500 block py-2 px-4">Logout</a>
@@ -60,7 +61,6 @@
 
     <select id="filterCourse" class="p-1 border outline-none hover:border-slate-400 rounded-md text-sm w-28">
         <option value="idCourse">ID Course</option>
-        <option value="idteacher">ID Teacher</option>
         <option value="credits">Credits</option>
         <option value="title">Title</option>
     </select>
@@ -69,7 +69,6 @@
         <thead>
         <tr>
             <th class="text-left py-2 px-4">Course ID</th>
-            <th class="text-left py-2 px-4">Teacher Name</th>
             <th class="text-left py-2 px-4">Credits</th>
             <th class="text-left py-2 px-4">Title</th>
             <th class="text-left py-2 px-4">Actions</th>
@@ -88,12 +87,6 @@
             <div class="mb-4">
                 <label for="idCourse" class="block text-gray-700">Course ID</label>
                 <input type="text" id="idCourse" name="idCourse" class="w-full border p-2 rounded" required readonly>
-            </div>
-            <div class="mb-4">
-                <label for="teacher" class="block text-gray-700">Teacher</label>
-                <select id="teacher" name="teacher" class="w-full border p-2 rounded" required>
-                    <option value="" disabled selected>Select a teacher</option>
-                </select>
             </div>
             <div class="mb-4">
                 <label for="credits" class="block text-gray-700">Credits</label>
