@@ -18,8 +18,8 @@ public class Time {
     private Integer idTime;
 
     @ManyToOne
-    @JoinColumn(name = "id_course", nullable = false) // Maps the foreign key
-    private Course course;
+    @JoinColumn(name = "id_section", nullable = false) // Maps the foreign key
+    private Section section;
 
     @Column(name = "day", nullable = false)
     private String day;

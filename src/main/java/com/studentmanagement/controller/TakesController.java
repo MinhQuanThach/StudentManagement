@@ -1,8 +1,10 @@
 package com.studentmanagement.controller;
 
+import com.studentmanagement.ID.TakesId;
 import com.studentmanagement.model.Student;
 import com.studentmanagement.model.Takes;
 import com.studentmanagement.service.TakesService;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,11 +28,12 @@ public class TakesController {
         return takesService.getAllTakes();
     }
 
-    @GetMapping("/{idTakes}")
-    public ResponseEntity<Takes> getTakesById(@PathVariable Integer idTakes) {
-        return takesService.getTakesById(idTakes)
+    @GetMapping("/{studentId}/{sectionId}")
+    public ResponseEntity<Takes> getTakesById(@PathVariable Integer studentId, @PathVariable String sectionId) {
+        TakesId takesId = new TakesId(studentId, sectionId);
+        return takesService.getTakesById(takesId)
                 .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
+                .orElse(ResponseEntity.notFound().build());
     }
 
     @GetMapping("/search")
@@ -47,7 +50,7 @@ public class TakesController {
                 takes = takesService.findTakesByStudentId(query);
                 break;
             case "idcourse":
-                takes = takesService.findTakesByCourseId(query);
+                takes = takesService.findTakesBySectionId(query);
                 break;
             case "status":
                 takes = takesService.findTakesByStatus(query);
@@ -75,25 +78,24 @@ public class TakesController {
         return ResponseEntity.status(HttpStatus.CREATED).body(createdTakes);
     }
 
-    @PutMapping("/{idTakes}")
-    public ResponseEntity<Takes> updateTakes(@PathVariable Integer idTakes, @RequestBody Takes updatedTakes) {
-        Optional<Takes> existingTakes = takesService.getTakesById(idTakes);
-        if (existingTakes.isPresent()) {
-            updatedTakes.setIdTake(idTakes);
-            Takes savedTakes = takesService.updateTakes(idTakes, updatedTakes);
-            return ResponseEntity.ok(savedTakes);
-        } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+    @PutMapping("/{studentId}/{sectionId}")
+    public ResponseEntity<Takes> updateTakes(
+            @PathVariable Integer studentId,
+            @PathVariable String sectionId,
+            @RequestBody Takes updatedTakes) {
+        TakesId takesId = new TakesId(studentId, sectionId);
+        try {
+            Takes updatedTake = takesService.updateTakes(takesId, updatedTakes);
+            return ResponseEntity.ok(updatedTake);
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.notFound().build();
         }
     }
 
-    @DeleteMapping("/{idTakes}")
-    public ResponseEntity<Void> deleteTakes(@PathVariable Integer idTakes) {
-        try {
-            takesService.deleteTakes(idTakes);
-            return ResponseEntity.noContent().build();
-        } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
+    @DeleteMapping("/{studentId}/{sectionId}")
+    public ResponseEntity<Void> deleteTakes(@PathVariable Integer studentId, @PathVariable String sectionId) {
+        TakesId takesId = new TakesId(studentId, sectionId);
+        takesService.deleteTakes(takesId);
+        return ResponseEntity.noContent().build();
     }
 }

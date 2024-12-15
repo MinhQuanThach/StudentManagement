@@ -9,8 +9,8 @@ import java.time.LocalTime;
 import java.util.List;
 
 public interface TimeRepository extends JpaRepository<Time, Integer> {
-    @Query("SELECT t FROM Time t WHERE t.course.idCourse LIKE %:courseId%")
-    List<Time> findTimesByCourseIdContaining(@Param("courseId") String courseId);
+    @Query("SELECT t FROM Time t WHERE t.section.idSection LIKE %:sectionId%")
+    List<Time> findTimesBySectionIdContaining(@Param("sectionId") String sectionId);
 
     @Query("SELECT t FROM Time t WHERE t.day LIKE %:day%")
     List<Time> findTimesByDayContaining(@Param("day") String day);

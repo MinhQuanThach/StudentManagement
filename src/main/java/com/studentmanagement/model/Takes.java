@@ -1,6 +1,6 @@
 package com.studentmanagement.model;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.studentmanagement.ID.TakesId;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -10,18 +10,19 @@ import lombok.Setter;
 @Entity
 @Table(name = "takes")
 public class Takes {
-    @Id
-    @Column(name = "id_takes")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer idTake;
+
+    @EmbeddedId
+    private TakesId idTake;
 
     @ManyToOne
-    @JoinColumn(name = "id", referencedColumnName = "id", nullable = false)
+    @MapsId("idStudent")
+    @JoinColumn(name = "id")
     private Student student;
 
     @ManyToOne
-    @JoinColumn(name = "id_course", referencedColumnName = "id_course", nullable = false)
-    private Course course;
+    @MapsId("idSection")
+    @JoinColumn(name = "id_section")
+    private Section section;
 
     @Column(name = "status", nullable = false)
     private String status;

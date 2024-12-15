@@ -45,9 +45,6 @@ public class CourseController {
             case "idcourse":
                 course = courseService.searchByIdCourse(query);
                 break;
-            case "idteacher":
-                course = courseService.searchByTeacherId(query);
-                break;
             case "credits":
                 course = courseService.searchByCredits(query);
                 break;

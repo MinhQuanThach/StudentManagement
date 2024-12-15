@@ -2,7 +2,6 @@ package com.studentmanagement.service;
 
 import com.studentmanagement.model.Course;
 import com.studentmanagement.repository.CourseRepository;
-import com.studentmanagement.service.CourseService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -30,11 +29,6 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public List<Course> searchByIdCourse(String idCourse) {
         return courseRepository.findByIdCourseContaining(idCourse);
-    }
-
-    @Override
-    public List<Course> searchByTeacherId(String idTeacher) {
-        return courseRepository.findByTeacherIdContaining(idTeacher);
     }
 
     @Override
