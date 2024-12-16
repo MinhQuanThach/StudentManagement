@@ -34,7 +34,7 @@ function renderTimetable(timetable) {
     teacherTimetable.innerHTML = timetable.map(entry => `
         <tr>
             <td class="border-t py-2 px-4">${entry.teacherName}</td>
-            <td class="border-t py-2 px-4">${entry.courseId}</td>
+            <td class="border-t py-2 px-4">${entry.sectionId}</td>
             <td class="border-t py-2 px-4">${entry.courseTitle}</td>
             <td class="border-t py-2 px-4">${entry.day}</td>
             <td class="border-t py-2 px-4">${entry.startTime}</td>

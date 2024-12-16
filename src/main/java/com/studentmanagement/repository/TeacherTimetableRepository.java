@@ -10,11 +10,14 @@ import java.util.List;
 
 @Repository
 public interface TeacherTimetableRepository extends JpaRepository<Teacher, String> {
-    @Query(value = "SELECT tch.id_teacher AS teacherId, tch.name AS teacherName, c.id_course AS courseId, c.title AS courseTitle, " +
-            "t.day AS day, " + "t.start_time AS startTime, t.end_time AS endTime, t.room_number AS roomNumber " +
+    @Query(value = "SELECT tch.id_teacher AS teacherId, tch.name AS teacherName, " +
+            "st.id_section AS sectionId, c.title AS courseTitle, " +
+            "t.day AS day, t.start_time AS startTime, t.end_time AS endTime, t.room_number AS roomNumber " +
             "FROM teacher tch " +
-            "JOIN courses c ON tch.id_teacher = c.id_teacher " +
-            "JOIN time t ON c.id_course = t.id_course " +
+            "JOIN teaches ts ON tch.id_teacher = ts.id_teacher " +
+            "JOIN section st ON st.id_section = ts.id_section " +
+            "JOIN courses c ON c.id_course = st.id_course " +
+            "JOIN time t ON t.id_section = st.id_section " +
             "WHERE tch.name = :teacherName", nativeQuery = true)
     List<Object[]> findTimetableByTeacherName(@Param("teacherName") String teacherName);
 }
