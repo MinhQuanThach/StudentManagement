@@ -35,7 +35,7 @@ function renderTimetable(timetable) {
         <tr>
             <td class="border-t py-2 px-4">${entry.studentId}</td>
             <td class="border-t py-2 px-4">${entry.studentName}</td>
-            <td class="border-t py-2 px-4">${entry.courseId}</td>
+            <td class="border-t py-2 px-4">${entry.sectionId}</td>
             <td class="border-t py-2 px-4">${entry.courseTitle}</td>
             <td class="border-t py-2 px-4">${entry.day}</td>
             <td class="border-t py-2 px-4">${entry.startTime}</td>
