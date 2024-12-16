@@ -70,6 +70,7 @@ function editTeacher(id) {
         name: teacherRow.cells[2].textContent,
         birthday: teacherRow.cells[3].textContent,
     });
+
 }
 
 function openModal(mode, teacher) {
@@ -84,10 +85,7 @@ function openModal(mode, teacher) {
         document.getElementById("idTeacher").value = teacher.idTeacher;
         document.getElementById("email").value = teacher.email;
         document.getElementById("name").value = teacher.name;
-        const teacherBirthday = new Date(teacher.birthday);
-        //const formattedBirthday = teacherBirthday.toISOString().split('T')[0];
-
-        //document.getElementById("title").value = formattedBirthday;
+        document.getElementById("title").value = teacher.birthday;
     } else {
         document.getElementById("teacherForm").reset();
     }
@@ -110,6 +108,7 @@ function updateTeacher(idTeacher) {
         name: document.getElementById("name").value,
         birthday: document.getElementById("title").value
     };
+
     const url = `http://localhost:8080/teachers/${idTeacher}`;
 
     fetch(url, {

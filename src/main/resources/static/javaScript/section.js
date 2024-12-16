@@ -165,7 +165,7 @@ async function searchSection() {
     }
 
     try {
-        const response = await fetch(`http://localhost:8080/sections/search?filter=${selectSection}&query=${encodeURIComponent(query)}`);
+        const response = await fetch(`http://localhost:8080/sections/search?type=${selectSection}&query=${encodeURIComponent(query)}`);
 
         if (response.ok) {
             const sections = await response.json();

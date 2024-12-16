@@ -1,6 +1,7 @@
 package com.studentmanagement.service;
 
 import com.studentmanagement.model.Section;
+import com.studentmanagement.model.Time;
 import com.studentmanagement.repository.SectionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,6 +20,22 @@ public class SectionServiceImpl implements SectionService {
     @Override
     public List<Section> getAllSections() {
         return sectionRepository.findAll();
+    }
+
+    @Override
+    public List<Section> searchSections(String type, String query) {
+        switch (type.toLowerCase()) {
+            case "section":
+                return sectionRepository.findSectionsBySectionIdContaining(query);
+            case "course":
+                return sectionRepository.findSectionsByCourseContaining(query);
+            case "semester":
+                return sectionRepository.findSectionsBySemesterContaining(query);
+            case "year":
+                return sectionRepository.findSectionsByYearContaining(query);
+            default:
+                throw new IllegalArgumentException("Invalid search type:ooo " + type);
+        }
     }
 
     @Override

@@ -30,7 +30,7 @@ public class TimeServiceImpl implements TimeService {
     @Override
     public List<Time> searchTimes(String type, String query) {
         switch (type.toLowerCase()) {
-            case "course":
+            case "section":
                 return timeRepository.findTimesBySectionIdContaining(query);
             case "day":
                 return timeRepository.findTimesByDayContaining(query);

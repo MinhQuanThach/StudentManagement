@@ -210,7 +210,6 @@ async function searchTime() {
             times.forEach(time => {
                 const row = document.createElement("tr");
                 row.innerHTML = `
-                    <td class="py-2 px-4">${time.idTime}</td>
                     <td class="py-2 px-4">${time.section.idSection}</td>
                     <td class="py-2 px-4">${time.day}</td>
                     <td class="py-2 px-4">${time.startTime}</td>
