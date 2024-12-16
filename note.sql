@@ -72,6 +72,7 @@ CREATE TABLE student_management.teaches (
 CREATE TABLE student_management.student (
     id INT PRIMARY KEY,
     name VARCHAR(50) NOT NULL,
+    password VARCHAR(50) NOT NULL,
     birthday DATE,
     credits INT NOT NULL DEFAULT 0,
     id_class VARCHAR(50),

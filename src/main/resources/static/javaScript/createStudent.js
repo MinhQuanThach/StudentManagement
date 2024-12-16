@@ -69,6 +69,7 @@ async function createStudent() {
             body: JSON.stringify({
                 id: adminId,
                 name: fullName,
+                password: adminId,
                 birthday: dob,
                 credits,
                 idClass,
