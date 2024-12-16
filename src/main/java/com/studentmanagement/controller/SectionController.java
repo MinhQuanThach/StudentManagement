@@ -1,6 +1,7 @@
 package com.studentmanagement.controller;
 
 import com.studentmanagement.model.Section;
+import com.studentmanagement.model.Time;
 import com.studentmanagement.service.SectionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -54,6 +55,18 @@ public class SectionController {
             return ResponseEntity.noContent().build();
         } catch (RuntimeException e) {
             return ResponseEntity.notFound().build();
+        }
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<Section>> searchSections(
+            @RequestParam("type") String type,
+            @RequestParam("query") String query) {
+        try {
+            List<Section> sections = sectionService.searchSections(type, query);
+            return ResponseEntity.ok(sections);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(null); // Return 400 if the search type is invalid
         }
     }
 }

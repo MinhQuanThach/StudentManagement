@@ -91,6 +91,7 @@ function closeModal() {
 async function handleFormSubmit(event) {
     event.preventDefault();
     const formData = new FormData(industryForm);
+
     const data = {
         idIndustry: formData.get("idIndustry"),
         faculty: { idFaculty: formData.get("faculty") },

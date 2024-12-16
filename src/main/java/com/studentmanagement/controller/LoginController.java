@@ -17,13 +17,4 @@ public class LoginController {
         }
     }
 
-    @PostMapping("/login")
-    public String handleLogin(@RequestParam String username, @RequestParam String password, Model model) {
-        if (username.equals("admin") && password.equals("admin")) {
-            model.addAttribute("username", username);
-            return "admin";
-        } else {
-            return "login";
-        }
-    }
 }

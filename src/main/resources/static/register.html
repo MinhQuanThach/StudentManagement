@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Course Registration</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    function addCourseToTable(courseCode, courseName, credits, teacher, time, quota, registered) {
+      // Xác nhận trước khi thêm học phần
+      if (confirm(`Do you want to add the course: ${courseName}?`)) {
+        // Tạo một hàng mới trong bảng đăng ký
+        const table = document.getElementById('registrationTable');
+        const row = table.insertRow();
+
+        // Thêm các cột vào dòng mới
+        row.insertCell(0).textContent = courseCode;
+        row.insertCell(1).textContent = courseName;
+        row.insertCell(2).textContent = credits;
+        row.insertCell(3).textContent = teacher;
+        row.insertCell(4).textContent = time;
+        row.insertCell(5).textContent = quota;
+        row.insertCell(6).textContent = registered;
+
+        // Cập nhật tổng số tín chỉ
+        updateTotalCredits();
+      }
+    }
+
+    function updateTotalCredits() {
+      const rows = document.getElementById('registrationTable').rows;
+      let totalCredits = 0;
+      for (let i = 0; i < rows.length; i++) {
+        totalCredits += parseInt(rows[i].cells[2].textContent); // Cột tín chỉ
+      }
+      document.getElementById('totalCredits').textContent = totalCredits;
+    }
+
+    function confirmRegistration() {
+      alert("Your registration is confirmed!");
+      document.getElementById('registrationTable').innerHTML = ''; // Clear the table after confirmation
+      updateTotalCredits(); // Reset total credits
+    }
+  </script>
+</head>
+<body class="bg-gray-100">
+
+<!-- Sidebar Navigation -->
+<div class="flex h-screen">
+  <!-- Sidebar -->
+  <div class="w-64 bg-gray-800 text-white flex-shrink-0">
+    <h2 class="text-2xl font-bold p-4 border-b border-gray-700">User Dashboard</h2>
+    <nav class="p-4">
+      <ul>
+        <li class="mb-4">
+          <a href="Users.html" class="block px-4 py-2 rounded hover:bg-gray-700">Home</a>
+        </li>
+        <li class="mb-4">
+          <a href="register.html" class="block px-4 py-2 bg-gray-500 rounded hover:bg-gray-700">Course Registration</a>
+        </li>
+        <li class="mb-4">
+          <a href="grades.html" class="block px-4 py-2 rounded hover:bg-gray-700">Grade Lookup</a>
+        </li>
+        <li class="mt-8">
+          <a href="/templates/index.html" class="block px-4 py-2 bg-red-500 text-center rounded hover:bg-red-600">Logout</a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+
+  <!-- Main Content -->
+  <div class="flex-1 p-6">
+    <!-- Course Information Section -->
+    <h1 class="text-3xl font-bold mb-4">Available Courses</h1>
+    <div class="overflow-x-auto mb-8">
+      <table class="min-w-full table-auto border-collapse bg-white shadow-md rounded-lg">
+        <thead>
+        <tr class="bg-gray-200 text-gray-700">
+          <th class="px-4 py-2 border-b">Course Code</th>
+          <th class="px-4 py-2 border-b">Course Name</th>
+          <th class="px-4 py-2 border-b">Credits</th>
+          <th class="px-4 py-2 border-b">Teacher</th>
+          <th class="px-4 py-2 border-b">Time</th>
+          <th class="px-4 py-2 border-b">Quota</th>
+          <th class="px-4 py-2 border-b">Registered</th>
+          <th class="px-4 py-2 border-b">Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!-- Example courses -->
+        <tr class="text-center">
+          <td class="px-4 py-2 border-b">CS101</td>
+          <td class="px-4 py-2 border-b">Introduction to Programming</td>
+          <td class="px-4 py-2 border-b">3</td>
+          <td class="px-4 py-2 border-b">Dr. Smith</td>
+          <td class="px-4 py-2 border-b">Mon 9:00 AM</td>
+          <td class="px-4 py-2 border-b">50</td>
+          <td class="px-4 py-2 border-b">20</td>
+          <td class="px-4 py-2 border-b">
+            <button class="bg-blue-500 text-white px-4 py-2 rounded" onclick="addCourseToTable('CS101', 'Introduction to Programming', 3, 'Dr. Smith', 'Mon 9:00 AM', 50, 20)">Add</button>
+          </td>
+        </tr>
+        <!-- More courses can be added here -->
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Registered Courses Section -->
+    <h2 class="text-2xl font-bold mb-4">Your Registered Courses</h2>
+    <div class="overflow-x-auto mb-8">
+      <table class="min-w-full table-fixed border-collapse bg-white shadow-md rounded-lg">
+        <thead>
+        <tr class="bg-gray-200 text-gray-700">
+          <th class="px-4 py-2 border-b w-1/8">Course Code</th>
+          <th class="px-4 py-2 border-b w-1/4">Course Name</th>
+          <th class="px-4 py-2 border-b w-1/8">Credits</th>
+          <th class="px-4 py-2 border-b w-1/4">Teacher</th>
+          <th class="px-4 py-2 border-b w-1/4">Time</th>
+        </tr>
+        </thead>
+        <tbody id="registrationTable">
+        <!-- Registered courses will be added here -->
+        </tbody>
+        <tfoot>
+        <tr class="text-center">
+          <td class="px-4 py-2 border-t font-semibold" colspan="2">Total Credits</td>
+          <td class="px-4 py-2 border-t" id="totalCredits">0</td>
+          <td class="px-4 py-2 border-t" colspan="2">
+            <button onclick="confirmRegistration()" class="bg-green-500 text-white px-4 py-2 rounded">Confirm Registration</button>
+          </td>
+        </tr>
+        </tfoot>
+      </table>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
