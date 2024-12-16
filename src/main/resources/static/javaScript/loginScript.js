@@ -27,43 +27,46 @@ async function handleLogin(event) {
     let password = "";
     password = document.getElementById("password").value;
 
-    // Kiểm tra xem cả username và password đã được nhập chưa
+    let role = "";
+    const roleSelection = document.querySelector('input[name="role"]:checked');
+    if (roleSelection) {
+        role = roleSelection.value;
+    }
+
     if (username && password) {
-        try {
-            // Gửi yêu cầu POST tới API login
-            const response = await fetch('/api/login', {
-                method: 'POST', // Phương thức POST
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded', // Kiểu dữ liệu gửi đi
-                },
-                body: new URLSearchParams({ username, password }), // Dữ liệu gửi đi
-            });
+        if (role == "manager") {
+            try {
+                // Gửi yêu cầu POST tới API login
+                const response = await fetch('/api/login', {
+                    method: 'POST', // Phương thức POST
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded', // Kiểu dữ liệu gửi đi
+                    },
+                    body: new URLSearchParams({ username, password }), // Dữ liệu gửi đi
+                });
 
-            // Kiểm tra phản hồi từ server
-            if (response.ok) {
-                // Nếu phản hồi thành công (HTTP status code 200), đọc nội dung trả về
-                const result = await response.text(); // Chuyển phản hồi thành JSON
+                if (response.ok) {
+                    const result = await response.text(); // Chuyển phản hồi thành JSON
 
-                // Kiểm tra nếu kết quả trả về có thông tin xác thực (ví dụ token)
-                if (result !== "Invalid username or password") {
-                    //Chuyển trang khi login thành công
-                    //localStorage.setItem("authToken", token);
-                    window.location.href = '/students.html';
+                    if (result !== "Invalid username or password") {
+                        window.location.href = '/students.html';
+                    } else {
+                        alert('Failed login attempt with Username:', username, 'and Password:', password);
+                    }
                 } else {
-                    // Nếu không có token hoặc kết quả không hợp lệ
-                    alert('Failed login attempt with Username:', username, 'and Password:', password);
+                    alert('Login failed. Please check your credentials.');
                 }
-            } else {
-                // Nếu phản hồi không thành công (HTTP status code khác 200)
-                alert('Login failed. Please check your credentials.');
+            } catch (error) {
+                console.error('Error during login:', error);
+                alert('An error occurred. Please try again.');
             }
-        } catch (error) {
-            // Xử lý lỗi nếu quá trình gửi hoặc nhận dữ liệu gặp vấn đề
-            console.error('Error during login:', error);
-            alert('An error occurred. Please try again.');
+        } else {
+
         }
+
+
+
     } else {
-        // Thông báo nếu chưa nhập đủ username và password
         alert("Please enter both username and password.");
     }
 }
