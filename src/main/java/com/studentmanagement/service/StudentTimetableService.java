@@ -21,9 +21,9 @@ public class StudentTimetableService {
                 .map(row -> new StudentTimetableDTO(
                         (Integer) row[0],  // studentId
                         (String) row[1], // studentName
-                        (String) row[2],  // courseId
+                        (String) row[2],  // sectionId
                         (String) row[3], // courseTitle
-                        (String) row[4],
+                        (String) row[4], // day
                         (Time) row[5], // startTime
                         (Time) row[6], // endTime
                         (String) row[7]  // roomNumber

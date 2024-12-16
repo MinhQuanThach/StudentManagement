@@ -21,7 +21,7 @@ public class TeacherTimetableService {
                 .map(row -> new TeacherTimetableDTO(
                         (Integer) row[0],  // teacherId
                         (String) row[1], // teacherName
-                        (String) row[2],  // courseId
+                        (String) row[2],  // sectionId
                         (String) row[3], // courseTitle
                         (String) row[4], //day
                         (Time) row[5], // startTime

@@ -14,7 +14,7 @@ import java.sql.Time;
 public class StudentTimetableDTO {
     private Integer studentId;
     private String studentName;
-    private String courseId;
+    private String sectionId;
     private String courseTitle;
     private String day;
     private Time startTime;
