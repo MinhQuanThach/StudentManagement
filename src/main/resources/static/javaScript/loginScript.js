@@ -19,54 +19,52 @@ function showPassword() {
 
 // Hàm xử lý logic đăng nhập
 async function handleLogin(event) {
-    event.preventDefault(); // Ngăn chặn hành động reload trang mặc định khi bấm nút login
+    event.preventDefault();
 
-    // Lấy giá trị của username và password từ các ô input
-    let username = ""; // Sử dụng let thay vì const vì giá trị sẽ thay đổi
-    username = document.getElementById("username").value; // Cập nhật giá trị từ input
-    let password = "";
-    password = document.getElementById("password").value;
-
+    let username = document.getElementById("username").value.trim();
+    let password = document.getElementById("password").value.trim();
     let role = "";
+
     const roleSelection = document.querySelector('input[name="role"]:checked');
     if (roleSelection) {
         role = roleSelection.value;
     }
 
-    if (username && password) {
-        if (role == "manager") {
-            try {
-                // Gửi yêu cầu POST tới API login
-                const response = await fetch('/api/login', {
-                    method: 'POST', // Phương thức POST
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded', // Kiểu dữ liệu gửi đi
-                    },
-                    body: new URLSearchParams({ username, password }), // Dữ liệu gửi đi
-                });
+    if (username && password && role) {
+        try {
+            const response = await fetch('/api/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: new URLSearchParams({ username, password, role }),
+            });
 
-                if (response.ok) {
-                    const result = await response.text(); // Chuyển phản hồi thành JSON
+            if (response.ok) {
+                const result = await response.text();
 
-                    if (result !== "Invalid username or password") {
-                        window.location.href = '/students.html';
-                    } else {
-                        alert('Failed login attempt with Username:', username, 'and Password:', password);
-                    }
-                } else {
-                    alert('Login failed. Please check your credentials.');
+                if (role === "manager") {
+                    // Redirect manager to students page
+                    window.location.href = '/students.html';
+                } else if (role === "student") {
+                    // Store the student ID in localStorage
+                    localStorage.setItem("currentUserId", result);
+
+                    // Redirect student to users page
+                    window.location.href = '/Users.html';
                 }
-            } catch (error) {
-                console.error('Error during login:', error);
-                alert('An error occurred. Please try again.');
+            } else {
+                const errorMessage = await response.text();
+                alert(`Login failed: ${errorMessage}`);
             }
-        } else {
-
+        } catch (error) {
+            console.error("Error during login:", error);
+            alert("An error occurred. Please try again.");
         }
-
-
-
     } else {
-        alert("Please enter both username and password.");
+        alert("Please fill in all fields and select a role.");
     }
 }
+
+// To retrieve the current user's ID in other scripts
+const currentUserId = localStorage.getItem("currentUserId");
