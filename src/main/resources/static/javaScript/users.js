@@ -36,6 +36,15 @@ const CourseView = {
     renderSections(sections) {
         const sectionsContainer = document.querySelector('.grid');
 
+        const imageArr = [
+            "https://www.vietnamworks.com/hrinsider/wp-content/uploads/2023/12/hinh-anh-thien-nhien-dep-3d-001.jpg",
+            "https://hoanghamobile.com/tin-tuc/wp-content/uploads/2023/07/anh-dep-thien-nhien-thump.jpg",
+            "https://img.pikbest.com/origin/09/41/85/916pIkbEsTzRC.jpg!w700wp",
+            "https://png.pngtree.com/thumb_back/fw800/background/20240103/pngtree-contemporary-abstract-pattern-hand-drawn-painting-recreating-abstract-shapes-and-textures-image_13877643.png",
+            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQaeHAG6BKD72eUtLzF_WSRkjWC60-Ge4JK9A&s",
+            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQCN-rro3vnbVtsBCjtz7-XS7a1B5_4n7Nr-A&s"
+        ];
+
         sectionsContainer.innerHTML = '';
 
         if (sections.length === 0) {
@@ -47,8 +56,9 @@ const CourseView = {
             const sectionCard = document.createElement('div');
             sectionCard.className = 'bg-white shadow-lg rounded-lg overflow-hidden';
 
+            const randomImage = imageArr[Math.floor(Math.random() * imageArr.length)];
             sectionCard.innerHTML = `
-        <img src="https://hoanghamobile.com/tin-tuc/wp-content/uploads/2023/07/anh-dep-thien-nhien-thump.jpg" 
+        <img src="${randomImage}" 
         alt="Course Image" class="w-full h-40 object-cover">
         <div class="p-4">
           <h2 class="text-lg font-semibold text-gray-800">${section.title}</h2>
