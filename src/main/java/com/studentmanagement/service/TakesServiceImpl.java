@@ -89,6 +89,23 @@ public class TakesServiceImpl implements TakesService {
         return sections;
     }
 
+    @Override
+    public List<Map<String, Object>> getGradesByStudentId(Integer studentId) {
+        List<Object[]> results = takesRepository.findGradesByStudentId(studentId);
+        List<Map<String, Object>> grades = new ArrayList<>();
+
+        for (Object[] row : results) {
+            Map<String, Object> grade = new HashMap<>();
+            grade.put("year", (Integer) row[0]);
+            grade.put("section_semester", (String) row[1]); // Kỳ học từ bảng Section
+            grade.put("grade", (Double) row[2]);
+            grade.put("idCourse", (String) row[3]);
+            grade.put("title", (String) row[4]);
+            grade.put("credits", (Integer) row[5]);
+            grades.add(grade);
+        }
+        return grades;
+    }
 
     @Override
     public void deleteTakes(TakesId idTakes) {

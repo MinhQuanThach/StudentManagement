@@ -27,5 +27,7 @@ public interface TakesService {
 
     List<Map<String, Object>> getSectionsWithStatus(Integer studentId);
 
+    List<Map<String, Object>> getGradesByStudentId(Integer studentId);
+
     void deleteTakes(TakesId idTakes);
 }

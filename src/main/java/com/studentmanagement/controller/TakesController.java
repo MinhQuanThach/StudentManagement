@@ -99,6 +99,11 @@ public class TakesController {
         return ResponseEntity.ok(sections);
     }
 
+    @GetMapping("/grades/{studentId}")
+    public List<Map<String, Object>> getGrades(@PathVariable int studentId) {
+        return takesService.getGradesByStudentId(studentId);
+    }
+
     @DeleteMapping("/{studentId}/{sectionId}")
     public ResponseEntity<Void> deleteTakes(@PathVariable Integer studentId, @PathVariable String sectionId) {
         TakesId takesId = new TakesId(studentId, sectionId);
