@@ -5,43 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Course Registration</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    function addCourseToTable(courseCode, courseName, credits, teacher, time, quota, registered) {
-      // Xác nhận trước khi thêm học phần
-      if (confirm(`Do you want to add the course: ${courseName}?`)) {
-        // Tạo một hàng mới trong bảng đăng ký
-        const table = document.getElementById('registrationTable');
-        const row = table.insertRow();
-
-        // Thêm các cột vào dòng mới
-        row.insertCell(0).textContent = courseCode;
-        row.insertCell(1).textContent = courseName;
-        row.insertCell(2).textContent = credits;
-        row.insertCell(3).textContent = teacher;
-        row.insertCell(4).textContent = time;
-        row.insertCell(5).textContent = quota;
-        row.insertCell(6).textContent = registered;
-
-        // Cập nhật tổng số tín chỉ
-        updateTotalCredits();
-      }
-    }
-
-    function updateTotalCredits() {
-      const rows = document.getElementById('registrationTable').rows;
-      let totalCredits = 0;
-      for (let i = 0; i < rows.length; i++) {
-        totalCredits += parseInt(rows[i].cells[2].textContent); // Cột tín chỉ
-      }
-      document.getElementById('totalCredits').textContent = totalCredits;
-    }
-
-    function confirmRegistration() {
-      alert("Your registration is confirmed!");
-      document.getElementById('registrationTable').innerHTML = ''; // Clear the table after confirmation
-      updateTotalCredits(); // Reset total credits
-    }
-  </script>
 </head>
 <body class="bg-gray-100">
 
@@ -70,56 +33,63 @@
 
   <!-- Main Content -->
   <div class="flex-1 p-6">
+    <!-- Semester and Year Dropdown -->
+    <div class="mb-4 flex items-center space-x-4">
+      <label for="semester" class="text-lg font-semibold">Semester:</label>
+      <select id="semester" class="border rounded px-4 py-2">
+        <option value="" disabled selected>Select Semester</option>
+      </select>
+
+      <label for="year" class="text-lg font-semibold">Year:</label>
+      <select id="year" class="border rounded px-4 py-2">
+        <option value="" disabled selected>Select Year</option>
+      </select>
+
+      <button onclick="loadSections()" class="bg-blue-500 text-white px-4 py-2 rounded">Load Sections</button>
+    </div>
+
     <!-- Course Information Section -->
-    <h1 class="text-3xl font-bold mb-4">Available Courses</h1>
+    <h1 class="text-3xl font-bold mb-4">Available Sections</h1>
     <div class="overflow-x-auto mb-8">
       <table class="min-w-full table-auto border-collapse bg-white shadow-md rounded-lg">
         <thead>
         <tr class="bg-gray-200 text-gray-700">
-          <th class="px-4 py-2 border-b">Course Code</th>
-          <th class="px-4 py-2 border-b">Course Name</th>
+          <th class="px-4 py-2 border-b">Section ID</th>
+          <th class="px-4 py-2 border-b">Course Title</th>
           <th class="px-4 py-2 border-b">Credits</th>
-          <th class="px-4 py-2 border-b">Teacher</th>
-          <th class="px-4 py-2 border-b">Time</th>
-          <th class="px-4 py-2 border-b">Quota</th>
-          <th class="px-4 py-2 border-b">Registered</th>
+          <th class="px-4 py-2 border-b">Teacher Name</th>
+          <th class="px-4 py-2 border-b">Day</th>
+          <th class="px-4 py-2 border-b">Start Time</th>
+          <th class="px-4 py-2 border-b">End Time</th>
+          <th class="px-4 py-2 border-b">Room</th>
           <th class="px-4 py-2 border-b">Actions</th>
         </tr>
         </thead>
-        <tbody>
-        <!-- Example courses -->
-        <tr class="text-center">
-          <td class="px-4 py-2 border-b">CS101</td>
-          <td class="px-4 py-2 border-b">Introduction to Programming</td>
-          <td class="px-4 py-2 border-b">3</td>
-          <td class="px-4 py-2 border-b">Dr. Smith</td>
-          <td class="px-4 py-2 border-b">Mon 9:00 AM</td>
-          <td class="px-4 py-2 border-b">50</td>
-          <td class="px-4 py-2 border-b">20</td>
-          <td class="px-4 py-2 border-b">
-            <button class="bg-blue-500 text-white px-4 py-2 rounded" onclick="addCourseToTable('CS101', 'Introduction to Programming', 3, 'Dr. Smith', 'Mon 9:00 AM', 50, 20)">Add</button>
-          </td>
-        </tr>
-        <!-- More courses can be added here -->
+        <tbody id="sectionTableBody">
+        <!-- More sections can be added here -->
         </tbody>
       </table>
     </div>
 
-    <!-- Registered Courses Section -->
-    <h2 class="text-2xl font-bold mb-4">Your Registered Courses</h2>
+    <!-- Registered Sections -->
+    <h2 class="text-2xl font-bold mb-4">Your Registered Sections</h2>
     <div class="overflow-x-auto mb-8">
       <table class="min-w-full table-fixed border-collapse bg-white shadow-md rounded-lg">
         <thead>
         <tr class="bg-gray-200 text-gray-700">
-          <th class="px-4 py-2 border-b w-1/8">Course Code</th>
-          <th class="px-4 py-2 border-b w-1/4">Course Name</th>
+          <th class="px-4 py-2 border-b w-1/8">Section ID</th>
+          <th class="px-4 py-2 border-b w-1/4">Course Title</th>
           <th class="px-4 py-2 border-b w-1/8">Credits</th>
-          <th class="px-4 py-2 border-b w-1/4">Teacher</th>
-          <th class="px-4 py-2 border-b w-1/4">Time</th>
+          <th class="px-4 py-2 border-b w-1/4">Teacher Name</th>
+          <th class="px-4 py-2 border-b w-1/4">Day</th>
+          <th class="px-4 py-2 border-b w-1/4">Start Time</th>
+          <th class="px-4 py-2 border-b w-1/4">End Time</th>
+          <th class="px-4 py-2 border-b w-1/4">Room</th>
+          <th class="px-4 py-2 border-b w-1/4">Action</th>
         </tr>
         </thead>
         <tbody id="registrationTable">
-        <!-- Registered courses will be added here -->
+        <!-- Registered sections will be added here -->
         </tbody>
         <tfoot>
         <tr class="text-center">
@@ -135,5 +105,6 @@
   </div>
 </div>
 
+<script src="javaScript/section_registration.js"></script>
 </body>
 </html>
