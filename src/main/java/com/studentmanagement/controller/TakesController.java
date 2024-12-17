@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -90,6 +91,17 @@ public class TakesController {
         } catch (EntityNotFoundException e) {
             return ResponseEntity.notFound().build();
         }
+    }
+
+    @GetMapping("/student-sections")
+    public ResponseEntity<List<Map<String, Object>>> getStudentSections(@RequestParam("studentID") Integer studentId) {
+        List<Map<String, Object>> sections = takesService.getSectionsWithStatus(studentId);
+        return ResponseEntity.ok(sections);
+    }
+
+    @GetMapping("/grades/{studentId}")
+    public List<Map<String, Object>> getGrades(@PathVariable int studentId) {
+        return takesService.getGradesByStudentId(studentId);
     }
 
     @DeleteMapping("/{studentId}/{sectionId}")

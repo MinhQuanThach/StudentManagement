@@ -1,22 +1,25 @@
 package com.studentmanagement.controller;
 
 import com.studentmanagement.model.Section;
-import com.studentmanagement.model.Time;
+import com.studentmanagement.repository.TakesRepository;
 import com.studentmanagement.service.SectionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 @RestController
 @RequestMapping("/sections")
 public class SectionController {
     private final SectionService sectionService;
+    private final TakesRepository takesRepository;
 
     @Autowired
-    public SectionController(SectionService sectionService) {
+    public SectionController(SectionService sectionService, TakesRepository takesRepository) {
         this.sectionService = sectionService;
+        this.takesRepository = takesRepository;
     }
 
     @GetMapping
