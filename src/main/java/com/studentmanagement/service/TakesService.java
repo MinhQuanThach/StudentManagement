@@ -4,6 +4,7 @@ import com.studentmanagement.ID.TakesId;
 import com.studentmanagement.model.Takes;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 public interface TakesService {
@@ -23,6 +24,8 @@ public interface TakesService {
     Takes createTakes(Takes takes);
 
     Takes updateTakes(TakesId idTakes, Takes updatedTakes);
+
+    List<Map<String, Object>> getSectionsWithStatus(Integer studentId);
 
     void deleteTakes(TakesId idTakes);
 }

@@ -6,8 +6,7 @@ import com.studentmanagement.repository.TakesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class TakesServiceImpl implements TakesService {
@@ -71,6 +70,25 @@ public class TakesServiceImpl implements TakesService {
             throw new RuntimeException("Takes record not found with ID: " + idTakes);
         }
     }
+
+    @Override
+    public List<Map<String, Object>> getSectionsWithStatus(Integer studentId) {
+        List<Object[]> results = takesRepository.findSectionsWithStatusByStudentId(studentId);
+
+        // Chuyển kết quả Object[] thành Map
+        List<Map<String, Object>> sections = new ArrayList<>();
+        for (Object[] row : results) {
+            Map<String, Object> section = new HashMap<>();
+            section.put("id_section", (String) row[0]);
+            section.put("semester", (String) row[1]);
+            section.put("status", (String) row[2]);
+            section.put("title", (String) row[3]);
+            section.put("year", (Integer) row[4]);
+            sections.add(section);
+        }
+        return sections;
+    }
+
 
     @Override
     public void deleteTakes(TakesId idTakes) {

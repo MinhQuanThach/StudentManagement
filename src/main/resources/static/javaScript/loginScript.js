@@ -8,12 +8,12 @@ const toggle = document.getElementById("toggle");
 function showPassword() {
     // Nếu input đang ở chế độ 'password', chuyển sang 'text'
     if (password.type === 'password') {
-        password.setAttribute('type', 'text'); // Hiển thị mật khẩu
-        toggle.classList.add("hide"); // Thêm class 'hide' để thay đổi giao diện
+        password.setAttribute('type', 'text');
+        toggle.classList.add("hide");
     } else {
         // Ngược lại, chuyển về chế độ 'password'
-        password.setAttribute('type', 'password'); // Ẩn mật khẩu
-        toggle.classList.remove("hide"); // Bỏ class 'hide'
+        password.setAttribute('type', 'password');
+        toggle.classList.remove("hide");
     }
 }
 
@@ -47,10 +47,7 @@ async function handleLogin(event) {
                     // Redirect manager to students page
                     window.location.href = '/students.html';
                 } else if (role === "student") {
-                    // Store the student ID in localStorage
                     localStorage.setItem("currentUserId", result);
-
-                    // Redirect student to users page
                     window.location.href = '/Users.html';
                 }
             } else {
