@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", function() {
     // Đặt studentId cần lấy dữ liệu
-    const studentId = 23020001; // Thay đổi studentId theo nhu cầu của bạn
+    const studentId = localStorage.getItem("currentUserId"); // Thay đổi studentId theo nhu cầu của bạn
     const apiUrl = `http://localhost:8080/takes/grades/${studentId}`;
 
     // Hàm để gọi API và hiển thị kết quả
@@ -18,6 +18,8 @@ document.addEventListener("DOMContentLoaded", function() {
 
                 // Nhóm dữ liệu theo năm và học kỳ
                 const groupedData = groupByYearAndSemester(data);
+
+                let allCourses = []; // Để tính tổng tín chỉ và GPA
 
                 // Duyệt qua từng năm và học kỳ để tạo bảng
                 for (const year in groupedData) {
@@ -45,10 +47,11 @@ document.addEventListener("DOMContentLoaded", function() {
                         const tableHeader = document.createElement("thead");
                         const headerRow = document.createElement("tr");
                         headerRow.innerHTML = `
-                            <th class="px-4 py-2 border">Course ID</th>
-                            <th class="px-4 py-2 border">Title</th>
-                            <th class="px-4 py-2 border">Credits</th>
-                            <th class="px-4 py-2 border">Grade</th>
+                            <th class="px-4 py-2 text-center border">Course ID</th>
+                            <th class="px-4 py-2 text-center border">Title</th>
+                            <th class="px-4 py-2 text-center border">Credits</th>
+                            <th class="px-4 py-2 text-center border">Grade</th>
+                            <th class="px-4 py-2 border text-center align-middle">Grade Letter</th>
                         `;
                         tableHeader.appendChild(headerRow);
                         table.appendChild(tableHeader);
@@ -58,19 +61,35 @@ document.addEventListener("DOMContentLoaded", function() {
                         semester.courses.forEach(course => {
                             const row = document.createElement("tr");
                             row.innerHTML = `
-                                <td class="px-4 py-2 border">${course.idCourse}</td>
-                                <td class="px-4 py-2 border">${course.title}</td>
-                                <td class="px-4 py-2 border">${course.credits}</td>
-                                <td class="px-4 py-2 border">${course.grade}</td>
+                                <td class="px-4 py-2 text-center border">${course.idCourse}</td>
+                                <td class="px-4 py-2 text-center border">${course.title}</td>
+                                <td class="px-4 py-2 text-center border">${course.credits}</td>
+                                <td class="px-4 py-2 text-center border">${course.grade}</td>
+                                <td class="px-4 py-2 border text-center align-middle">${gradeToLetter(course.grade)}</td>
                             `;
                             tableBody.appendChild(row);
+
+                            // Thêm các khóa học vào danh sách tất cả các khóa học để tính tổng số tín chỉ và GPA
+                            allCourses.push(course);
                         });
+
                         table.appendChild(tableBody);
                         yearSection.appendChild(table);
                     });
 
                     gradesContent.appendChild(yearSection);
                 }
+
+                // Tính tổng tín chỉ và GPA
+                const { totalCredits, gpa } = calculateTotalCreditsAndGPA(allCourses);
+
+                const totalRow = document.createElement("div");
+                totalRow.classList.add("mt-4");
+                totalRow.innerHTML = `
+                    <p><strong>Total Credits:</strong> ${totalCredits}</p>
+                    <p><strong>GPA:</strong> ${gpa}</p>
+                `;
+                gradesContent.appendChild(totalRow);
             })
             .catch(error => {
                 console.error("Error fetching grades:", error);
@@ -79,19 +98,16 @@ document.addEventListener("DOMContentLoaded", function() {
             });
     }
 
-    // Hàm để nhóm dữ liệu theo năm và học kỳ
     function groupByYearAndSemester(data) {
         return data.reduce((acc, grade) => {
             const { year, section_semester, idCourse, title, credits, grade: gradeValue } = grade;
 
-            // Tạo cấu trúc dữ liệu cho từng năm và học kỳ
             if (!acc[year]) {
                 acc[year] = [];
             }
 
             const semesterIndex = acc[year].findIndex(semester => semester.semester === section_semester);
             if (semesterIndex === -1) {
-                // Thêm học kỳ mới nếu chưa có
                 acc[year].push({
                     semester: section_semester,
                     courses: [
@@ -99,12 +115,49 @@ document.addEventListener("DOMContentLoaded", function() {
                     ]
                 });
             } else {
-                // Thêm khóa học vào học kỳ đã có
                 acc[year][semesterIndex].courses.push({ idCourse, title, credits, grade: gradeValue });
             }
 
             return acc;
         }, {});
+    }
+
+    function calculateTotalCreditsAndGPA(courses) {
+        let totalCredits = 0;
+        let totalPoints = 0;
+
+        courses.forEach(course => {
+            const points = gradeToPoint(gradeToLetter(course.grade));
+            totalCredits += course.credits;
+            totalPoints += points * course.credits;
+        });
+
+        const gpa = totalCredits > 0 ? (totalPoints / totalCredits).toFixed(2) : 0;
+        return { totalCredits, gpa };
+    }
+
+    function gradeToLetter(grade) {
+        if (grade >= 9) return 'A+';
+        if (grade >= 8.5) return 'A';
+        if (grade >= 8) return 'B+';
+        if (grade >= 7) return 'B';
+        if (grade >= 6.5) return 'C+';
+        if (grade >= 5.5) return 'C';
+        if (grade >= 5) return 'D+'
+        if (grade >= 4) return 'D';
+        return 'F';
+    }
+
+    function gradeToPoint(grade) {
+        if (grade === 'A+') return 4.0;
+        if (grade === 'A') return 4.0;
+        if (grade === 'B+') return 3.5;
+        if (grade === 'B') return 3.0;
+        if (grade === 'C+') return 2.5;
+        if (grade === 'C') return 2.0;
+        if (grade === 'D+') return 1.5;
+        if (grade === 'D') return 1.0;
+        return 0; // F
     }
 
     // Gọi hàm fetchGrades khi trang được tải
