@@ -29,14 +29,14 @@ public interface TakesRepository extends JpaRepository<Takes, TakesId> {
             "FROM Takes t " +
             "JOIN Section s ON t.section.idSection = s.idSection " +
             "JOIN Course c ON s.course.idCourse = c.idCourse " +
-            "WHERE t.student.id = :studentId")
+            "WHERE t.student.id = :studentId AND s.year = (SELECT MAX(s2.year) FROM Section s2)")
     List<Object[]> findSectionsWithStatusByStudentId(@Param("studentId") Integer studentId);
 
     @Query("SELECT t.year, s.semester AS section_semester, t.grade, c.idCourse as idCourse, c.title as title, c.credits credits " +
             "FROM Takes t " +
             "JOIN Section s ON t.section.idSection = s.idSection " +
             "JOIN Course c on s.course.idCourse = c.idCourse " +
-            "WHERE t.student.id = :studentId " +
+            "WHERE t.grade is not null and t.student.id = :studentId " +
             "ORDER BY t.year, s.semester")
     List<Object[]> findGradesByStudentId(Integer studentId);
 
