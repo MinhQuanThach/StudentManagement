@@ -11,7 +11,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
     loadSemesterAndYear();
 
-    // Event listener for dropdown changes
     semesterDropdown.addEventListener("change", loadSections);
     yearDropdown.addEventListener("change", loadSections);
 
@@ -23,28 +22,19 @@ document.addEventListener("DOMContentLoaded", function () {
             const response = await fetch("http://localhost:8080/sections");
             if (!response.ok) throw new Error("Failed to fetch sections");
 
-            semesterDropdown.innerHTML = '<option value="" disabled selected>Select semester</option>';
             const semesterOptions = ["Học kỳ I", "Học kỳ II", "Học kỳ phụ"];
-            semesterOptions.forEach(option => {
-                const opt = document.createElement("option");
-                opt.value = option;
-                opt.text = option;
-                semesterDropdown.appendChild(opt);
-            });
+            semesterDropdown.innerHTML = `<option value="" disabled selected>Select semester</option>
+                                      ${semesterOptions.map(option => `<option value="${option}">${option}</option>`).join('')}`;
 
-            yearDropdown.innerHTML = '<option value="" disabled selected>Select year</option>';
             const yearData = await response.json();
-            const uniqueYears = [...new Set(yearData.map(section => section.year))]; // Remove duplicates
-            uniqueYears.forEach(year => {
-                const opt = document.createElement("option");
-                opt.value = year;
-                opt.text = year;
-                yearDropdown.appendChild(opt);
-            });
+            const uniqueYears = [...new Set(yearData.map(section => section.year))]; // Lọc năm học duy nhất
+            yearDropdown.innerHTML = `<option value="" disabled selected>Select year</option>
+                                  ${uniqueYears.map(year => `<option value="${year}">${year}</option>`).join('')}`;
         } catch (error) {
             console.error("Error fetching sections:", error);
         }
     }
+
 
     /**
      * Fetch and display available sections based on selected semester and year.
@@ -143,6 +133,7 @@ document.addEventListener("DOMContentLoaded", function () {
         newRow.querySelector(".remove-btn").addEventListener("click", () => handleRemoveSection(section, newRow, button));
     }
 
+
     /**
      * Remove a section from the registration table.
      */
@@ -174,4 +165,101 @@ document.addEventListener("DOMContentLoaded", function () {
         const total = registeredSections.reduce((sum, section) => sum + parseInt(section.credits), 0);
         totalCreditsCell.textContent = total;
     }
+
+    async function loadDefaultSections(semester, year, idStudent) {
+        try {
+            // Gửi yêu cầu đến API để lấy dữ liệu
+            const response2 = await fetch(`/section_available/search/${semester}/${year}/${idStudent}`);
+
+            if (!response2.ok) {
+                throw new Error('Failed to fetch data');
+            }
+
+            const sections = await response2.json();
+            console.log(sections);
+            const registrationTable = document.getElementById("registrationTable");
+            registrationTable.innerHTML = ""; // Xóa bảng hiện tại (nếu có)
+
+            // Duyệt qua tất cả các phần học và thêm vào bảng
+            sections.forEach(section => {
+                const newRow = document.createElement("tr");
+                newRow.innerHTML = `
+                <td class="px-4 py-2 border">${section.sectionId}</td>
+                <td class="px-4 py-2 border">${section.courseTitle}</td>
+                <td class="px-4 py-2 border">${section.credits}</td>
+                <td class="px-4 py-2 border">${section.teacherName}</td>
+                <td class="px-4 py-2 border">${section.day}</td>
+                <td class="px-4 py-2 border">${section.startTime}</td>
+                <td class="px-4 py-2 border">${section.endTime}</td>
+                <td class="px-4 py-2 border">${section.roomNumber}</td>
+                <td class="px-4 py-2 border text-center">
+                    <button class="bg-red-500 hover:bg-red-600 text-white px-4 py-1 rounded remove-btn" data-section='${JSON.stringify(section)}'>
+                        Remove
+                    </button>
+                </td>
+            `;
+                registrationTable.appendChild(newRow);
+
+                // Update data
+                registeredSections.push(section);
+                updateTotalCredits();
+
+                newRow.querySelector(".remove-btn").addEventListener("click", () => handleRemoveSection(section, newRow, true));
+            });
+
+        } catch (error) {
+            console.error('Error loading sections:', error);
+        }
+    }
+
+    function handleSemesterOrYearChange() {
+        const semester = document.getElementById("semester").value;
+        const year = document.getElementById("year").value;
+        const idStudent = currentUserId;
+        if (!semester || !year) {
+            return;
+        }
+
+        loadDefaultSections(semester, year, idStudent);
+    }
+
+    async function deleteTakes(semester, year, idStudent) {
+        try {
+            const encodedSemester = encodeURIComponent(semester);
+            console.log(`Sending DELETE request to /section_available/delete/${encodedSemester}/${year}/${idStudent}`);
+            const response = await fetch(`http://localhost:8080/section_available/delete/${encodedSemester}/${year}/${idStudent}`, {
+                method: 'DELETE'
+            });
+
+            if (response.ok) {
+                alert("Deleted successfully.");
+            } else {
+                const errorMessage = await response.text();
+                alert(`Deletion failed: ${errorMessage}`);
+            }
+        } catch (error) {
+            console.error("Error during deletion:", error);
+            alert("An error occurred while deleting the record.");
+        }
+    }
+
+    document.getElementById("confirmRegistration").addEventListener("click", () => {
+        const semester = document.getElementById("semester").value;
+        const year = document.getElementById("year").value;
+        const idStudent = localStorage.getItem("currentUserId");
+
+        if (!semester || !year || !idStudent) {
+            alert("Please select semester, year, and provide student ID.");
+            return;
+        }
+
+        deleteTakes(semester, year, idStudent);
+    });
+
+
+
+    document.getElementById("semester").addEventListener("change", handleSemesterOrYearChange);
+    document.getElementById("year").addEventListener("change", handleSemesterOrYearChange);
+
+
 });
