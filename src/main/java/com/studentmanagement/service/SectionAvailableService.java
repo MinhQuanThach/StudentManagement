@@ -30,5 +30,22 @@ public class SectionAvailableService {
                 ))
                 .collect(Collectors.toList());
     }
+
+    public List<SectionAvailableDTO> getSectionsByStudentId(int studentId, String semester, int year) {
+        List<Object[]> results = sectionAvailableRepository.findSectionsByStudentId(studentId, semester, year);
+
+        return results.stream()
+                .map(row -> new SectionAvailableDTO(
+                        (String) row[0],  // sectionId
+                        (String) row[1], // courseTitle
+                        (int) row[2],  // credits
+                        (String) row[3], // teacherName
+                        (String) row[4], // day
+                        (Time) row[5], // startTime
+                        (Time) row[6], // endTime
+                        (String) row[7] // roomNumber
+                ))
+                .collect(Collectors.toList());
+    }
 }
 

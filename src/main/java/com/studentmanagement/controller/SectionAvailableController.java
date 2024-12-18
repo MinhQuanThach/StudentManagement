@@ -26,4 +26,13 @@ public class SectionAvailableController {
         }
         return ResponseEntity.ok(availableSections);
     }
+
+    @GetMapping("/{studentId}/{semester}/{year}")
+    public ResponseEntity<List<SectionAvailableDTO>> getSectionsByStudentId(@PathVariable int studentId, @PathVariable String semester, @PathVariable int year) {
+        List<SectionAvailableDTO> availableSections = sectionAvailableService.getSectionsByStudentId(studentId, semester, year);
+        if (availableSections.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+        return ResponseEntity.ok(availableSections);
+    }
 }
