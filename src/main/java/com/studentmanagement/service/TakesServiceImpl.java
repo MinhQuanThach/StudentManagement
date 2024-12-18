@@ -53,9 +53,7 @@ public class TakesServiceImpl implements TakesService {
     }
 
     @Override
-    public Takes createTakes(Takes takes) {
-        return takesRepository.save(takes);
-    }
+    public Takes createTakes(Takes takes) { return takesRepository.save(takes);}
 
     @Override
     public Takes updateTakes(TakesId idTakes, Takes updatedTakes) {
