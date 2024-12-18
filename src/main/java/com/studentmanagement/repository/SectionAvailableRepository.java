@@ -21,4 +21,17 @@ public interface SectionAvailableRepository extends JpaRepository<Section, Integ
             "JOIN teacher tch ON tch.id_teacher = ts.id_teacher " +
             "WHERE st.semester = :semester AND st.year = :year", nativeQuery = true)
     List<Object[]> findSectionsBySemesterAndYear(@Param("semester") String semester, @Param("year") int year);
+
+    @Query(value = "SELECT st.id_section AS sectionId, " +
+            "c.title AS courseTitle, c.credits AS credits, " +
+            "tch.name AS teacherName, " +
+            "t.day AS day, t.start_time AS startTime, t.end_time AS endTime, t.room_number AS roomNumber " +
+            "FROM section st " +
+            "JOIN takes tk ON tk.id_section = st.id_section " +
+            "JOIN courses c ON st.id_course = c.id_course " +
+            "JOIN time t ON st.id_section = t.id_section " +
+            "JOIN teaches ts ON ts.id_section = st.id_section " +
+            "JOIN teacher tch ON tch.id_teacher = ts.id_teacher " +
+            "WHERE tk.id = :studentId AND st.semester = :semester AND st.year = :year", nativeQuery = true)
+    List<Object[]> findSectionsByStudentId(@Param("studentId") int studentId, @Param("semester") String semester, @Param("year") int year);
 }
