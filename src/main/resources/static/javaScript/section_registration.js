@@ -98,6 +98,9 @@ document.addEventListener("DOMContentLoaded", function () {
      * Add a section to the registration table, checking for time and day conflicts.
      */
     function handleAddSection(event) {
+        if (!isLatestSemester(year, semester)) {
+            alert("Can't change");
+        }
         const button = event.target;
         const section = JSON.parse(button.dataset.section);
 
@@ -138,6 +141,9 @@ document.addEventListener("DOMContentLoaded", function () {
      * Remove a section from the registration table.
      */
     function handleRemoveSection(section, row, addButton) {
+        if (!isLatestSemester(year, semester)) {
+            alert("Can't change");
+        }
         registrationTable.removeChild(row);
         registeredSections = registeredSections.filter(s => s.sectionId !== section.sectionId);
         updateTotalCredits();
@@ -215,6 +221,9 @@ document.addEventListener("DOMContentLoaded", function () {
     function handleSemesterOrYearChange() {
         const semester = document.getElementById("semester").value;
         const year = document.getElementById("year").value;
+        if (!isLatestSemester(year, semester)) {
+            alert("Can't change");
+        }
         const idStudent = currentUserId;
         if (!semester || !year) {
             return;
@@ -232,15 +241,68 @@ document.addEventListener("DOMContentLoaded", function () {
             });
 
             if (response.ok) {
-                alert("Deleted successfully.");
+
+                // them noi dung
             } else {
-                const errorMessage = await response.text();
-                alert(`Deletion failed: ${errorMessage}`);
             }
         } catch (error) {
             console.error("Error during deletion:", error);
             alert("An error occurred while deleting the record.");
         }
+    }
+
+    async function addTakesFromRegistration(yearID, idStudent) {
+        const table = document.getElementById("registrationTable");
+        const rows = table.getElementsByTagName("tr");
+
+        const registeredCourses = new Set();
+
+        for (let i = 0; i < rows.length; i++) {
+            const cells = rows[i].getElementsByTagName("td");
+
+            const sectionId = cells[0].innerText;
+            if (registeredCourses.has(sectionId)) {
+                continue;
+            }
+
+            const status = "Học lần đầu";
+            const year = yearID;
+            const grade = null;
+
+            const takeData = {
+                idTake: {
+                    idStudent: idStudent,
+                    idSection: sectionId
+                },
+                student: { id: idStudent },
+                section: { idSection: sectionId },
+                status: status,
+                year: year,
+                grade: grade,
+            };
+
+            registeredCourses.add(sectionId);
+
+
+            try {
+                const response = await fetch('http://localhost:8080/takes', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(takeData)
+                });
+
+                if (response.ok) {
+                } else {
+                    const errorData = await response.json();
+                    console.error(`Thêm khóa học thất bại: ${errorData.message}`);
+                }
+            } catch (error) {
+                alert("Đã xảy ra lỗi khi thêm khóa học.");
+            }
+        }
+
     }
 
     document.getElementById("confirmRegistration").addEventListener("click", () => {
@@ -254,9 +316,31 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         deleteTakes(semester, year, idStudent);
+        addTakesFromRegistration(year, idStudent);
+        alert("Thành công!");
     });
 
+    async function isLatestSemester(year, semester) {
+        try {
+            const response = await fetch('http://localhost:8080/sections/latest-semester');
 
+            if (response.ok) {
+                const latestSection = await response.json(); // Giả sử API trả về đối tượng Section
+
+                if (latestSection.year === year && latestSection.semester === semester) {
+                    return true;
+                } else {
+                    return false;
+                }
+            } else {
+                console.error('Failed to fetch latest semester data');
+                return false;
+            }
+        } catch (error) {
+            console.error('Error occurred while checking latest semester:', error);
+            return false;
+        }
+    }
 
     document.getElementById("semester").addEventListener("change", handleSemesterOrYearChange);
     document.getElementById("year").addEventListener("change", handleSemesterOrYearChange);

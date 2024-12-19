@@ -22,4 +22,14 @@ public interface SectionRepository extends JpaRepository<Section, String> {
 
     @Query("SELECT s FROM Section s WHERE cast(s.year as string) LIKE %:year%")
     List<Section> findSectionsByYearContaining(@Param("year") String year);
+
+    @Query("SELECT s FROM Section s " +
+            "ORDER BY s.year DESC, " +
+            "CASE " +
+            "WHEN s.semester = 'Học kỳ I' THEN 1 " +
+            "WHEN s.semester = 'Học kỳ II' THEN 2 " +
+            "WHEN s.semester = 'Học kỳ phụ' THEN 3 " +
+            "ELSE 4 " +
+            "END")
+    List<Section> findLatestSemester();
 }

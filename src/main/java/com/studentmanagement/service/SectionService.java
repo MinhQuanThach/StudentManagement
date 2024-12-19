@@ -19,4 +19,6 @@ public interface SectionService {
     Section updateSection(String idSection, Section updatedSection);
 
     void deleteSection(String idSection);
+
+    Section getLatestSemester();
 }

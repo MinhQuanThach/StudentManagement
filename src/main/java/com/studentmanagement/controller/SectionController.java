@@ -22,7 +22,7 @@ public class SectionController {
         this.takesRepository = takesRepository;
     }
 
-    @GetMapping
+    @GetMapping()
     public List<Section> getAllSections() {
         return sectionService.getAllSections();
     }
@@ -71,5 +71,10 @@ public class SectionController {
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(null); // Return 400 if the search type is invalid
         }
+    }
+
+    @GetMapping("/latest-semester")
+    public Section getLatestSemester() {
+        return sectionService.getLatestSemester();
     }
 }

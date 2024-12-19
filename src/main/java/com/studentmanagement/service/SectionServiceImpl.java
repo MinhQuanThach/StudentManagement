@@ -65,4 +65,9 @@ public class SectionServiceImpl implements SectionService {
             throw new RuntimeException("Section not found with id: " + idSection);
         }
     }
+
+    @Override
+    public Section getLatestSemester() {
+        return sectionRepository.findLatestSemester().get(0);
+    }
 }

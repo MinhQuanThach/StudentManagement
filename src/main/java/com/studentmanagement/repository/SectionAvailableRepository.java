@@ -1,6 +1,7 @@
 package com.studentmanagement.repository;
 
 import com.studentmanagement.model.Section;
+import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Transactional
 @Repository
 public interface SectionAvailableRepository extends JpaRepository<Section, Integer> {
     @Query(value = "SELECT " +
@@ -44,19 +46,17 @@ public interface SectionAvailableRepository extends JpaRepository<Section, Integ
             "JOIN teaches ts ON ts.id_section = st.id_section " +
             "JOIN teacher tch ON tch.id_teacher = ts.id_teacher " +
             "JOIN takes ta ON ta.id_section = st.id_section " +
-            "WHERE st.semester = 'Học kỳ I' AND st.year = 2024 AND ta.id = 23021001 " +
+            "WHERE st.semester = :semester AND st.year = :year AND ta.id = :idStudent " +
             "GROUP BY st.id_section, c.title, c.credits, t.day, t.start_time, t.end_time, t.room_number", nativeQuery = true)
     List<Object[]> findSectionsBySemesterAndYearAndIdStudent(@Param("semester") String semester, @Param("year") int year, @Param("idStudent") Integer idStudent);
 
+    @Transactional
     @Modifying
-    @Query(value = "DELETE ta " +
-            "FROM takes ta " +
-            "JOIN section st ON ta.id_section = st.id_section " +
-            "WHERE ta.id = :idStudent AND st.semester = :semester AND st.year = :year",
-            nativeQuery = true)
+    @Query("DELETE FROM Takes ta WHERE ta.student.id = :idStudent AND ta.section.semester = :semester AND ta.section.year = :year")
     void deleteTakesByStudentAndSemesterAndYear(@Param("idStudent") Integer idStudent,
                                                 @Param("semester") String semester,
                                                 @Param("year") int year);
+
 
 
 
