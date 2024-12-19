@@ -1,73 +1,73 @@
 
 DROP SCHEMA IF EXISTS `student_management`;
 CREATE SCHEMA `student_management`;
-CREATE TABLE sql12752760.faculty (
+CREATE TABLE `student_management`.faculty (
     id_faculty VARCHAR(15) NOT NULL PRIMARY KEY,
     title VARCHAR(100) NOT NULL,
     number_teacher INT,
     number_student INT
 )CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
-CREATE TABLE sql12752760.industry (
+CREATE TABLE `student_management`.industry (
     id_industry VARCHAR(15) NOT NULL PRIMARY KEY,
     id_faculty VARCHAR(15) NOT NULL,
     year_number DOUBLE NOT NULL,
     title VARCHAR(50) NOT NULL,
-    FOREIGN KEY (id_faculty) REFERENCES sql12752760.faculty(id_faculty)
+    FOREIGN KEY (id_faculty) REFERENCES `student_management`.faculty(id_faculty)
     ON DELETE CASCADE 
     ON UPDATE CASCADE
 )CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
-CREATE TABLE sql12752760.courses (
+CREATE TABLE `student_management`.courses (
     id_course VARCHAR(15) NOT NULL PRIMARY KEY,
     credits INT NOT NULL,
     title VARCHAR(100) NOT NULL
 )CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
-create table sql12752760.section (
+create table `student_management`.section (
 id_section varchar(15) primary key,
 id_course varchar(15) not null,
 semester varchar(25) not null,
 year INT not null,
-foreign key (id_course) references sql12752760.courses(id_course)
+foreign key (id_course) references `student_management`.courses(id_course)
 on delete cascade
 on update cascade
 )CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
-CREATE TABLE sql12752760.time (
+CREATE TABLE `student_management`.time (
 	id_time INT NOT NULL PRIMARY KEY auto_increment,
     id_section varchar(15) not null,
     day VARCHAR(10) NOT NULL,
     start_time TIME NOT NULL,
     end_time TIME NOT NULL,
     room_number VARCHAR(50),
-    FOREIGN KEY (id_section) REFERENCES sql12752760.section(id_section)
+    FOREIGN KEY (id_section) REFERENCES `student_management`.section(id_section)
     ON DELETE CASCADE
     ON UPDATE CASCADE
 )CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
-CREATE TABLE sql12752760.teacher (
+CREATE TABLE `student_management`.teacher (
     id_teacher INT NOT NULL PRIMARY KEY,
     email VARCHAR(50) NOT NULL,
     name VARCHAR(50) NOT NULL,
     birthday DATE
 )CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
-CREATE TABLE sql12752760.teaches (
+CREATE TABLE `student_management`.teaches (
     id_teacher INT NOT NULL,
     id_section VARCHAR(15) NOT NULL,
     PRIMARY KEY (id_teacher, id_section),
-    FOREIGN KEY (id_teacher) REFERENCES sql12752760.teacher(id_teacher)
+    FOREIGN KEY (id_teacher) REFERENCES `student_management`.teacher(id_teacher)
     ON DELETE CASCADE
     ON UPDATE CASCADE,
-    FOREIGN KEY (id_section) REFERENCES sql12752760.section(id_section)
+    FOREIGN KEY (id_section) REFERENCES `student_management`.section(id_section)
     ON DELETE CASCADE
     ON UPDATE CASCADE
 )CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 
 
-CREATE TABLE sql12752760.student (
+CREATE TABLE `student_management`.student (
     id INT PRIMARY KEY,
     name VARCHAR(50) NOT NULL,
     password VARCHAR(50) NOT NULL,
@@ -75,28 +75,28 @@ CREATE TABLE sql12752760.student (
     credits INT NOT NULL DEFAULT 0,
     id_class VARCHAR(50),
     id_industry VARCHAR(15),
-    FOREIGN KEY (id_industry) REFERENCES sql12752760.industry(id_industry)
+    FOREIGN KEY (id_industry) REFERENCES `student_management`.industry(id_industry)
     ON DELETE CASCADE 
     ON UPDATE CASCADE
 )CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
-CREATE TABLE sql12752760.takes (
+CREATE TABLE `student_management`.takes (
 	id INT not null,
     id_section varchar(15) NOT NULL,
     status VARCHAR(15) NOT NULL,
     year INT,
     grade DOUBLE,
     primary key (id, id_section),
-    FOREIGN KEY (id) REFERENCES sql12752760.student(id)
+    FOREIGN KEY (id) REFERENCES `student_management`.student(id)
     ON DELETE CASCADE 
     ON UPDATE CASCADE,
-    FOREIGN KEY (id_section) REFERENCES sql12752760.section(id_section)
+    FOREIGN KEY (id_section) REFERENCES `student_management`.section(id_section)
     ON DELETE CASCADE 
     ON UPDATE CASCADE
 )CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 
-INSERT INTO sql12752760.faculty (id_faculty, title, number_teacher, number_student)
+INSERT INTO `student_management`.faculty (id_faculty, title, number_teacher, number_student)
 VALUES
 ('I', 'Công nghệ thông tin', 100, 3000),
 ('E', 'Điện tử viễn thông', 70, 2000),
@@ -107,7 +107,7 @@ VALUES
 ('S', 'Viện công nghệ hàng không vũ trụ', 100, 1200),
 ('A', 'Viện trí tuệ nhân tạo', 50, 100);
 
-insert into sql12752760.industry (id_industry, id_faculty, year_number, title) 
+insert into `student_management`.industry (id_industry, id_faculty, year_number, title) 
 values
 ('I-IT', 'I', 4, 'Công nghệ thông tin'),
 ('I-CS', 'I',4 , 'Khoa học máy tính'),
@@ -127,7 +127,7 @@ values
 ('G-AI', 'G', 4, 'Trí tuệ nhân tạo');
 
 
-INSERT INTO sql12752760.teacher (id_teacher, email, name, birthday) VALUES
+INSERT INTO `student_management`.teacher (id_teacher, email, name, birthday) VALUES
 (1, 'teacherA@gmail.com', 'Teacher A', NULL),
 (2, 'teacherB@gmail.com', 'Teacher B', NULL),
 (3, 'teacherC@gmail.com', 'Teacher C', NULL),
@@ -199,7 +199,7 @@ INSERT INTO sql12752760.teacher (id_teacher, email, name, birthday) VALUES
 (69, 'teacherPPP@gmail.com', 'Teacher PPP', NULL),
 (70, 'teacherQQQ@gmail.com', 'Teacher QQQ', NULL),
 (71, 'teacherRRR@gmail.com', 'Teacher RRR', NULL);
-insert into sql12752760.student(id, name, password, birthday, credits, id_class, id_industry)
+insert into `student_management`.student(id, name, password, birthday, credits, id_class, id_industry)
 values
 (23021001, 'Student A', '23021001', '2005-08-22', 50, 'CS1', 'I-CS'),
 (23021002, 'Student B', '23021002', '2005-05-05', 50, 'CS1', 'I-CS'),
@@ -251,7 +251,7 @@ values
 (23021048, 'Student AV', '23021048', NULL, 50, 'AI', 'G-AI'),
 (23021049, 'Student AW', '23021049', NULL, 50, 'AI', 'G-AI'),
 (23021050, 'Student AX', '23021050', NULL, 50, 'AI', 'G-AI');
-insert into sql12752760.student(id, name, password, birthday, credits, id_class, id_industry)
+insert into `student_management`.student(id, name, password, birthday, credits, id_class, id_industry)
 values
 (23021051, 'Student AY', '23021051', '2005-01-03', 50, 'CS3', 'I-CS'),
 (23021052, 'Student AZ', '23021052', NULL, 50, 'CS3', 'I-CS'),
@@ -305,7 +305,7 @@ values
 (23021100, 'Student CV', '23021100', NULL, 50, 'AI2', 'G-AI');
 
 
-Insert into sql12752760.courses (id_course, credits, title)
+Insert into `student_management`.courses (id_course, credits, title)
 values
 ('MAT1093', 4, 'Đại số'),
 ('MAT1041', 4, 'Giải tích 1'),
@@ -325,7 +325,7 @@ values
 ('INT2204', 4, 'Lập trình hướng đối tượng'),
 ('INT2208', 3, 'Công nghệ phần mềm');
 
-Insert into sql12752760.section (id_section, id_course, semester, year)
+Insert into `student_management`.section (id_section, id_course, semester, year)
 values
 ('MAT1093 1', 'MAT1093', 'Học kỳ I', 2024),
 ('MAT1093 2', 'MAT1093', 'Học kỳ I', 2024),
@@ -402,7 +402,7 @@ values
 ('MAT1041 6', 'MAT1041', 'Học kỳ II', 2023),
 ('EPN1095 6', 'EPN1095', 'Học kỳ II', 2023);
 
-Insert into sql12752760.teaches (id_teacher, id_section)
+Insert into `student_management`.teaches (id_teacher, id_section)
 values
 (1, 'MAT1093 1'),
 (1, 'MAT1093 2'),
@@ -494,7 +494,7 @@ values
 (8, 'INT2211 6'),
 (15, 'INT2211 6');
 
-insert into sql12752760.time(id_time, id_section, day, start_time, end_time, room_number)
+insert into `student_management`.time(id_time, id_section, day, start_time, end_time, room_number)
 values
 (1, 'MAT1093 1', 'Thứ 2', '10:00:00','12:00:00', '101-G2'),
 (2, 'MAT1093 2', 'Thứ 5', '09:00:00','11:00:00', '107-G2'),
@@ -522,7 +522,7 @@ values
 (24, 'INT2208 1', 'Thứ 2', '09:00:00','11:00:00', '107-G2'),
 (25, 'INT2215 1', 'Thứ 6', '13:00:00','15:00:00', '107-G2');
 
-insert into sql12752760.takes (id, id_section, status, year, grade)
+insert into `student_management`.takes (id, id_section, status, year, grade)
 values
 (23021001, 'MAT1093 1', 'Học lần đầu', 2024, NULL),
 (23021001, 'MAT1041 6', 'Học lần đầu', 2023, 7.5),
