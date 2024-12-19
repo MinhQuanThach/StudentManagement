@@ -118,10 +118,14 @@ hiện tại cơ sở dữ liệu và link webiste đều là dịch vụ miễn
 ### Cách 2: Cài đặt môi trường và run code
 ### 1. Cài đặt môi trường
 
-**Môi trường runcode:** Intellij
+- **Môi trường runcode:** Intellij
 - clone code về và mở bằng Intellij
-**Môi trường liên kết cơ sở dự liệu(nếu không kết nối được cơ sở dữ liệu public):** MySQL WorkBench hoặc Xampp
+- **nếu không kết nối được cơ sở dữ liệu public**
+- **Môi trường liên kết cơ sở dự liệu:** MySQL WorkBench hoặc Xampp
 - chạy file .sql trong MySQL WorkBench để tải về cơ sở dữ liệu mẫu
+- thay đổi username và password cho phù hợp
+![image](https://github.com/user-attachments/assets/bf52fb48-fe23-43b1-b75d-95f05a90fedd)
+
 
 ### 2. Kiểm thử
 
