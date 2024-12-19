@@ -315,7 +315,7 @@ document.addEventListener("DOMContentLoaded", function () {
             return;
         }
 
-        //deleteTakes(semester, year, idStudent);
+        deleteTakes(semester, year, idStudent);
         addTakesFromRegistration(year, idStudent);
         alert("Thành công!");
     });
