@@ -104,7 +104,7 @@ hiện tại cơ sở dữ liệu và link webiste đều là dịch vụ miễn
 
 ## Truy cập website
 
-## Cách 1: Sử dụng link: https://lonely-grazia-minhquanthach-b5882f7c.koyeb.app/
+### Cách 1: Sử dụng link: https://lonely-grazia-minhquanthach-b5882f7c.koyeb.app/
 ### Đăng nhập
 - Tài khoản cho sinh viên:
 - **Tài khoản**: 23021001
@@ -115,12 +115,12 @@ hiện tại cơ sở dữ liệu và link webiste đều là dịch vụ miễn
 
 **Lưu ý** khi đăng nhập chọn đúng đối tượng đăng nhập (manager or student)
 
-## Cách 2: Cài đặt môi trường và run code
+### Cách 2: Cài đặt môi trường và run code
 ### 1. Cài đặt môi trường
 
 **Môi trường runcode:** Intellij
 - clone code về và mở bằng Intellij
-**Môi trường liên kết cơ sở dự liệu:** MySQL WorkBench hoặc Xampp
+**Môi trường liên kết cơ sở dự liệu(nếu không kết nối được cơ sở dữ liệu public):** MySQL WorkBench hoặc Xampp
 - chạy file .sql trong MySQL WorkBench để tải về cơ sở dữ liệu mẫu
 
 ### 2. Kiểm thử
