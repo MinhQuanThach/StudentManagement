@@ -97,10 +97,8 @@ document.addEventListener("DOMContentLoaded", function () {
     /**
      * Add a section to the registration table, checking for time and day conflicts.
      */
-    function handleAddSection(event) {
-        if (!isLatestSemester(year, semester)) {
-            alert("Can't change");
-        }
+    async function handleAddSection(event) {
+        const isLatest = await isLatestSemester(year, semester);
         const button = event.target;
         const section = JSON.parse(button.dataset.section);
 
@@ -140,10 +138,8 @@ document.addEventListener("DOMContentLoaded", function () {
     /**
      * Remove a section from the registration table.
      */
-    function handleRemoveSection(section, row, addButton) {
-        if (!isLatestSemester(year, semester)) {
-            alert("Can't change");
-        }
+    async function handleRemoveSection(section, row, addButton) {
+        const isLatest = await isLatestSemester(year, semester);
         registrationTable.removeChild(row);
         registeredSections = registeredSections.filter(s => s.sectionId !== section.sectionId);
         updateTotalCredits();
@@ -218,12 +214,9 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
-    function handleSemesterOrYearChange() {
+    async function handleSemesterOrYearChange() {
         const semester = document.getElementById("semester").value;
         const year = document.getElementById("year").value;
-        if (!isLatestSemester(year, semester)) {
-            alert("Can't change");
-        }
         const idStudent = currentUserId;
         if (!semester || !year) {
             return;
@@ -305,13 +298,19 @@ document.addEventListener("DOMContentLoaded", function () {
 
     }
 
-    document.getElementById("confirmRegistration").addEventListener("click", () => {
+    document.getElementById("confirmRegistration").addEventListener("click", async () => {
         const semester = document.getElementById("semester").value;
         const year = document.getElementById("year").value;
         const idStudent = localStorage.getItem("currentUserId");
 
         if (!semester || !year || !idStudent) {
             alert("Please select semester, year, and provide student ID.");
+            return;
+        }
+
+        const isLatest = await isLatestSemester(year, semester);
+        if (!isLatest) {
+            alert("Bạn không thể đăng ký học ở học kỳ này!");
             return;
         }
 
@@ -327,7 +326,8 @@ document.addEventListener("DOMContentLoaded", function () {
             if (response.ok) {
                 const latestSection = await response.json(); // Giả sử API trả về đối tượng Section
 
-                if (latestSection.year === year && latestSection.semester === semester) {
+                if (Number(latestSection.year) === Number(year) &&
+                    latestSection.semester.trim().toLowerCase() === semester.trim().toLowerCase()) {
                     return true;
                 } else {
                     return false;
