@@ -16,7 +16,7 @@
 [2. Tính năng](#tính-năng)  
 [3. Công nghệ](#công-nghệ)  
 [4. Cơ sở dữ liệu](#cơ-sở-dữ-liêu)  
-[5. Cách cài đặt](#cài-đặt)  
+[5. Cách cài đặt](#truy-cập-website)  
 [6. Thành viên nhóm](#thành-viên-nhóm)
 
 ## Giới thiệu
@@ -24,6 +24,9 @@
 Web App làm nhiệm vụ quản lý các sinh viên thuộc phạm vi quản lý của cố vấn học tập.
 
 ![image](https://github.com/user-attachments/assets/ec10f18a-446f-4f61-8f0e-73913175981b)
+![image](https://github.com/user-attachments/assets/b53dfe7c-0af1-4f2e-bdb1-5cdc7b9df8ed)
+![image](https://github.com/user-attachments/assets/8c3c27ed-27e9-45b0-8ed6-10e0de9bc95a)
+
 
 
 ## Tính năng
@@ -35,6 +38,7 @@ Web App làm nhiệm vụ quản lý các sinh viên thuộc phạm vi quản l�
 cho quản lý để đăng nhập.
 - **Profile cá nhân**, đổi mật khẩu và khôi phục mật khẩu bằng email (tính năng này đang hoàn thiện)
 ### Mô tả chung về tính năng
+## Về trang dành cho qaunr lý
 - **Trang Student**
   - CVHT có thể quản lý tất cả sinh viên
   - CVHT có thể thêm, sửa, xoá inh viên
@@ -67,7 +71,17 @@ cho quản lý để đăng nhập.
 - **Thời khoá biểu sinh viên, giảng viên**
   - Gồm toàn bộ thông tin các buổi học, dạy của sinh viên, giảng viên
   ![image](https://github.com/user-attachments/assets/bbb964a5-b401-4058-99e3-8d8ff4c0e6be)
-
+## Về trang dành cho sinh viên
+- **Trang chủ**, là trang hiển thị các khoá học đã đăng ký trong kì hiện tại
+  - Hiện thị các khoá học bao gồm: tên, mã, năm học và học kỳ đăng ký
+- **Trang đăng ký học**, Tại đây sinh viên sẽ lựa chọn học kỳ và năm học tương ứng để đăng ký học
+  - Sinh viên chọn các lớp học phần để đăng ký học và nhấn nút xác nhận để hoàn thành.
+  - Sinh viên chỉ có thể xem mà không thể đăng ký ở các học kỳ khác.
+- **Trang tra cứu điểm**, trang này hiển thị điểm số của sinh viên theo từng năm, từng kỳ và từng môn
+  - Có chia ra theo năm, kỳ học.
+  - Tính tổng số tín chỉ và gpa.
+- **Một số lưu ý về trang cho sinh viên**, do đặc tính sử dụng nhiều truy vấn liên quan đến cơ sở dữ liệu mà
+hiện tại cơ sở dữ liệu và link webiste đều là dịch vụ miễn phí nên không thể trách khỏi việc trang web load chậm hơn bình thường
 
 ## Công nghệ
 
@@ -83,24 +97,25 @@ cho quản lý để đăng nhập.
 
 ## Cơ sở dữ liệu
 
-| Table   | Mục đích                                                        |
-|---------|-----------------------------------------------------------------|
-| student | Lưu trữ danh sách sinh viên                                      |
-| industry| Một trường thông tin liên quan đến sinh viên                    |
-| faculty | Một trường thông tin liên quan đến sinh viên                    |
-| teacher | Lưu trữ danh sách giảng viên                                    |
-| take    | Thao tác liên quan đến sinh viên (học phần, điểm số)            |
-| time    | Thời gian, địa điểm cho một course                              |
-| course  | Lưu trữ thông tin các khoá học                                  |
+
+![image](https://github.com/user-attachments/assets/834779ec-16b2-4d9e-bf4b-64aa5c6a208f)
 
 
 
+## Truy cập website
 
-![image](https://github.com/user-attachments/assets/0a284c74-e28f-4063-abad-d8decc2d8980)
+## Cách 1: Sử dụng link: https://lonely-grazia-minhquanthach-b5882f7c.koyeb.app/
+### Đăng nhập
+- Tài khoản cho sinh viên:
+- **Tài khoản**: 23021001
+- **Mật khẩu**: 23021001
+- Tài khoản cho quản lý
+- **Tài khoản**: admin
+- **Mật khẩu**: admin
 
+**Lưu ý** khi đăng nhập chọn đúng đối tượng đăng nhập (manager or student)
 
-## Cài đặt
-
+## Cách 2: Cài đặt môi trường và run code
 ### 1. Cài đặt môi trường
 
 **Môi trường runcode:** Intellij
@@ -111,12 +126,17 @@ cho quản lý để đăng nhập.
 ### 2. Kiểm thử
 
 - Chạy file StudentManagementApplicatiton và truy cập cổng đường link http://localhost:8080
-- Đăng nhập bằng tài khoản và mật khẩu mặc định là:
+- Đăng nhập bằng tài khoản và mật khẩu mặc định cho quản lý là:
 - **tài khoản:** admin
 - **mật khẩu:** admin
+- Đăng nhập bằng tài khoản và mật khẩu mặc định cho siinh viên là:
+- **tài khoản:** 23021001
+- **mật khẩu:** 23021001
 
 
 ## Thành viên nhóm
 
-
+1. Thạch Minh Quân - 23021746
+2. Mai Đức Văn - 23021746
+3. Nguyễn Minh Phúc - 23021662
 
