@@ -38,7 +38,7 @@ Web App làm nhiệm vụ quản lý các sinh viên thuộc phạm vi quản l�
 cho quản lý để đăng nhập.
 - **Profile cá nhân**, đổi mật khẩu và khôi phục mật khẩu bằng email (tính năng này đang hoàn thiện)
 ### Mô tả chung về tính năng
-## Về trang dành cho qaunr lý
+### Về trang dành cho quản lý
 - **Trang Student**
   - CVHT có thể quản lý tất cả sinh viên
   - CVHT có thể thêm, sửa, xoá inh viên
@@ -71,7 +71,7 @@ cho quản lý để đăng nhập.
 - **Thời khoá biểu sinh viên, giảng viên**
   - Gồm toàn bộ thông tin các buổi học, dạy của sinh viên, giảng viên
   ![image](https://github.com/user-attachments/assets/bbb964a5-b401-4058-99e3-8d8ff4c0e6be)
-## Về trang dành cho sinh viên
+### Về trang dành cho sinh viên
 - **Trang chủ**, là trang hiển thị các khoá học đã đăng ký trong kì hiện tại
   - Hiện thị các khoá học bao gồm: tên, mã, năm học và học kỳ đăng ký
 - **Trang đăng ký học**, Tại đây sinh viên sẽ lựa chọn học kỳ và năm học tương ứng để đăng ký học
@@ -136,7 +136,7 @@ hiện tại cơ sở dữ liệu và link webiste đều là dịch vụ miễn
 
 ## Thành viên nhóm
 
-1. Thạch Minh Quân - 23021746
+1. Thạch Minh Quân - 23021674
 2. Mai Đức Văn - 23021746
 3. Nguyễn Minh Phúc - 23021662
 
