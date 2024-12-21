@@ -104,7 +104,7 @@ hiện tại cơ sở dữ liệu và link webiste đều là dịch vụ miễn
 
 ## Truy cập website
 
-### Cách 1: Sử dụng link: https://lonely-grazia-minhquanthach-b5882f7c.koyeb.app/
+### Cách 1: Sử dụng link: https://uneven-corey-minhquanthach1-f5624283.koyeb.app/
 ### Đăng nhập
 - Tài khoản cho sinh viên:
 - **Tài khoản**: 23021001
